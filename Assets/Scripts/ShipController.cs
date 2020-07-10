@@ -21,7 +21,7 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         DesiredRotaton = Input.GetAxis("Horizontal");
-        DesiredMovement = Input.GetAxis("Vertical");
+        DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButtonUp("Shoot");
     }
 
