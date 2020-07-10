@@ -2,7 +2,7 @@
 
 public class ShotController : MonoBehaviour
 {
-    public float Speed = 40f;
+    public float Speed = 20f;
     private Rigidbody2D Body;
     private SpriteRenderer SpriteRenderer;
     private float HitPower = 0f;
@@ -13,7 +13,7 @@ public class ShotController : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Fire(Vector3 direction, float hitPower) 
+    public void Fire(Vector2 direction, float hitPower) 
     {
         HitPower = hitPower;
 

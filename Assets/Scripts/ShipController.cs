@@ -8,6 +8,9 @@ public class ShipController : MonoBehaviour
 
     private Rigidbody2D Body;
     private bool Shoot = false;
+    private float DesiredRotaton = 0f;
+    private float DesiredMovement = 0f;
+
     private float ShotCooldown = 0f;
 
     void Start()
@@ -17,32 +20,15 @@ public class ShipController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Shoot")) 
-        {
-            Shoot = true;
-        } 
-        else if(Input.GetButtonUp("Shoot")) 
-        {
-            Shoot = false;
-        }
+        DesiredRotaton = Input.GetAxis("Horizontal");
+        DesiredMovement = Input.GetAxis("Vertical");
+        Shoot = Input.GetButtonUp("Shoot");
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            Body.AddForce(Time.deltaTime * 500.0f * Vector2FromAngle(Body.rotation));
-        }
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            Body.AddTorque(2);
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            Body.AddTorque(-2);
-        }
+        Body.AddForce(DesiredMovement * Time.deltaTime * 500.0f * Vector2FromAngle(Body.rotation));
+        Body.AddTorque(2 * DesiredRotaton);
 
         ShotCooldown -= Time.deltaTime;
         if(ShotCooldown <= 0) 
