@@ -13,9 +13,25 @@ public class ShipController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKey("space"))
         {
-            Body.AddForce(new Vector2(10000.0f * Time.deltaTime, 0.0f));
+            Body.AddForce(Time.deltaTime * 500.0f * Vector2FromAngle(Body.rotation));
         }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Body.AddTorque(2);
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Body.AddTorque(-2);
+        }
+    }
+
+    private Vector2 Vector2FromAngle(float a)
+    {
+        a *= Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(a), Mathf.Sin(a));
     }
 }
