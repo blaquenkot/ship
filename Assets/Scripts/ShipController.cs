@@ -4,22 +4,18 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
-    private Vector2 speed;
-    private float acceleration;
+    private Rigidbody2D Body;
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        Body = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKeyDown("space")) {
-            this.speed += new Vector2(1.0f, 0.0f);
+        if (Input.GetKeyDown("space"))
+        {
+            Body.AddForce(new Vector2(10000.0f * Time.deltaTime, 0.0f));
         }
-
-        this.transform.localPosition = (Vector2)this.transform.localPosition + this.speed * Time.deltaTime;
     }
 }
