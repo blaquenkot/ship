@@ -28,12 +28,12 @@ public class ShipController : MonoBehaviour
     void FixedUpdate()
     {
         Body.AddForce(DesiredMovement * Time.deltaTime * 500.0f * Vector2FromAngle(Body.rotation));
-        Body.AddTorque(2 * DesiredRotaton);
+        Body.AddTorque(-2 * DesiredRotaton);
 
         ShotCooldown -= Time.deltaTime;
-        if(ShotCooldown <= 0) 
+        if(ShotCooldown <= 0)
         {
-            if (Shoot) 
+            if (Shoot)
             {
                 Vector2 lookAheadPosition = LookAhead.transform.position;
                 ShotController shot = Instantiate(Shot, LookAhead.transform.position, Quaternion.identity, transform.parent).GetComponent<ShotController>();
