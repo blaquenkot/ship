@@ -491,11 +491,6 @@ PrefabInstance:
       propertyPath: m_ShapeTexture
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 2024856801409799401, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
-        type: 3}
-      propertyPath: m_DynamicOccludee
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4884479688570335012, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
         type: 3}
       propertyPath: m_LocalPosition.x
