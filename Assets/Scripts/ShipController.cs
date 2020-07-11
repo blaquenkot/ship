@@ -59,10 +59,26 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         switch(Random.Range(0, 4))
         {
-            case 0: AccelerationFactor -= factor;
-            case 1: TorqueFactor -= factor;
-            case 2: ShootFactor -= factor;
-            case 3: ShieldFactor -= factor;
+            case 0: 
+            {
+                AccelerationFactor -= damageTaken;
+                break;
+            }
+            case 1: 
+            {
+                TorqueFactor -= damageTaken;
+                break;
+            }
+            case 2: 
+            {
+                ShootFactor -= damageTaken;
+                break;
+            }
+            case 3: 
+            {
+                ShieldFactor -= damageTaken;
+                break;
+            }
         }
 
         if (TotalHealth() <= 0f)

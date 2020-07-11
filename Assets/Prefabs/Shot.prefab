@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1509210323255135226}
   - component: {fileID: 5996732942907482523}
   - component: {fileID: 6267753701238389115}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8061083755414849727}
   - component: {fileID: 8043887508015016204}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
