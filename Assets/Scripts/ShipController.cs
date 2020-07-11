@@ -26,7 +26,7 @@ public class ShipController : MonoBehaviour
         DesiredRotaton = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButtonUp("Shoot");
-        AccelerationGauge.SetValue(Mathf.Sin(Time.time));
+        AccelerationGauge.SetValue((Mathf.Sin(Time.time) + 1) / 2);
     }
 
     void FixedUpdate()
