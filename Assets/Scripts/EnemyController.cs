@@ -2,9 +2,14 @@
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
-    public GameObject Player;
+    private ShipController Player;
 
     private float MaxRotation = 100;
+
+    void Start() 
+    {
+        Player = UnityEngine.Object.FindObjectOfType<ShipController>();
+    }
 
     void FixedUpdate()
     {
