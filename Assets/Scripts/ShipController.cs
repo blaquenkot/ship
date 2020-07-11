@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using Cinemachine;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ShipController : MonoBehaviour, IDamageable
@@ -14,6 +15,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
+    private ShakeCameraController ShakeCameraController;
 
     private bool Shoot = false;
     private float DesiredRotation = 0f;
@@ -29,6 +31,7 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         Body = GetComponent<Rigidbody2D>();
         AccelerationGauge = AccelerationGaugeObject.GetComponent<IGauge>();
+        ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
     }
 
     void Update()
@@ -51,6 +54,7 @@ public class ShipController : MonoBehaviour, IDamageable
             ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
             shot.transform.localScale *= ShootFactor;
             shot.Fire(direction, BaseShootPower * ShootFactor);
+            ShakeCameraController.Shake();
 
             ShotCooldown = ShotCooldownTime;
         }
@@ -81,6 +85,8 @@ public class ShipController : MonoBehaviour, IDamageable
                 break;
             }
         }
+
+        ShakeCameraController.Shake();
 
         if (GetTotalHealth() <= 0f)
         {
@@ -125,6 +131,8 @@ public class ShipController : MonoBehaviour, IDamageable
         {
             damageable.TakeDamage(damage);
         }
+
+        ShakeCameraController.Shake();
     }
 
     void OnTriggerEnter2D(Collider2D collider) 
