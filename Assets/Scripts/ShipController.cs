@@ -5,17 +5,20 @@ public class ShipController : MonoBehaviour
     public float ShotCooldownTime = 0.2f;
     public GameObject Shot;
     public GameObject LookAhead;
+    public GameObject AccelerationGaugeObject;
 
     private Rigidbody2D Body;
     private bool Shoot = false;
     private float DesiredRotaton = 0f;
     private float DesiredMovement = 0f;
+    private IGauge AccelerationGauge;
 
     private float ShotCooldown = 0f;
 
     void Start()
     {
         Body = GetComponent<Rigidbody2D>();
+        AccelerationGauge = AccelerationGaugeObject.GetComponent<IGauge>();
     }
 
     void Update()
@@ -23,6 +26,7 @@ public class ShipController : MonoBehaviour
         DesiredRotaton = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButtonUp("Shoot");
+        AccelerationGauge.SetValue(Mathf.Sin(Time.time));
     }
 
     void FixedUpdate()
