@@ -225,12 +225,12 @@ PrefabInstance:
     - target: {fileID: 2383631561209607479, guid: acde9e3ced3f74d3d955a0c0157baa08,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.09963
+      value: -14.18
       objectReference: {fileID: 0}
     - target: {fileID: 2383631561209607479, guid: acde9e3ced3f74d3d955a0c0157baa08,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.411869
+      value: -7.44
       objectReference: {fileID: 0}
     - target: {fileID: 2383631561209607479, guid: acde9e3ced3f74d3d955a0c0157baa08,
         type: 3}
@@ -432,12 +432,12 @@ PrefabInstance:
     - target: {fileID: 2383631561209607479, guid: acde9e3ced3f74d3d955a0c0157baa08,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8947525
+      value: 13.67
       objectReference: {fileID: 0}
     - target: {fileID: 2383631561209607479, guid: acde9e3ced3f74d3d955a0c0157baa08,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.0860262
+      value: 6.1
       objectReference: {fileID: 0}
     - target: {fileID: 2383631561209607479, guid: acde9e3ced3f74d3d955a0c0157baa08,
         type: 3}
@@ -513,12 +513,12 @@ PrefabInstance:
     - target: {fileID: 451839862175906885, guid: ebc19748d5faa4721a8a870dd54c5e89,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.6531785
+      value: 13.81
       objectReference: {fileID: 0}
     - target: {fileID: 451839862175906885, guid: ebc19748d5faa4721a8a870dd54c5e89,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.8690298
+      value: -7.19
       objectReference: {fileID: 0}
     - target: {fileID: 451839862175906885, guid: ebc19748d5faa4721a8a870dd54c5e89,
         type: 3}
@@ -1163,7 +1163,7 @@ PrefabInstance:
     - target: {fileID: 451839862175906885, guid: ebc19748d5faa4721a8a870dd54c5e89,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.256933
+      value: -13.54
       objectReference: {fileID: 0}
     - target: {fileID: 451839862175906885, guid: ebc19748d5faa4721a8a870dd54c5e89,
         type: 3}

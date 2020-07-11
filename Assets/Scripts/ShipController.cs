@@ -44,7 +44,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        Vector2 direction = Vector2FromAngle(Body.rotation);
+        Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation);
         Body.AddForce(DesiredMovement * AccelerationFactor * Time.deltaTime * 500.0f * direction);
         Body.AddTorque(-200 * Time.deltaTime * DesiredRotation * TorqueFactor);
 
@@ -52,7 +52,6 @@ public class ShipController : MonoBehaviour, IDamageable
         if(ShotCooldown <= 0 && Shoot)
         {
             ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
-            shot.transform.localScale *= ShootFactor;
             shot.Fire(direction, BaseShootPower * ShootFactor);
             ShakeCameraController.Shake();
 
@@ -161,12 +160,6 @@ public class ShipController : MonoBehaviour, IDamageable
         ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit); 
     }
     
-    private Vector2 Vector2FromAngle(float a)
-    {
-        a *= Mathf.Deg2Rad;
-        return new Vector2(Mathf.Cos(a), Mathf.Sin(a));
-    }
-
     private float GetTotalHealth()
     {
         return AccelerationFactor + TorqueFactor + ShootFactor + ShieldFactor;

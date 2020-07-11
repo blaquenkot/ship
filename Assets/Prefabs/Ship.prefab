@@ -242,6 +242,6 @@ MonoBehaviour:
   HealthLimit: 0
   ShotCooldownTime: 0.5
   BaseShootPower: 10
-  Shot: {fileID: 945852512912690991, guid: 8e7715b790df94f37a0f96d59347937a, type: 3}
+  Shot: {fileID: 6006592138397947076, guid: 7724888c9bd4b4351a34f3e17959760f, type: 3}
   LookAhead: {fileID: 2959396870596911478}
   AccelerationGaugeObject: {fileID: 0}
