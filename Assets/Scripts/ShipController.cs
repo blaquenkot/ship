@@ -12,9 +12,15 @@ public class ShipController : MonoBehaviour, IDamageable
     public GameObject Shot;
     public GameObject LookAhead;
     public GameObject AccelerationGaugeObject;
+    public GameObject RotationGaugeObject;
+    public GameObject ShieldGaugeObject;
+    public GameObject BlasterGaugeObject;
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
+    private IGauge RotationGauge;
+    private IGauge ShieldGauge;
+    private IGauge BlasterGauge;
     private ShakeCameraController ShakeCameraController;
 
     private bool Shoot = false;
@@ -34,6 +40,9 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         Body = GetComponent<Rigidbody2D>();
         AccelerationGauge = AccelerationGaugeObject.GetComponent<IGauge>();
+        RotationGauge = RotationGaugeObject.GetComponent<IGauge>();
+        ShieldGauge = ShieldGaugeObject.GetComponent<IGauge>();
+        BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
         Body.angularDrag = AngularDragFactor;
     }
@@ -44,6 +53,9 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
         AccelerationGauge.SetValue(AccelerationFactor/FactorMaxLimit);
+        RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
+        ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
+        BlasterGauge.SetValue(ShootFactor / FactorMaxLimit);
     }
 
     void FixedUpdate()
