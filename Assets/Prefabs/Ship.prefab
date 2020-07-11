@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc2dd7c1cf6e40beb6d61de159a57d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShotCooldownTime: 0.2
+  ShotCooldownTime: 0.5
   Shot: {fileID: 945852512912690991, guid: 8e7715b790df94f37a0f96d59347937a, type: 3}
   LookAhead: {fileID: 2959396870596911478}
   AccelerationGaugeObject: {fileID: 0}

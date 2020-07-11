@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour, IDamageable
 {
-    public float ShotCooldownTime = 0.1f;
+    public float ShotCooldownTime = 0.5f;
     public GameObject Shot;
     public GameObject LookAhead;
     public GameObject AccelerationGaugeObject;
@@ -32,7 +32,7 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         DesiredRotation = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
-        Shoot = Input.GetButtonUp("Shoot");
+        Shoot = Input.GetButton("Shoot");
         AccelerationGauge.SetValue(AccelerationFactor);
     }
 
