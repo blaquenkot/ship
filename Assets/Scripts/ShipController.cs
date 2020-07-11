@@ -36,6 +36,9 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private float MovementDrag = 1f;
 
+    private float BaseAngularDrag = 2f;
+    private float BaseTorque = 500f;
+
     void Start()
     {
         Body = GetComponent<Rigidbody2D>();
@@ -44,7 +47,7 @@ public class ShipController : MonoBehaviour, IDamageable
         ShieldGauge = ShieldGaugeObject.GetComponent<IGauge>();
         BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
-        Body.angularDrag = AngularDragFactor;
+        Body.angularDrag = BaseAngularDrag * AngularDragFactor;
     }
 
     void Update()
@@ -53,7 +56,7 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
         AccelerationGauge.SetValue(AccelerationFactor/FactorMaxLimit);
-        RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
+        RotationGauge.SetValue(TorqueFactor * BaseTorque / FactorMaxLimit);
         ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
         BlasterGauge.SetValue(ShootFactor / FactorMaxLimit);
     }
@@ -77,7 +80,9 @@ public class ShipController : MonoBehaviour, IDamageable
             Body.drag = 0;
         }
 
-        Body.AddTorque(-200 * Time.deltaTime * DesiredRotation * TorqueFactor);
+        Body.AddTorque(
+            -1 * BaseTorque * Time.deltaTime * DesiredRotation * TorqueFactor
+        );
 
         ShotCooldown -= Time.deltaTime;
         if(ShotCooldown <= 0 && Shoot)
