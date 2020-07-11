@@ -2,6 +2,7 @@
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
+    public float Health = 10f;
     private ShipController Player;
 
     private float MaxRotation = 100;
@@ -18,7 +19,12 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damageTaken)
     {
-        Destroy(gameObject);
+        Health -= damageTaken;
+
+        if(Health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void RotateTowardsPlayer()

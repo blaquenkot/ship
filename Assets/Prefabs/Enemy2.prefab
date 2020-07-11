@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy2
       objectReference: {fileID: 0}
+    - target: {fileID: 2495402422596473928, guid: c689a66dab6484b5ca97b141bf77f7b5,
+        type: 3}
+      propertyPath: Health
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6328986234058697515, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -87,6 +92,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646626674863651208, guid: c689a66dab6484b5ca97b141bf77f7b5,
+        type: 3}
+      propertyPath: m_Mass
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9105994121187116673, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}

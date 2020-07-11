@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour, IDamageable
 {
+    public float FactorMaxLimit = 2f;
+    public float FactorMinLimit = 0f;
+    public float HealthLimit = 0f;
     public float ShotCooldownTime = 0.5f;
+    public float BaseShootPower = 10f;
     public GameObject Shot;
     public GameObject LookAhead;
     public GameObject AccelerationGaugeObject;
@@ -15,12 +19,11 @@ public class ShipController : MonoBehaviour, IDamageable
     private float DesiredRotation = 0f;
     private float DesiredMovement = 0f;
 
+    private float ShotCooldown = 0f;
     private float AccelerationFactor = 1f;
     private float TorqueFactor = 1f;
     private float ShootFactor = 1f;
     private float ShieldFactor = 1f;
-
-    private float ShotCooldown = 0f;
 
     void Start()
     {
@@ -33,7 +36,7 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredRotation = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
-        AccelerationGauge.SetValue(AccelerationFactor);
+        AccelerationGauge.SetValue(AccelerationFactor/FactorMaxLimit);
     }
 
     void FixedUpdate()
@@ -46,7 +49,8 @@ public class ShipController : MonoBehaviour, IDamageable
         if(ShotCooldown <= 0 && Shoot)
         {
             ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
-            shot.Fire(direction, ShootFactor);
+            shot.transform.localScale *= ShootFactor;
+            shot.Fire(direction, BaseShootPower * ShootFactor);
 
             ShotCooldown = ShotCooldownTime;
         }
@@ -58,27 +62,27 @@ public class ShipController : MonoBehaviour, IDamageable
         {
             case 0: 
             {
-                AccelerationFactor -= damageTaken;
+                ModifyAccelerationFactor(-damageTaken);
                 break;
             }
             case 1: 
             {
-                TorqueFactor -= damageTaken;
+                ModifyTorqueFactor(-damageTaken);
                 break;
             }
             case 2: 
             {
-                ShootFactor -= damageTaken;
+                ModifyShootFactor(-damageTaken);
                 break;
             }
             case 3: 
             {
-                ShieldFactor -= damageTaken;
+                ModifyShieldFactor(-damageTaken);
                 break;
             }
         }
 
-        if (TotalHealth() <= 0f)
+        if (GetTotalHealth() <= 0f)
         {
             Destroyed();
         }
@@ -90,24 +94,36 @@ public class ShipController : MonoBehaviour, IDamageable
         {
             case PowerUpType.Acceleration:
             {
-                AccelerationFactor += amount;
+                ModifyAccelerationFactor(amount);
                 break;
             }
             case PowerUpType.Torque:
             {
-                TorqueFactor += amount;
+                ModifyTorqueFactor(amount);
                 break;
             }
             case PowerUpType.Shoot:
             {
-                ShootFactor += amount;
+                ModifyShootFactor(amount);
                 break;
             }
             case PowerUpType.Shield:
             {
-                ShieldFactor += amount;
+                ModifyShieldFactor(amount);
                 break;
             }
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision) 
+    {
+        // ToDo: Maybe do proportional damage to mass?
+        float damage = collision.contacts[0].normalImpulse;
+        TakeDamage(damage);
+        IDamageable damageable = collision.collider.GetComponent<IDamageable>();
+        if(damageable != null)
+        {
+            damageable.TakeDamage(damage);
         }
     }
 
@@ -120,6 +136,22 @@ public class ShipController : MonoBehaviour, IDamageable
             powerUp.Consume();
         }
     }
+
+    private void ModifyAccelerationFactor(float value) {
+        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit); 
+    }
+
+    private void ModifyTorqueFactor(float value) {
+        TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit); 
+    }
+
+    private void ModifyShootFactor(float value) {
+        ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit); 
+    }
+
+    private void ModifyShieldFactor(float value) {
+        ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit); 
+    }
     
     private Vector2 Vector2FromAngle(float a)
     {
@@ -127,7 +159,7 @@ public class ShipController : MonoBehaviour, IDamageable
         return new Vector2(Mathf.Cos(a), Mathf.Sin(a));
     }
 
-    private float TotalHealth()
+    private float GetTotalHealth()
     {
         return AccelerationFactor + TorqueFactor + ShootFactor + ShieldFactor;
     }
