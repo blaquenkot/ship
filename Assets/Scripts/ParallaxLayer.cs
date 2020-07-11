@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ParallaxLayer : MonoBehaviour 
@@ -11,6 +12,11 @@ public class ParallaxLayer : MonoBehaviour
         Camera = UnityEngine.Object.FindObjectOfType<Camera>();
         CameraLastPosition = Camera.transform.position;
         MovementFactor = Mathf.Abs(1/transform.position.z);
+
+        if(MovementFactor == Mathf.Infinity) 
+        {
+            throw new Exception();
+        }
     }
 
     void FixedUpdate() 
