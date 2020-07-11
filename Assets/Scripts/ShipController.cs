@@ -2,7 +2,7 @@
 
 public class ShipController : MonoBehaviour
 {
-    public float ShotCooldownTime = 1f;
+    public float ShotCooldownTime = 0.2f;
     public GameObject Shot;
     public GameObject LookAhead;
 

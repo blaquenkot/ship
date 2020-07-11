@@ -2,7 +2,7 @@
 
 public class ShotController : MonoBehaviour
 {
-    public float Speed = 20f;
+    public float Speed = 40f;
     private Rigidbody2D Body;
     private SpriteRenderer SpriteRenderer;
     private float HitPower = 0f;
