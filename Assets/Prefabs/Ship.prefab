@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2959396870596911478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0.875, y: -0.085, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4884479688570335012}
@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 4884479688570335012}
   - component: {fileID: 2111640807728655203}
   - component: {fileID: 6209671273899497660}
+  - component: {fileID: 7305297143023405391}
   - component: {fileID: 3788649221494772163}
   m_Layer: 0
   m_Name: Ship
@@ -135,6 +136,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &7305297143023405391
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7243673645028587453}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.2
 --- !u!114 &3788649221494772163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc2dd7c1cf6e40beb6d61de159a57d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShotCooldownTime: 1
+  ShotCooldownTime: 0.2
   Shot: {fileID: 945852512912690991, guid: 8e7715b790df94f37a0f96d59347937a, type: 3}
   LookAhead: {fileID: 2959396870596911478}
+  AccelerationGaugeObject: {fileID: 0}
