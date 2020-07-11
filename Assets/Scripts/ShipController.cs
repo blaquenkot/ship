@@ -38,20 +38,17 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        Body.AddForce(DesiredMovement * AccelerationFactor * Time.deltaTime * 500.0f * Vector2FromAngle(Body.rotation));
+        Vector2 direction = Vector2FromAngle(Body.rotation);
+        Body.AddForce(DesiredMovement * AccelerationFactor * Time.deltaTime * 500.0f * direction);
         Body.AddTorque(-200 * Time.deltaTime * DesiredRotation * TorqueFactor);
 
         ShotCooldown -= Time.deltaTime;
-        if(ShotCooldown <= 0)
+        if(ShotCooldown <= 0 && Shoot)
         {
-            if (Shoot)
-            {
-                Vector2 lookAheadPosition = LookAhead.transform.position;
-                ShotController shot = Instantiate(Shot, LookAhead.transform.position, Quaternion.identity, transform.parent).GetComponent<ShotController>();
-                shot.Fire(lookAheadPosition.normalized, ShootFactor);
+            ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
+            shot.Fire(direction, ShootFactor);
 
-                ShotCooldown = ShotCooldownTime;
-            }
+            ShotCooldown = ShotCooldownTime;
         }
     }
 
