@@ -22,16 +22,20 @@ public class ShipController : MonoBehaviour, IDamageable
     private float DesiredMovement = 0f;
 
     private float ShotCooldown = 0f;
-    private float AccelerationFactor = 1f;
+    private float AccelerationFactor = 4f;
     private float TorqueFactor = 1f;
     private float ShootFactor = 1f;
     private float ShieldFactor = 1f;
+    private float AngularDragFactor = 1f;
+
+    private float MovementDrag = 1f;
 
     void Start()
     {
         Body = GetComponent<Rigidbody2D>();
         AccelerationGauge = AccelerationGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
+        Body.angularDrag = AngularDragFactor;
     }
 
     void Update()
@@ -45,7 +49,22 @@ public class ShipController : MonoBehaviour, IDamageable
     void FixedUpdate()
     {
         Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation);
-        Body.AddForce(DesiredMovement * AccelerationFactor * Time.deltaTime * 500.0f * direction);
+
+        if (DesiredMovement > 0) {
+            // Set drag to give the ship a terminal velocity
+            Body.drag = MovementDrag;
+
+            Body.AddForce(
+                DesiredMovement *
+                    AccelerationFactor *
+                    Time.deltaTime *
+                    500.0f *
+                    direction
+            );
+        } else {
+            Body.drag = 0;
+        }
+
         Body.AddTorque(-200 * Time.deltaTime * DesiredRotation * TorqueFactor);
 
         ShotCooldown -= Time.deltaTime;
@@ -63,22 +82,22 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         switch(Random.Range(0, 4))
         {
-            case 0: 
+            case 0:
             {
                 ModifyAccelerationFactor(-damageTaken);
                 break;
             }
-            case 1: 
+            case 1:
             {
                 ModifyTorqueFactor(-damageTaken);
                 break;
             }
-            case 2: 
+            case 2:
             {
                 ModifyShootFactor(-damageTaken);
                 break;
             }
-            case 3: 
+            case 3:
             {
                 ModifyShieldFactor(-damageTaken);
                 break;
@@ -95,7 +114,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     public void AddPowerUp(float amount, PowerUpType type)
     {
-        switch(type) 
+        switch(type)
         {
             case PowerUpType.Acceleration:
             {
@@ -120,7 +139,7 @@ public class ShipController : MonoBehaviour, IDamageable
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision) 
+    void OnCollisionEnter2D(Collision2D collision)
     {
         // ToDo: Maybe do proportional damage to mass?
         float damage = collision.contacts[0].normalImpulse;
@@ -134,7 +153,7 @@ public class ShipController : MonoBehaviour, IDamageable
         ShakeCameraController.Shake();
     }
 
-    void OnTriggerEnter2D(Collider2D collider) 
+    void OnTriggerEnter2D(Collider2D collider)
     {
         PowerUpController powerUp = collider.GetComponent<PowerUpController>();
         if(powerUp)
@@ -145,21 +164,21 @@ public class ShipController : MonoBehaviour, IDamageable
     }
 
     private void ModifyAccelerationFactor(float value) {
-        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit); 
+        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
     private void ModifyTorqueFactor(float value) {
-        TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit); 
+        TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
     private void ModifyShootFactor(float value) {
-        ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit); 
+        ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
     private void ModifyShieldFactor(float value) {
-        ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit); 
+        ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit);
     }
-    
+
     private float GetTotalHealth()
     {
         return AccelerationFactor + TorqueFactor + ShootFactor + ShieldFactor;
