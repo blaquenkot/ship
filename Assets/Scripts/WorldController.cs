@@ -29,7 +29,7 @@ public class WorldController : MonoBehaviour
             {
                 Instantiate(Enemy2, randomPositionOnScreen, transform.rotation, transform.parent);
             }
-            CreateEnemyCooldown = 2f;
+            CreateEnemyCooldown = 1.5f;
         }
 
         CreatePowerUpCooldown -= Time.deltaTime;
@@ -61,7 +61,7 @@ public class WorldController : MonoBehaviour
                 }
             }
 
-            CreatePowerUpCooldown = 1f;
+            CreatePowerUpCooldown = 0.5f;
         }
     }
 }
