@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public float ShootPower = 0.5f;
     public GameObject Shot;
     public GameObject LookAhead;
+    public GameObject Explosion;
 
     private Rigidbody2D Body;
     private ShipController Player;
@@ -57,7 +58,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         if(Health <= 0)
         {
-            Destroy(gameObject);
+            Destroyed();
         }
     }
 
@@ -76,5 +77,13 @@ public class EnemyController : MonoBehaviour, IDamageable
             transform.eulerAngles.z + clampedDiff,
             Vector3.forward
         );
+    }
+
+    private void Destroyed()
+    {
+        GameObject explosion = Instantiate(Explosion);
+        explosion.transform.parent = transform.parent;
+        explosion.transform.position = transform.position;
+        Destroy(gameObject);
     }
 }
