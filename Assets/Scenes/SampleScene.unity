@@ -2126,6 +2126,11 @@ PrefabInstance:
       propertyPath: BlasterGaugeObject
       value: 
       objectReference: {fileID: 561668136}
+    - target: {fileID: 3788649221494772163, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
+        type: 3}
+      propertyPath: GameOverObject
+      value: 
+      objectReference: {fileID: 347476425}
     - target: {fileID: 4884479688570335012, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
         type: 3}
       propertyPath: m_LocalPosition.x

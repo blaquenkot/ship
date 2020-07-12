@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEngine.Experimental.Rendering.Universal;
+using System.Collections;
 using Cinemachine;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -12,7 +12,6 @@ public class ShipController : MonoBehaviour, IDamageable
     public float HealthLimit = 0f;
     public float ShotCooldownTime = 0.5f;
     public float BaseShootPower = 10f;
-    public GameObject LookAhead;
     public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;
     public GameObject[] RotationParts;
@@ -27,6 +26,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public GameObject TailParticleObject;
     public GameObject LeftParticleObject;
     public GameObject RightParticleObject;
+    public GameObject GameOverObject;
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
@@ -244,7 +244,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
         if (GetTotalHealth() <= 0f)
         {
-            Destroyed();
+            StartCoroutine("Destroyed");
         }
     }
     
@@ -350,8 +350,12 @@ public class ShipController : MonoBehaviour, IDamageable
         return AccelerationFactor + TorqueFactor + ShootFactor + ShieldFactor;
     }
 
-    private void Destroyed()
+    private IEnumerator Destroyed()
     {
+        GameOverObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
