@@ -25,6 +25,8 @@ public class ShipController : MonoBehaviour, IDamageable
     public GameObject[] CannonsLevel2;
     public GameObject[] CannonsLevel3;
     public GameObject TailParticleObject;
+    public GameObject LeftParticleObject;
+    public GameObject RightParticleObject;
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
@@ -36,6 +38,8 @@ public class ShipController : MonoBehaviour, IDamageable
     private CannonController[] CannonControllersLevel2;
     private CannonController[] CannonControllersLevel3;
     private ParticleSystem TailParticleSystem;
+    private ParticleSystem LeftParticleSystem;
+    private ParticleSystem RightParticleSystem;
 
     private bool Shoot = false;
     private float DesiredRotation = 0f;
@@ -64,6 +68,8 @@ public class ShipController : MonoBehaviour, IDamageable
         BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
         TailParticleSystem = TailParticleObject.GetComponent<ParticleSystem>();
+        LeftParticleSystem = LeftParticleObject.GetComponent<ParticleSystem>();
+        RightParticleSystem = RightParticleObject.GetComponent<ParticleSystem>();
 
         ShootSound = Resources.Load<AudioClip>("laser1");
         
@@ -120,7 +126,7 @@ public class ShipController : MonoBehaviour, IDamageable
                     direction
             );
 
-            if(TailParticleSystem.isStopped) 
+            if(AccelerationFactor > 0 && TailParticleSystem.isStopped) 
             {
                 TailParticleSystem.Play();
             }
@@ -136,6 +142,43 @@ public class ShipController : MonoBehaviour, IDamageable
         Body.AddTorque(
             -1 * BaseTorque * Time.deltaTime * DesiredRotation * TorqueFactor
         );
+
+        if(DesiredRotation != 0 && TorqueFactor > 0) 
+        {
+            if(DesiredRotation > 0) 
+            {
+                if(LeftParticleSystem.isStopped) 
+                {
+                    LeftParticleSystem.Play();
+                }
+                if(RightParticleSystem.isPlaying) 
+                {
+                    RightParticleSystem.Stop();
+                }
+            } 
+            else 
+            {
+                if(RightParticleSystem.isStopped) 
+                {
+                    RightParticleSystem.Play();
+                }
+                if(LeftParticleSystem.isPlaying) 
+                {
+                    LeftParticleSystem.Stop();
+                }
+            }
+        } 
+        else 
+        {
+            if(LeftParticleSystem.isPlaying) 
+            {
+                LeftParticleSystem.Stop();
+            }
+            if(RightParticleSystem.isPlaying)
+            {
+                RightParticleSystem.Stop();
+            }
+        }
 
         ShotCooldown -= Time.deltaTime;
         if(ShotCooldown <= 0 && Shoot && ShootFactor > 0f)
@@ -154,7 +197,8 @@ public class ShipController : MonoBehaviour, IDamageable
                     cannon.Fire(direction);
                 }
             }
-            if(BlasterParts[2].activeSelf) {
+            if(BlasterParts[2].activeSelf) 
+            {
                 foreach (var cannon in CannonControllersLevel3)
                 {
                     cannon.Fire(direction);
