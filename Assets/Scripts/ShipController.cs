@@ -116,8 +116,11 @@ public class ShipController : MonoBehaviour, IDamageable
                 types.Add(PowerUpType.Shoot);
             }
 
-            int index = Random.Range (0, types.Count);
-            ModifyFactor(-damageTaken, types[index]);
+            if(types.Count > 0)
+            {
+                int index = Random.Range(0, types.Count);
+                ModifyFactor(-damageTaken, types[index]);
+            }
         }
 
         ShakeCameraController.Shake();
