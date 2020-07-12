@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour, IDamageable
 {
+    public float AccelerationFactorMaxLimit = 8f;
     public float FactorMaxLimit = 2f;
     public float FactorMinLimit = 0f;
     public float HealthLimit = 0f;
@@ -60,8 +61,8 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredRotation = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
-        AccelerationGauge.SetValue(AccelerationFactor/FactorMaxLimit);
-        RotationGauge.SetValue(TorqueFactor * BaseTorque / FactorMaxLimit);
+        AccelerationGauge.SetValue(AccelerationFactor / AccelerationFactorMaxLimit);
+        RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
         ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
         BlasterGauge.SetValue(ShootFactor / FactorMaxLimit);
     }
@@ -192,8 +193,8 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private void ModifyAccelerationFactor(float value) 
     {
-        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
-        float ratio = AccelerationFactor / FactorMaxLimit;
+        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, AccelerationFactorMaxLimit);
+        float ratio = AccelerationFactor / AccelerationFactorMaxLimit;
         for (int i = 0; i < AccelerationParts.Length; i++)
         {
             AccelerationParts[i].SetActive((ratio > i/AccelerationParts.Length));
