@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -97,28 +98,26 @@ public class ShipController : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damageTaken)
     {
-        switch(Random.Range(0, 4))
-        {
-            case 0:
+        if(ShieldFactor > FactorMinLimit) {
+            ModifyShieldFactor(-damageTaken);
+        } else {
+            
+            List<PowerUpType> types = new List<PowerUpType>();
+            if(AccelerationFactor > FactorMinLimit) 
             {
-                ModifyAccelerationFactor(-damageTaken);
-                break;
+                types.Add(PowerUpType.Acceleration);
             }
-            case 1:
+            if(TorqueFactor > FactorMinLimit) 
             {
-                ModifyTorqueFactor(-damageTaken);
-                break;
+                types.Add(PowerUpType.Torque);
             }
-            case 2:
+            if(ShootFactor > FactorMinLimit) 
             {
-                ModifyShootFactor(-damageTaken);
-                break;
+                types.Add(PowerUpType.Shoot);
             }
-            case 3:
-            {
-                ModifyShieldFactor(-damageTaken);
-                break;
-            }
+
+            int index = Random.Range (0, types.Count);
+            ModifyFactor(-damageTaken, types[index]);
         }
 
         ShakeCameraController.Shake();
@@ -128,8 +127,35 @@ public class ShipController : MonoBehaviour, IDamageable
             Destroyed();
         }
     }
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        float damage = collision.relativeVelocity.magnitude;
+        float colliderMass = collision.collider.GetComponent<Rigidbody2D>().mass;
+        float totalMass = colliderMass + Body.mass;
+        // Damage proportional to the collider's mass
+        TakeDamage(damage * colliderMass/totalMass);
+        IDamageable damageable = collision.collider.GetComponent<IDamageable>();
+        if(damageable != null)
+        {
+            // Damage proportional to the ship's mass
+            damageable.TakeDamage(damage * Body.mass/totalMass);
+        }
 
-    public void AddPowerUp(float amount, PowerUpType type)
+        ShakeCameraController.Shake();
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        PowerUpController powerUp = collider.GetComponent<PowerUpController>();
+        if(powerUp)
+        {
+            ModifyFactor(powerUp.Amount, powerUp.Type);
+            powerUp.Consume();
+        }
+    }
+
+    private void ModifyFactor(float amount, PowerUpType type) 
     {
         switch(type)
         {
@@ -156,46 +182,23 @@ public class ShipController : MonoBehaviour, IDamageable
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void ModifyAccelerationFactor(float value) 
     {
-        float damage = collision.relativeVelocity.magnitude;
-        float colliderMass = collision.collider.GetComponent<Rigidbody2D>().mass;
-        float totalMass = colliderMass + Body.mass;
-        // Damage proportional to the collider's mass
-        TakeDamage(damage * colliderMass/totalMass);
-        IDamageable damageable = collision.collider.GetComponent<IDamageable>();
-        if(damageable != null)
-        {
-            // Damage proportional to the ship's mass
-            damageable.TakeDamage(damage * Body.mass/totalMass);
-        }
-
-        ShakeCameraController.Shake();
-    }
-
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        PowerUpController powerUp = collider.GetComponent<PowerUpController>();
-        if(powerUp)
-        {
-            AddPowerUp(powerUp.Amount, powerUp.Type);
-            powerUp.Consume();
-        }
-    }
-
-    private void ModifyAccelerationFactor(float value) {
         AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
-    private void ModifyTorqueFactor(float value) {
+    private void ModifyTorqueFactor(float value) 
+    {
         TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
-    private void ModifyShootFactor(float value) {
+    private void ModifyShootFactor(float value) 
+    {
         ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
-    private void ModifyShieldFactor(float value) {
+    private void ModifyShieldFactor(float value) 
+    {
         ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit);
     }
 
