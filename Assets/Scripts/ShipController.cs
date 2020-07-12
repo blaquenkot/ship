@@ -247,40 +247,32 @@ public class ShipController : MonoBehaviour, IDamageable
     private void ModifyAccelerationFactor(float value) 
     {
         AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, AccelerationFactorMaxLimit);
-        float ratio = AccelerationFactor / AccelerationFactorMaxLimit;
-        for (int i = 0; i < AccelerationParts.Length; i++)
-        {
-            AccelerationParts[i].SetActive((ratio > (float)i/(float)AccelerationParts.Length));
-        }
+        UpdateParts(AccelerationParts, AccelerationFactor / AccelerationFactorMaxLimit);
     }
 
     private void ModifyTorqueFactor(float value) 
     {
         TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit);
-        float ratio = TorqueFactor / FactorMaxLimit;
-        for (int i = 0; i < RotationParts.Length; i++)
-        {
-            RotationParts[i].SetActive((ratio > (float)i/(float)RotationParts.Length));
-        }
+        UpdateParts(RotationParts, TorqueFactor / FactorMaxLimit);
     }
 
     private void ModifyShootFactor(float value) 
     {
         ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit);
-        float ratio = ShootFactor / FactorMaxLimit;
-        for (int i = 0; i < BlasterParts.Length; i++)
-        {
-            BlasterParts[i].SetActive((ratio > (float)i/(float)BlasterParts.Length));
-        }
+        UpdateParts(BlasterParts, ShootFactor / FactorMaxLimit);
     }
 
     private void ModifyShieldFactor(float value) 
     {
         ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit);
-        float ratio = ShieldFactor / FactorMaxLimit;
-        for (int i = 0; i < ShieldParts.Length; i++)
+        UpdateParts(ShieldParts, ShieldFactor / FactorMaxLimit);
+    }
+
+    private void UpdateParts(GameObject[] parts, float ratio)
+    {
+        for (int i = 0; i < parts.Length; i++)
         {
-            ShieldParts[i].SetActive((ratio > (float)i/(float)ShieldParts.Length));
+            parts[i].SetActive((ratio > (float)i/(float)parts.Length));
         }
     }
 
