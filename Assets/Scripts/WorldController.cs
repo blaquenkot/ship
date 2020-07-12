@@ -12,8 +12,8 @@ public class WorldController : MonoBehaviour
     public GameObject BlastersPowerUp;
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> {PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
-    private float CreateEnemyCooldown = 0f;
-    private float CreatePowerUpCooldown = 0f;
+    private float CreateEnemyCooldown = 1f;
+    private float CreatePowerUpCooldown = 0.5f;
 
     void FixedUpdate()
     {
