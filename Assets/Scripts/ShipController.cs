@@ -158,13 +158,16 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // ToDo: Maybe do proportional damage to mass?
-        float damage = collision.contacts[0].normalImpulse;
-        TakeDamage(damage);
+        float damage = collision.relativeVelocity.magnitude;
+        float colliderMass = collision.collider.GetComponent<Rigidbody2D>().mass;
+        float totalMass = colliderMass + Body.mass;
+        // Damage proportional to the collider's mass
+        TakeDamage(damage * colliderMass/totalMass);
         IDamageable damageable = collision.collider.GetComponent<IDamageable>();
         if(damageable != null)
         {
-            damageable.TakeDamage(damage);
+            // Damage proportional to the ship's mass
+            damageable.TakeDamage(damage * Body.mass/totalMass);
         }
 
         ShakeCameraController.Shake();

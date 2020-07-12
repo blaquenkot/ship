@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
-  ShootPower: 20
+  ShootPower: 0.5
   Shot: {fileID: 2238584777406463549, guid: 5458ba2d58dcd4d3da52475f1e7751b2, type: 3}
   LookAhead: {fileID: 6642160547608704438}
 --- !u!1 &1566288808254140828

@@ -3,7 +3,7 @@
 public class EnemyController : MonoBehaviour, IDamageable
 {
     public float Health = 10f;
-    public float ShootPower = 20f;
+    public float ShootPower = 0.5f;
     public GameObject Shot;
     public GameObject LookAhead;
 
