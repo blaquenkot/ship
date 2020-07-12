@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 2843983885
     locked: 0
+  - name: Ship
+    uniqueID: 326046539
+    locked: 0
   - name: NotBackground
     uniqueID: 4226389333
     locked: 0

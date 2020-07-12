@@ -12,9 +12,13 @@ public class ShipController : MonoBehaviour, IDamageable
     public float BaseShootPower = 10f;
     public GameObject Shot;
     public GameObject LookAhead;
+    public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;
+    public GameObject[] RotationParts;
     public GameObject RotationGaugeObject;
+    public GameObject[] ShieldParts;
     public GameObject ShieldGaugeObject;
+    public GameObject[] BlasterParts;
     public GameObject BlasterGaugeObject;
 
     private Rigidbody2D Body;
@@ -100,8 +104,9 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         if(ShieldFactor > FactorMinLimit) {
             ModifyShieldFactor(-damageTaken);
-        } else {
-            
+        } 
+        else 
+        {
             List<PowerUpType> types = new List<PowerUpType>();
             if(AccelerationFactor > FactorMinLimit) 
             {
@@ -188,21 +193,41 @@ public class ShipController : MonoBehaviour, IDamageable
     private void ModifyAccelerationFactor(float value) 
     {
         AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
+        float ratio = AccelerationFactor / FactorMaxLimit;
+        for (int i = 0; i < AccelerationParts.Length; i++)
+        {
+            AccelerationParts[i].SetActive((ratio > i/AccelerationParts.Length));
+        }
     }
 
     private void ModifyTorqueFactor(float value) 
     {
         TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit);
+        float ratio = TorqueFactor / FactorMaxLimit;
+        for (int i = 0; i < RotationParts.Length; i++)
+        {
+            RotationParts[i].SetActive((ratio > i/RotationParts.Length));
+        }
     }
 
     private void ModifyShootFactor(float value) 
     {
         ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit);
+        float ratio = ShootFactor / FactorMaxLimit;
+        for (int i = 0; i < BlasterParts.Length; i++)
+        {
+            BlasterParts[i].SetActive((ratio > i/BlasterParts.Length));
+        }
     }
 
     private void ModifyShieldFactor(float value) 
     {
         ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit);
+        float ratio = ShieldFactor / FactorMaxLimit;
+        for (int i = 0; i < ShieldParts.Length; i++)
+        {
+            ShieldParts[i].SetActive((ratio > i/ShieldParts.Length));
+        }
     }
 
     private float GetTotalHealth()
