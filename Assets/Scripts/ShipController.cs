@@ -24,6 +24,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public GameObject[] CannonsLevel1;
     public GameObject[] CannonsLevel2;
     public GameObject[] CannonsLevel3;
+    public GameObject TailParticleObject;
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
@@ -34,6 +35,7 @@ public class ShipController : MonoBehaviour, IDamageable
     private CannonController[] CannonControllersLevel1;
     private CannonController[] CannonControllersLevel2;
     private CannonController[] CannonControllersLevel3;
+    private ParticleSystem TailParticleSystem;
 
     private bool Shoot = false;
     private float DesiredRotation = 0f;
@@ -61,7 +63,8 @@ public class ShipController : MonoBehaviour, IDamageable
         ShieldGauge = ShieldGaugeObject.GetComponent<IGauge>();
         BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
-        
+        TailParticleSystem = TailParticleObject.GetComponent<ParticleSystem>();
+
         ShootSound = Resources.Load<AudioClip>("laser1");
         
         Body.angularDrag = BaseAngularDrag * AngularDragFactor;
@@ -116,8 +119,18 @@ public class ShipController : MonoBehaviour, IDamageable
                     500.0f *
                     direction
             );
+
+            if(TailParticleSystem.isStopped) 
+            {
+                TailParticleSystem.Play();
+            }
         } else {
             Body.drag = 0;
+
+            if(TailParticleSystem.isPlaying) 
+            {
+                TailParticleSystem.Stop();
+            }
         }
 
         Body.AddTorque(
