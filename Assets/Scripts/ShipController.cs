@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.Experimental.Rendering.Universal;
 using Cinemachine;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -272,7 +273,18 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         for (int i = 0; i < parts.Length; i++)
         {
-            parts[i].SetActive((ratio > (float)i/(float)parts.Length));
+            GameObject part = parts[i];
+            bool isActive = (ratio > (float)i/(float)parts.Length);
+            if(part.activeSelf != isActive) {
+                if(!isActive) {
+                    GameObject clone = Instantiate(part);
+                    clone.transform.GetChild(0).gameObject.SetActive(true);
+                    clone.transform.parent = transform.parent;
+                    clone.transform.position = transform.position;
+                    Destroy(clone, 2f);
+                }
+                part.SetActive(isActive);
+            }
         }
     }
 
