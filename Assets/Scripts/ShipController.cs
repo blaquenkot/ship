@@ -50,6 +50,8 @@ public class ShipController : MonoBehaviour, IDamageable
     private float BaseAngularDrag = 2f;
     private float BaseTorque = 500f;
 
+    private AudioClip ShootSound;
+
     void Start()
     {
         Body = GetComponent<Rigidbody2D>();
@@ -58,6 +60,9 @@ public class ShipController : MonoBehaviour, IDamageable
         ShieldGauge = ShieldGaugeObject.GetComponent<IGauge>();
         BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
+        
+        ShootSound = Resources.Load<AudioClip>("laser1");
+        
         Body.angularDrag = BaseAngularDrag * AngularDragFactor;
 
         CannonControllersLevel1 = new CannonController[CannonsLevel1.Length];
@@ -142,6 +147,7 @@ public class ShipController : MonoBehaviour, IDamageable
                 }
             }
             
+            AudioSource.PlayClipAtPoint(ShootSound, transform.position);
             ShakeCameraController.Shake();
 
             ShotCooldown = ShotCooldownTime;
