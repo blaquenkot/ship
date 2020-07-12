@@ -6,11 +6,13 @@ public class ShotController : MonoBehaviour
     private Rigidbody2D Body;
     private SpriteRenderer SpriteRenderer;
     private float HitPower = 0f;
+    private AudioClip HitSound;
 
     void Awake()
     {
         Body = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        HitSound = Resources.Load<AudioClip>("metal_hit_05");
     }
 
     public void Fire(Vector2 direction, float hitPower) 
@@ -26,6 +28,7 @@ public class ShotController : MonoBehaviour
         if(damageable != null) 
         {
             damageable.TakeDamage(HitPower);
+            AudioSource.PlayClipAtPoint(HitSound, transform.position);
         }
 
         Destroy(gameObject);
