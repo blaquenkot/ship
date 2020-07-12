@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 52920969}
   - component: {fileID: 52920968}
-  - component: {fileID: 52920967}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -139,18 +138,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &52920967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 52920966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dccd5fc7660cd422da2312de270f86bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &52920968
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -194,7 +181,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 150, y: 150}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -763,7 +750,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.936285, y: 0, z: -10}
+  m_LocalPosition: {x: -6.934127, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1086,7 +1073,6 @@ GameObject:
   m_Component:
   - component: {fileID: 651374737}
   - component: {fileID: 651374736}
-  - component: {fileID: 651374735}
   - component: {fileID: 651374734}
   m_Layer: 0
   m_Name: Stars
@@ -1104,21 +1090,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 651374733}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb048eaa6fa24b689bb13f3ee7a89d9, type: 3}
+  m_Script: {fileID: 11500000, guid: b3d41a6f678774d558aa5ecf83040224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &651374735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651374733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dccd5fc7660cd422da2312de270f86bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  MovementFactor: 0.025
 --- !u!212 &651374736
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1162,7 +1137,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 0
   m_Size: {x: 150, y: 150}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -1483,7 +1458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778020483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.936285, y: 0, z: -10}
+  m_LocalPosition: {x: -6.934127, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 670027388}
