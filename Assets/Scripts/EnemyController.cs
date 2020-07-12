@@ -27,6 +27,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             RotateTowardsPlayer(Time.deltaTime);
 
+            transform.position += new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0) * Time.deltaTime;
+
             ShotCooldown -= Time.deltaTime;
             if(ShotCooldown <= 0)
             {
