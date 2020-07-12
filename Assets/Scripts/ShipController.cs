@@ -11,7 +11,6 @@ public class ShipController : MonoBehaviour, IDamageable
     public float HealthLimit = 0f;
     public float ShotCooldownTime = 0.5f;
     public float BaseShootPower = 10f;
-    public GameObject Shot;
     public GameObject LookAhead;
     public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;
@@ -21,6 +20,9 @@ public class ShipController : MonoBehaviour, IDamageable
     public GameObject ShieldGaugeObject;
     public GameObject[] BlasterParts;
     public GameObject BlasterGaugeObject;
+    public GameObject[] CannonsLevel1;
+    public GameObject[] CannonsLevel2;
+    public GameObject[] CannonsLevel3;
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
@@ -28,6 +30,9 @@ public class ShipController : MonoBehaviour, IDamageable
     private IGauge ShieldGauge;
     private IGauge BlasterGauge;
     private ShakeCameraController ShakeCameraController;
+    private CannonController[] CannonControllersLevel1;
+    private CannonController[] CannonControllersLevel2;
+    private CannonController[] CannonControllersLevel3;
 
     private bool Shoot = false;
     private float DesiredRotation = 0f;
@@ -54,6 +59,29 @@ public class ShipController : MonoBehaviour, IDamageable
         BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
         Body.angularDrag = BaseAngularDrag * AngularDragFactor;
+
+        CannonControllersLevel1 = new CannonController[CannonsLevel1.Length];
+        CannonControllersLevel2 = new CannonController[CannonsLevel2.Length];
+        CannonControllersLevel3 = new CannonController[CannonsLevel3.Length];
+
+        for (int i = 0; i < CannonsLevel1.Length; i++)
+        {
+            CannonControllersLevel1[i] = CannonsLevel1[i].GetComponent<CannonController>();
+        }
+        for (int i = 0; i < CannonsLevel2.Length; i++)
+        {
+            CannonControllersLevel2[i] = CannonsLevel2[i].GetComponent<CannonController>();
+        }
+        for (int i = 0; i < CannonsLevel3.Length; i++)
+        {
+            CannonControllersLevel3[i] = CannonsLevel3[i].GetComponent<CannonController>();
+        }
+
+        // Forcing update for ship components
+        ModifyFactor(0f, PowerUpType.Acceleration);
+        ModifyFactor(0f, PowerUpType.Shield);
+        ModifyFactor(0f, PowerUpType.Shoot);
+        ModifyFactor(0f, PowerUpType.Torque);
     }
 
     void Update()
@@ -91,10 +119,29 @@ public class ShipController : MonoBehaviour, IDamageable
         );
 
         ShotCooldown -= Time.deltaTime;
-        if(ShotCooldown <= 0 && Shoot)
+        if(ShotCooldown <= 0 && Shoot && ShootFactor > 0f)
         {
-            ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
-            shot.Fire(direction, BaseShootPower * ShootFactor);
+            if(BlasterParts[0].activeSelf) 
+            {
+                foreach (var cannon in CannonControllersLevel1)
+                {
+                    cannon.Fire(direction);
+                }
+            }
+            if(BlasterParts[1].activeSelf) 
+            {
+                foreach (var cannon in CannonControllersLevel2)
+                {
+                    cannon.Fire(direction);
+                }
+            }
+            if(BlasterParts[2].activeSelf) {
+                foreach (var cannon in CannonControllersLevel3)
+                {
+                    cannon.Fire(direction);
+                }
+            }
+            
             ShakeCameraController.Shake();
 
             ShotCooldown = ShotCooldownTime;
@@ -197,7 +244,7 @@ public class ShipController : MonoBehaviour, IDamageable
         float ratio = AccelerationFactor / AccelerationFactorMaxLimit;
         for (int i = 0; i < AccelerationParts.Length; i++)
         {
-            AccelerationParts[i].SetActive((ratio > i/AccelerationParts.Length));
+            AccelerationParts[i].SetActive((ratio > (float)i/(float)AccelerationParts.Length));
         }
     }
 
@@ -207,7 +254,7 @@ public class ShipController : MonoBehaviour, IDamageable
         float ratio = TorqueFactor / FactorMaxLimit;
         for (int i = 0; i < RotationParts.Length; i++)
         {
-            RotationParts[i].SetActive((ratio > i/RotationParts.Length));
+            RotationParts[i].SetActive((ratio > (float)i/(float)RotationParts.Length));
         }
     }
 
@@ -217,7 +264,7 @@ public class ShipController : MonoBehaviour, IDamageable
         float ratio = ShootFactor / FactorMaxLimit;
         for (int i = 0; i < BlasterParts.Length; i++)
         {
-            BlasterParts[i].SetActive((ratio > i/BlasterParts.Length));
+            BlasterParts[i].SetActive((ratio > (float)i/(float)BlasterParts.Length));
         }
     }
 
@@ -227,7 +274,7 @@ public class ShipController : MonoBehaviour, IDamageable
         float ratio = ShieldFactor / FactorMaxLimit;
         for (int i = 0; i < ShieldParts.Length; i++)
         {
-            ShieldParts[i].SetActive((ratio > i/ShieldParts.Length));
+            ShieldParts[i].SetActive((ratio > (float)i/(float)ShieldParts.Length));
         }
     }
 
