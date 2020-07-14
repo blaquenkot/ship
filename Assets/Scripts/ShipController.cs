@@ -10,7 +10,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public float FactorMaxLimit = 2f;
     public float FactorMinLimit = 0f;
     public float HealthLimit = 0f;
-    public float ShotCooldownTime = 0.5f;
+    public float ShotCooldownTime = 0.25f;
     public float BaseShootPower = 10f;
     public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;

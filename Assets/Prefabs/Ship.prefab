@@ -6358,7 +6358,7 @@ MonoBehaviour:
   FactorMaxLimit: 2
   FactorMinLimit: 0
   HealthLimit: 0
-  ShotCooldownTime: 0.5
+  ShotCooldownTime: 0.25
   BaseShootPower: 10
   AccelerationParts:
   - {fileID: 4774364068719440102}
