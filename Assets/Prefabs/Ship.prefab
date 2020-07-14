@@ -6360,7 +6360,6 @@ MonoBehaviour:
   HealthLimit: 0
   ShotCooldownTime: 0.5
   BaseShootPower: 10
-  LookAhead: {fileID: 0}
   AccelerationParts:
   - {fileID: 4774364068719440102}
   - {fileID: 4310516878609027758}
@@ -6390,6 +6389,7 @@ MonoBehaviour:
   TailParticleObject: {fileID: 9131881976278844473}
   LeftParticleObject: {fileID: 7400208562274838406}
   RightParticleObject: {fileID: 51984541193550829}
+  GameOverObject: {fileID: 0}
 --- !u!1 &7400208562274838406
 GameObject:
   m_ObjectHideFlags: 0
