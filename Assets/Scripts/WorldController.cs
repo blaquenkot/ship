@@ -11,6 +11,8 @@ public class WorldController : MonoBehaviour
     public GameObject ShieldPowerUp;    
     public GameObject BlastersPowerUp;
 
+    private List<GameObject> Objects = new List<GameObject>();
+
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> {PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
@@ -20,48 +22,68 @@ public class WorldController : MonoBehaviour
         CreateEnemyCooldown -= Time.deltaTime;
         if(CreateEnemyCooldown <= 0f)
         {
-            Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+            Vector2 randomPositionOnScreen = GetRandomPosition(2f);
+            GameObject enemyPrefab = null;
             if(Random.Range(0, 2) == 0)
             {
-                Instantiate(Enemy1, randomPositionOnScreen, transform.rotation, transform.parent);
+                enemyPrefab = Enemy1;
             } 
             else 
             {
-                Instantiate(Enemy2, randomPositionOnScreen, transform.rotation, transform.parent);
+                enemyPrefab = Enemy2;
             }
+            GameObject enemy = Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
+            Objects.Add(enemy);
+
             CreateEnemyCooldown = 1.5f;
         }
 
         CreatePowerUpCooldown -= Time.deltaTime;
         if(CreatePowerUpCooldown <= 0f)
         {
-            Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+            Vector2 randomPositionOnScreen = GetRandomPosition(1f);
             PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
+            GameObject powerUpPrefab = null;
             switch(type)
             {
                 case PowerUpType.Acceleration:
                 {
-                    Instantiate(AccelerationPowerUp, randomPositionOnScreen, transform.rotation, transform.parent);
+                    powerUpPrefab = AccelerationPowerUp;
                     break;
                 }
                 case PowerUpType.Torque:
                 {
-                    Instantiate(RotationPowerUp, randomPositionOnScreen, transform.rotation, transform.parent);
+                    powerUpPrefab = RotationPowerUp;
                     break;
                 }
                 case PowerUpType.Shoot:
                 {
-                    Instantiate(BlastersPowerUp, randomPositionOnScreen, transform.rotation, transform.parent);
+                    powerUpPrefab = BlastersPowerUp;
                     break;
                 }
                 case PowerUpType.Shield:
                 {
-                    Instantiate(ShieldPowerUp, randomPositionOnScreen, transform.rotation, transform.parent);
+                    powerUpPrefab = ShieldPowerUp;
                     break;
                 }
             }
+            GameObject powerUp = Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
+            Objects.Add(powerUp);
 
             CreatePowerUpCooldown = 0.5f;
         }
+    }
+
+    private Vector2 GetRandomPosition(float radius)
+    {
+        Vector2 location = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+        transform.position = location;
+ 
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
+ 
+        if (hitColliders.Length == 0)
+            return location;
+        else
+            return GetRandomPosition(radius);
     }
 }
