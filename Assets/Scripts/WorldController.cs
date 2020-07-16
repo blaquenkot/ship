@@ -76,7 +76,8 @@ public class WorldController : MonoBehaviour
 
     private Vector2 GetRandomPosition(float radius)
     {
-        Vector2 location = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+        // 0.25 for screen left margin
+        Vector2 location = Camera.main.ViewportToWorldPoint(new Vector2(Random.Range(0.25f, 1.0f), Random.value));
         transform.position = location;
  
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
