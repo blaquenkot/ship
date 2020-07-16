@@ -187,21 +187,21 @@ public class ShipController : MonoBehaviour, IDamageable
             {
                 foreach (var cannon in CannonControllersLevel1)
                 {
-                    cannon.Fire(direction);
+                    cannon.Fire(direction, Body.velocity);
                 }
             }
             if(BlasterParts[1].activeSelf) 
             {
                 foreach (var cannon in CannonControllersLevel2)
                 {
-                    cannon.Fire(direction);
+                    cannon.Fire(direction, Body.velocity);
                 }
             }
             if(BlasterParts[2].activeSelf) 
             {
                 foreach (var cannon in CannonControllersLevel3)
                 {
-                    cannon.Fire(direction);
+                    cannon.Fire(direction, Body.velocity);
                 }
             }
             

@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour, IDamageable
             {
                 Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation);
                 ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
-                shot.Fire(direction, ShootPower);
+                shot.Fire(direction, Body.velocity, ShootPower);
 
                 ShotCooldown = 1.5f;
             }

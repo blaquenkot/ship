@@ -15,11 +15,11 @@ public class ShotController : MonoBehaviour
         HitSound = Resources.Load<AudioClip>("metal_hit_05");
     }
 
-    public void Fire(Vector2 direction, float hitPower) 
+    public void Fire(Vector2 direction, Vector2 baseVelocity, float hitPower) 
     {
         HitPower = hitPower;
 
-        Body.velocity = direction * Speed;
+        Body.velocity = baseVelocity + direction * Speed;
     }
 
     void OnCollisionEnter2D(Collision2D collision) 
