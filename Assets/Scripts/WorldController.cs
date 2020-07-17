@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WorldController : MonoBehaviour
 {
+    public GameObject Ship;
     public GameObject Enemy1;
     public GameObject Enemy2;
 
@@ -22,7 +23,7 @@ public class WorldController : MonoBehaviour
         CreateEnemyCooldown -= Time.deltaTime;
         if(CreateEnemyCooldown <= 0f)
         {
-            Vector2 randomPositionOnScreen = GetRandomPosition(2f);
+            Vector2 randomPositionOnScreen = GetRandomPosition(2f, 0);
             GameObject enemyPrefab = null;
             if(Random.Range(0, 2) == 0)
             {
@@ -41,7 +42,7 @@ public class WorldController : MonoBehaviour
         CreatePowerUpCooldown -= Time.deltaTime;
         if(CreatePowerUpCooldown <= 0f)
         {
-            Vector2 randomPositionOnScreen = GetRandomPosition(1f);
+            Vector2 randomPositionOnScreen = GetRandomPosition(1f, 0);
             PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
             GameObject powerUpPrefab = null;
             switch(type)
@@ -74,17 +75,31 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    private Vector2 GetRandomPosition(float radius)
+    private Vector2 GetRandomPosition(float radius, int iteration)
     {
+        iteration += 1;
+
+        if(iteration >= 50) {
+            return Vector2.positiveInfinity;
+        }
+
         // 0.25 for screen left margin
         Vector2 location = Camera.main.ViewportToWorldPoint(new Vector2(Random.Range(0.25f, 1.0f), Random.value));
-        transform.position = location;
- 
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
- 
-        if (hitColliders.Length == 0)
-            return location;
-        else
-            return GetRandomPosition(radius);
+
+        if(Vector2.Distance(Ship.transform.position, location) > 5f) {
+            transform.position = location;
+    
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
+    
+            if (hitColliders.Length == 0) {
+                return location;
+            }
+            else 
+            {
+                return GetRandomPosition(radius, iteration);
+            }
+        } else {
+            return GetRandomPosition(radius, iteration);
+        }
     }
 }
