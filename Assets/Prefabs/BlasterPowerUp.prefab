@@ -67,10 +67,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4646080304438541908, guid: 2602fb45f114247ea963fd27997a5806,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 192774d8e5f914d2fb31e5a6fa289982,
+        type: 3}
+    - target: {fileID: 4646080304438541908, guid: 2602fb45f114247ea963fd27997a5806,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4828757043596230093, guid: 2602fb45f114247ea963fd27997a5806,
         type: 3}
       propertyPath: m_Name
       value: BlasterPowerUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731536067156203773, guid: 2602fb45f114247ea963fd27997a5806,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9ccae5aa8247e49139582a2c23283ef7,
+        type: 3}
+    - target: {fileID: 5731536067156203773, guid: 2602fb45f114247ea963fd27997a5806,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731536067156203773, guid: 2602fb45f114247ea963fd27997a5806,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731536067156203773, guid: 2602fb45f114247ea963fd27997a5806,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7129608261216806523, guid: 2602fb45f114247ea963fd27997a5806,
         type: 3}

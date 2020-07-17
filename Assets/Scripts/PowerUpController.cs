@@ -8,10 +8,17 @@ public class PowerUpController : MonoBehaviour
     public float Amount = 0.25f;
 
     private AudioClip Sound;
+    private Transform Border;
 
     void Awake()
     {
         Sound = Resources.Load<AudioClip>("powerup");
+        Border = transform.GetChild(0);
+    }
+
+    void FixedUpdate()
+    {
+        Border.rotation = Quaternion.AngleAxis(Border.eulerAngles.z + 1f, Vector3.forward);
     }
     
     public void Consume()
