@@ -52,13 +52,18 @@ public class EnemyController : MonoBehaviour, IDamageable
         IsVisible = false;
     }
 
-    public void TakeDamage(float damageTaken)
+    public bool TakeDamage(float damageTaken)
     {
         Health -= damageTaken;
 
         if(Health <= 0)
         {
             Destroyed();
+            return true;
+        } 
+        else 
+        {
+            return false;
         }
     }
 

@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class GaugeController : MonoBehaviour, IGauge
 {
-    private float minAngle = 15;
-    private float maxAngle = 165;
+    private float minAngle = 10;
+    private float maxAngle = 170;
 
     public GameObject aguja;
 

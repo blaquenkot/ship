@@ -2,6 +2,7 @@
 
 public class ShotController : MonoBehaviour
 {
+    public WorldController WorldController;
     public float Speed = 40f;
     private Rigidbody2D Body;
     private SpriteRenderer SpriteRenderer;
@@ -27,7 +28,12 @@ public class ShotController : MonoBehaviour
         IDamageable damageable = collision.collider.gameObject.GetComponent<IDamageable>();
         if(damageable != null) 
         {
-            damageable.TakeDamage(HitPower);
+            bool killed = damageable.TakeDamage(HitPower);
+            if(WorldController && killed) 
+            {
+                WorldController.AddPoints(1);
+            }
+
             AudioSource.PlayClipAtPoint(HitSound, transform.position);
         }
 

@@ -11,15 +11,42 @@ public class WorldController : MonoBehaviour
     public GameObject RotationPowerUp;    
     public GameObject ShieldPowerUp;    
     public GameObject BlastersPowerUp;
+    public GameObject GameOverObject;
+    public GameObject UIObject;
 
-    private List<GameObject> Objects = new List<GameObject>();
+    private GameOverController GameOverController;
+    private UIController UIController;
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> {PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
 
+    private int Points = 0;
+    private float TotalTime = 0;
+
+    public void Awake()
+    {
+        GameOverController = GameOverObject.GetComponent<GameOverController>();
+        UIController = UIObject.GetComponent<UIController>();
+    }
+
+    public void AddPoints(int points) {
+        Points += points;
+        UIController.UpdatePoints(Points);
+    }
+
+    public void ShipDestroyed()
+    {
+        gameObject.SetActive(false);
+        GameOverController.UpdateInfo(Points, GetTimeAsString());
+        GameOverObject.SetActive(true);
+    }
+
     void FixedUpdate()
     {
+        TotalTime += Time.deltaTime;
+        UIController.UpdateTime(GetTimeAsString());
+
         CreateEnemyCooldown -= Time.deltaTime;
         if(CreateEnemyCooldown <= 0f)
         {
@@ -34,7 +61,6 @@ public class WorldController : MonoBehaviour
                 enemyPrefab = Enemy2;
             }
             GameObject enemy = Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
-            Objects.Add(enemy);
 
             CreateEnemyCooldown = 1.5f;
         }
@@ -69,7 +95,6 @@ public class WorldController : MonoBehaviour
                 }
             }
             GameObject powerUp = Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
-            Objects.Add(powerUp);
 
             CreatePowerUpCooldown = 0.5f;
         }
@@ -101,5 +126,10 @@ public class WorldController : MonoBehaviour
         } else {
             return GetRandomPosition(radius, iteration);
         }
+    }
+
+    private string GetTimeAsString()
+    {
+        return Mathf.Floor(TotalTime / 60).ToString("00") + ':' + (TotalTime % 60).ToString("00");
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using Cinemachine;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ShipController : MonoBehaviour, IDamageable
@@ -26,7 +24,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public GameObject TailParticleObject;
     public GameObject LeftParticleObject;
     public GameObject RightParticleObject;
-    public GameObject GameOverObject;
+    public GameObject WorldControllerObject;
 
     private Rigidbody2D Body;
     private IGauge AccelerationGauge;
@@ -40,7 +38,7 @@ public class ShipController : MonoBehaviour, IDamageable
     private ParticleSystem TailParticleSystem;
     private ParticleSystem LeftParticleSystem;
     private ParticleSystem RightParticleSystem;
-
+    private WorldController WorldController;
     private bool Shoot = false;
     private float DesiredRotation = 0f;
     private float DesiredMovement = 0f;
@@ -70,6 +68,7 @@ public class ShipController : MonoBehaviour, IDamageable
         TailParticleSystem = TailParticleObject.GetComponent<ParticleSystem>();
         LeftParticleSystem = LeftParticleObject.GetComponent<ParticleSystem>();
         RightParticleSystem = RightParticleObject.GetComponent<ParticleSystem>();
+        WorldController = WorldControllerObject.GetComponent<WorldController>();
 
         ShootSound = Resources.Load<AudioClip>("laser1");
         
@@ -82,14 +81,17 @@ public class ShipController : MonoBehaviour, IDamageable
         for (int i = 0; i < CannonsLevel1.Length; i++)
         {
             CannonControllersLevel1[i] = CannonsLevel1[i].GetComponent<CannonController>();
+            CannonControllersLevel1[i].WorldController = WorldController;
         }
         for (int i = 0; i < CannonsLevel2.Length; i++)
         {
             CannonControllersLevel2[i] = CannonsLevel2[i].GetComponent<CannonController>();
+            CannonControllersLevel2[i].WorldController = WorldController;
         }
         for (int i = 0; i < CannonsLevel3.Length; i++)
         {
             CannonControllersLevel3[i] = CannonsLevel3[i].GetComponent<CannonController>();
+            CannonControllersLevel3[i].WorldController = WorldController;
         }
 
         // Forcing update for ship components
@@ -212,7 +214,7 @@ public class ShipController : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage(float damageTaken)
+    public bool TakeDamage(float damageTaken)
     {
         if(ShieldFactor > FactorMinLimit) {
             ModifyShieldFactor(-damageTaken);
@@ -245,6 +247,11 @@ public class ShipController : MonoBehaviour, IDamageable
         if (GetTotalHealth() <= 0f)
         {
             StartCoroutine("Destroyed");
+            return true;
+        }
+        else 
+        {
+            return false;
         }
     }
     
@@ -259,7 +266,11 @@ public class ShipController : MonoBehaviour, IDamageable
         if(damageable != null)
         {
             // Damage proportional to the ship's mass
-            damageable.TakeDamage(damage * Body.mass/totalMass);
+            bool killed = damageable.TakeDamage(damage * Body.mass/totalMass);
+            if(killed) 
+            {
+                WorldController.AddPoints(1);
+            }
         }
 
         ShakeCameraController.Shake();
@@ -350,12 +361,8 @@ public class ShipController : MonoBehaviour, IDamageable
         return AccelerationFactor + TorqueFactor + ShootFactor + ShieldFactor;
     }
 
-    private IEnumerator Destroyed()
+    private void Destroyed()
     {
-        GameOverObject.SetActive(true);
-
-        yield return new WaitForSeconds(2f);
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        WorldController.ShipDestroyed();
     }
 }
