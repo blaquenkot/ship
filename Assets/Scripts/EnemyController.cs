@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
@@ -20,6 +21,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         Body = GetComponent<Rigidbody2D>();
         Player = UnityEngine.Object.FindObjectOfType<ShipController>();
         RotateTowardsPlayer(10f);
+        
+        transform.DOScale(Vector3.one, 0.75f);
     }
 
     void FixedUpdate()
