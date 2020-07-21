@@ -8,7 +8,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public float FactorMaxLimit = 2f;
     public float FactorMinLimit = 0f;
     public float HealthLimit = 0f;
-    public float ShotCooldownTime = 0.25f;
+    public float ShotCooldownTime = 0.2f;
     public float BaseShootPower = 10f;
     public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;
@@ -53,7 +53,8 @@ public class ShipController : MonoBehaviour, IDamageable
     private float MovementDrag = 1f;
 
     private float BaseAngularDrag = 2f;
-    private float BaseTorque = 500f;
+    private float BaseTorque = -500f;
+    private float BaseRecoil = -5f;
 
     private AudioClip ShootSound;
 
@@ -142,7 +143,7 @@ public class ShipController : MonoBehaviour, IDamageable
         }
 
         Body.AddTorque(
-            -1 * BaseTorque * Time.deltaTime * DesiredRotation * TorqueFactor
+            BaseTorque * Time.deltaTime * DesiredRotation * TorqueFactor
         );
 
         if(DesiredRotation != 0 && TorqueFactor > 0) 
@@ -208,6 +209,9 @@ public class ShipController : MonoBehaviour, IDamageable
             }
             
             AudioSource.PlayClipAtPoint(ShootSound, transform.position);
+
+            Body.AddForce(BaseRecoil * Mathf.Exp(ShootFactor) * direction);
+
             ShakeCameraController.Shake();
 
             ShotCooldown = ShotCooldownTime;
