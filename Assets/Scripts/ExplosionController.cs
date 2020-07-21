@@ -1,8 +1,14 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class ExplosionController : MonoBehaviour
 {
     private float Timer = 0.5f;
+
+    void Start() 
+    {        
+        transform.DOScale(Vector3.one, 0.3f);
+    }
 
     void FixedUpdate() 
     {
