@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public enum PowerUpType { Acceleration, Torque, Shoot, Shield }
 
@@ -14,6 +15,16 @@ public class PowerUpController : MonoBehaviour
     {
         Sound = Resources.Load<AudioClip>("powerup");
         Border = transform.GetChild(0);
+    }
+
+    void Start()
+    {
+        foreach (var renderer in GetComponentsInChildren<SpriteRenderer>())
+        {
+            Color color = renderer.color;
+            color.a = 1f;
+            renderer.DOColor(color, 0.75f);
+        }
     }
 
     void FixedUpdate()
