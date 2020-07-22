@@ -1890,6 +1890,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ship: {fileID: 1397947367}
+  Asteroid: {fileID: 6200632985198936166, guid: 7aa99dbd62aca4787887de09d05a7ffe,
+    type: 3}
   Enemy1: {fileID: 6229460774091002911, guid: ebc19748d5faa4721a8a870dd54c5e89, type: 3}
   Enemy2: {fileID: 8152183978749156717, guid: acde9e3ced3f74d3d955a0c0157baa08, type: 3}
   AccelerationPowerUp: {fileID: 1277261566697499969, guid: 2b0dc9e0508254550abda91eb8421626,

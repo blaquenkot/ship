@@ -4,6 +4,7 @@ using UnityEngine;
 public class WorldController : MonoBehaviour
 {
     public GameObject Ship;
+    public GameObject Asteroid;
     public GameObject Enemy1;
     public GameObject Enemy2;
 
@@ -17,9 +18,10 @@ public class WorldController : MonoBehaviour
     private GameOverController GameOverController;
     private UIController UIController;
 
-    private List<PowerUpType> PowerUpTypes = new List<PowerUpType> {PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
+    private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
+    private float CreateAsteroidCooldown = 0.75f;
 
     private int Points = 0;
     private float TotalTime = 0;
@@ -30,7 +32,8 @@ public class WorldController : MonoBehaviour
         UIController = UIObject.GetComponent<UIController>();
     }
 
-    public void AddPoints(int points) {
+    public void AddPoints(int points) 
+    {
         Points += points;
         UIController.UpdatePoints(Points);
     }
@@ -47,6 +50,14 @@ public class WorldController : MonoBehaviour
         TotalTime += Time.deltaTime;
         UIController.UpdateTime(GetTimeAsString());
 
+        CreateAsteroidCooldown -= Time.deltaTime;
+        if(CreateAsteroidCooldown <= 0f)
+        {
+            Instantiate(Asteroid, GetRandomPosition(2f, 0), transform.rotation, transform.parent);
+
+            CreateAsteroidCooldown = 0.75f;
+        }
+
         CreateEnemyCooldown -= Time.deltaTime;
         if(CreateEnemyCooldown <= 0f)
         {
@@ -60,7 +71,7 @@ public class WorldController : MonoBehaviour
             {
                 enemyPrefab = Enemy2;
             }
-            GameObject enemy = Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
+            Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
 
             CreateEnemyCooldown = 1.5f;
         }
@@ -94,7 +105,7 @@ public class WorldController : MonoBehaviour
                     break;
                 }
             }
-            GameObject powerUp = Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
+            Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
 
             CreatePowerUpCooldown = 0.5f;
         }
