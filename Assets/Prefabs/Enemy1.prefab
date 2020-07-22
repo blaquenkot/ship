@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2495402422596473928, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}
       propertyPath: ShootPower
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2888963989586272702, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}
@@ -102,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646626674863651208, guid: c689a66dab6484b5ca97b141bf77f7b5,
+        type: 3}
+      propertyPath: m_Mass
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9105994121187116673, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}

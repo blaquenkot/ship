@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour, IDamageable
 {
-    public float AccelerationFactorMaxLimit = 8f;
-    public float FactorMaxLimit = 2f;
+    public float FactorMaxLimit = 8f;
     public float FactorMinLimit = 0f;
     public float HealthLimit = 0f;
     public float ShotCooldownTime = 0.2f;
@@ -45,15 +44,16 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private float ShotCooldown = 0f;
     private float AccelerationFactor = 4f;
-    private float TorqueFactor = 1f;
-    private float ShootFactor = 1f;
-    private float ShieldFactor = 1f;
+    private float TorqueFactor = 4f;
+    private float ShootFactor = 4f;
+    private float ShieldFactor = 4f;
     private float AngularDragFactor = 1f;
 
     private float MovementDrag = 1f;
 
     private float BaseAngularDrag = 2f;
-    private float BaseTorque = -500f;
+    private float BaseAcceleration = 11000f;
+    private float BaseTorque = -3000f;
     private float BaseRecoil = -5f;
 
     private AudioClip ShootSound;
@@ -107,7 +107,7 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredRotation = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
-        AccelerationGauge.SetValue(AccelerationFactor / AccelerationFactorMaxLimit);
+        AccelerationGauge.SetValue(AccelerationFactor / FactorMaxLimit);
         RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
         ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
         BlasterGauge.SetValue(ShootFactor / FactorMaxLimit);
@@ -125,7 +125,7 @@ public class ShipController : MonoBehaviour, IDamageable
                 DesiredMovement *
                     AccelerationFactor *
                     Time.deltaTime *
-                    500.0f *
+                    BaseAcceleration *
                     direction
             );
 
@@ -261,9 +261,10 @@ public class ShipController : MonoBehaviour, IDamageable
     
     void OnCollisionEnter2D(Collision2D collision)
     {
-        float damage = collision.relativeVelocity.magnitude;
+        float damage = Mathf.Sqrt(collision.relativeVelocity.magnitude);
         float colliderMass = collision.collider.GetComponent<Rigidbody2D>().mass;
         float totalMass = colliderMass + Body.mass;
+
         // Damage proportional to the collider's mass
         TakeDamage(damage * colliderMass/totalMass);
         IDamageable damageable = collision.collider.GetComponent<IDamageable>();
@@ -292,6 +293,8 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private void ModifyFactor(float amount, PowerUpType type) 
     {
+        Body.mass += amount * 0.5f;
+
         switch(type)
         {
             case PowerUpType.Acceleration:
@@ -319,8 +322,8 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private void ModifyAccelerationFactor(float value) 
     {
-        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, AccelerationFactorMaxLimit);
-        UpdateParts(AccelerationParts, AccelerationFactor / AccelerationFactorMaxLimit);
+        AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
+        UpdateParts(AccelerationParts, AccelerationFactor / FactorMaxLimit);
     }
 
     private void ModifyTorqueFactor(float value) 

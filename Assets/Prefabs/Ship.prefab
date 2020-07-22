@@ -6317,7 +6317,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 15
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -6354,8 +6354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc2dd7c1cf6e40beb6d61de159a57d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AccelerationFactorMaxLimit: 8
-  FactorMaxLimit: 2
+  FactorMaxLimit: 8
   FactorMinLimit: 0
   HealthLimit: 0
   ShotCooldownTime: 0.2
