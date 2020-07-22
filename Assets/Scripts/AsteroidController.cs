@@ -8,10 +8,12 @@ public class AsteroidController : MonoBehaviour, IDamageable
 
     void Start() 
     {
-        transform.DOScale(Vector3.one, 0.75f);
+        float size = Random.Range(0.75f, 1.5f);
+        transform.DOScale(Vector3.one * size, 0.75f);
 
         ShipController Player = UnityEngine.Object.FindObjectOfType<ShipController>();
-        GetComponent<Rigidbody2D>().velocity = (Player.transform.position - transform.position).normalized * Velocity;
+        Vector2 direction = (Player.transform.position - transform.position + new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f), 0)).normalized;
+        GetComponent<Rigidbody2D>().velocity = direction * Velocity;
     }
 
     void FixedUpdate()

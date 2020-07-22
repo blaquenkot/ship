@@ -45,7 +45,7 @@ public class WorldController : MonoBehaviour
         GameOverObject.SetActive(true);
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         TotalTime += Time.deltaTime;
         UIController.UpdateTime(GetTimeAsString());
@@ -122,7 +122,7 @@ public class WorldController : MonoBehaviour
         // 0.25 for screen left margin
         Vector2 location = Camera.main.ViewportToWorldPoint(new Vector2(Random.Range(0.25f, 1.0f), Random.value));
 
-        if(Vector2.Distance(Ship.transform.position, location) > 5f) {
+        if(Vector2.Distance(Ship.transform.position, location) > 7.5f) {
             transform.position = location;
     
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);

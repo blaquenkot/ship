@@ -74,7 +74,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         var direction = transform.rotation * Vector2.right;
         var diffVector = Player.transform.position - transform.position;
-        var angleDiff = Vector2.SignedAngle(direction, diffVector);
+        var angleDiff = Vector2.SignedAngle(direction, diffVector) + Random.Range(-2f, 2f);
         var clampedDiff = Mathf.Clamp(
             angleDiff,
             -MaxRotation * time,
