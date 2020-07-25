@@ -53,7 +53,7 @@ public class WorldController : MonoBehaviour
         CreateAsteroidCooldown -= Time.deltaTime;
         if(CreateAsteroidCooldown <= 0f)
         {
-            Instantiate(Asteroid, GetRandomPosition(2f, 0), transform.rotation, transform.parent);
+            Instantiate(Asteroid, GetRandomPosition(2f, false, 0), transform.rotation, transform.parent);
 
             CreateAsteroidCooldown = 1.6f + Random.value;
         }
@@ -61,7 +61,7 @@ public class WorldController : MonoBehaviour
         CreateEnemyCooldown -= Time.deltaTime;
         if(CreateEnemyCooldown <= 0f)
         {
-            Vector2 randomPositionOnScreen = GetRandomPosition(2f, 0);
+            Vector2 randomPositionOnScreen = GetRandomPosition(2f, true, 0);
             GameObject enemyPrefab = null;
             if(Random.Range(0, 2) == 0)
             {
@@ -79,7 +79,7 @@ public class WorldController : MonoBehaviour
         CreatePowerUpCooldown -= Time.deltaTime;
         if(CreatePowerUpCooldown <= 0f)
         {
-            Vector2 randomPositionOnScreen = GetRandomPosition(1f, 0);
+            Vector2 randomPositionOnScreen = GetRandomPosition(1f, true, 0);
             PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
             GameObject powerUpPrefab = null;
             switch(type)
@@ -111,7 +111,7 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    private Vector2 GetRandomPosition(float radius, int iteration)
+    private Vector2 GetRandomPosition(float radius, bool inScreen, int iteration)
     {
         iteration += 1;
 
@@ -120,7 +120,7 @@ public class WorldController : MonoBehaviour
         }
 
         // 0.25 for screen left margin
-        Vector2 location = Camera.main.ViewportToWorldPoint(new Vector2(Random.Range(0.25f, 1.0f), Random.value));
+        Vector2 location = Camera.main.ViewportToWorldPoint(GetRandomRelativePosition(inScreen));
 
         if(Vector2.Distance(Ship.transform.position, location) > 7.5f) {
             transform.position = location;
@@ -132,13 +132,45 @@ public class WorldController : MonoBehaviour
             }
             else 
             {
-                return GetRandomPosition(radius, iteration);
+                return GetRandomPosition(radius, inScreen, iteration);
             }
         } else {
-            return GetRandomPosition(radius, iteration);
+            return GetRandomPosition(radius, inScreen, iteration);
         }
     }
 
+    private Vector2 GetRandomRelativePosition(bool inScreen) 
+    {
+        if(inScreen) 
+        {
+            return new Vector2(Random.Range(0.3f, 1.0f), Random.value);
+        }
+        else 
+        {
+            float randomX = 0f;
+            float randomY = 0f;
+
+            if(Random.Range(0, 2) == 0)
+            {
+                randomX = Random.Range(0.05f, 0.25f);
+            } 
+            else 
+            {
+                randomX = Random.Range(1.05f, 1.25f);
+            }
+
+            if(Random.Range(0, 2) == 0)
+            {
+                randomY = Random.Range(-0.25f, -0.05f);
+            } 
+            else 
+            {
+                randomY = Random.Range(1.05f, 1.25f);
+            }
+
+            return new Vector2(randomX, randomY);
+        }
+    }
     private string GetTimeAsString()
     {
         return Mathf.Floor(TotalTime / 60).ToString("00") + ':' + (TotalTime % 60).ToString("00");
