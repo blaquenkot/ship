@@ -52,7 +52,7 @@ public class ShipController : MonoBehaviour, IDamageable
     private float MovementDrag = 1f;
 
     private float BaseAngularDrag = 2f;
-    private float BaseAcceleration = 11000f;
+    private float BaseAcceleration = 6000f;
     private float BaseTorque = -3000f;
     private float BaseRecoil = -5f;
 
