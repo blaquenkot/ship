@@ -55,7 +55,7 @@ public class WorldController : MonoBehaviour
         {
             Instantiate(Asteroid, GetRandomPosition(2f, 0), transform.rotation, transform.parent);
 
-            CreateAsteroidCooldown = 0.75f;
+            CreateAsteroidCooldown = 1.6f + Random.value;
         }
 
         CreateEnemyCooldown -= Time.deltaTime;
@@ -73,7 +73,7 @@ public class WorldController : MonoBehaviour
             }
             Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
 
-            CreateEnemyCooldown = 1.5f;
+            CreateEnemyCooldown = 1.5f + Random.value;
         }
 
         CreatePowerUpCooldown -= Time.deltaTime;
@@ -107,7 +107,7 @@ public class WorldController : MonoBehaviour
             }
             Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
 
-            CreatePowerUpCooldown = 0.5f;
+            CreatePowerUpCooldown = 0.5f + Random.value;
         }
     }
 
