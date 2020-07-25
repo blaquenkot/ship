@@ -28,7 +28,8 @@ public class SpecialAttackController : MonoBehaviour
             {
                 WorldController.AddPoints(1);
 
-                if(killeable.IsEnemy()) {
+                if(killeable.IsEnemy()) 
+                {
                     WorldController.EnemyKilled();
                 }
             }
@@ -40,7 +41,7 @@ public class SpecialAttackController : MonoBehaviour
         PowerUpController powerUp = collider.GetComponent<PowerUpController>();
         if(powerUp)
         {
-            powerUp.gameObject.transform.DOMove(Ship.transform.position, 0.5f);
+            powerUp.Target = Ship;
         }
     }
 }
