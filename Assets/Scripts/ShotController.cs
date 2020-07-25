@@ -32,6 +32,10 @@ public class ShotController : MonoBehaviour
             if(WorldController && killed) 
             {
                 WorldController.AddPoints(1);
+
+                if(damageable.IsEnemy()) {
+                    WorldController.EnemyKilled();
+                }
             }
 
             AudioSource.PlayClipAtPoint(HitSound, transform.position);

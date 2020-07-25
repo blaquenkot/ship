@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class EnemyController : MonoBehaviour, IDamageable
+public class EnemyController : MonoBehaviour, IDamageable, IKilleable
 {
     public float Health = 10f;
     public float ShootPower = 0.5f;
@@ -69,6 +69,17 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             return false;
         }
+    }
+
+    public void Kill()
+    {
+        Health = 0;
+        Destroyed();
+    }
+
+    public bool IsEnemy()
+    {
+        return true;
     }
 
     private void RotateTowardsPlayer(float time)

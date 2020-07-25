@@ -10,6 +10,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public float ShotCooldownTime = 0.2f;
     public float BaseShootPower = 10f;
     public GameObject Explosion;
+    public GameObject SpecialAttack;
     public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;
     public GameObject[] RotationParts;
@@ -40,9 +41,11 @@ public class ShipController : MonoBehaviour, IDamageable
     private ParticleSystem RightParticleSystem;
     private WorldController WorldController;
     private bool Shoot = false;
+    private bool ExecuteSpecialAttack = false;
     private float DesiredRotation = 0f;
     private float DesiredMovement = 0f;
 
+    private float SpecialAttackCooldown = 0f;
     private float ShotCooldown = 0f;
     private float AccelerationFactor = 4f;
     private float TorqueFactor = 4f;
@@ -117,6 +120,7 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredRotation = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
+        ExecuteSpecialAttack = Input.GetKey(KeyCode.X);
         AccelerationGauge.SetValue(AccelerationFactor / FactorMaxLimit);
         RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
         ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
@@ -226,6 +230,14 @@ public class ShipController : MonoBehaviour, IDamageable
 
             ShotCooldown = ShotCooldownTime;
         }
+
+        SpecialAttackCooldown -= Time.deltaTime;
+        if(ExecuteSpecialAttack && SpecialAttackCooldown <= 0f)
+        {
+            SpecialAttackController specialAttackController = Instantiate(SpecialAttack, transform.position, transform.rotation, transform.parent).GetComponent<SpecialAttackController>();
+            specialAttackController.Fire(gameObject, WorldController);
+            SpecialAttackCooldown = 30f;
+        }
     }
 
     public bool TakeDamage(float damageTaken)
@@ -285,10 +297,24 @@ public class ShipController : MonoBehaviour, IDamageable
             if(killed) 
             {
                 WorldController.AddPoints(1);
+
+                if(damageable.IsEnemy()) {
+                    WorldController.EnemyKilled();
+                }
             }
         }
 
         ShakeCameraController.Shake();
+    }
+
+    public void EnemyKilled()
+    {
+        SpecialAttackCooldown -= 2.5f;
+    }
+
+    public bool IsEnemy()
+    {
+        return false;
     }
 
     void OnTriggerEnter2D(Collider2D collider)

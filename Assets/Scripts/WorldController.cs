@@ -24,6 +24,7 @@ public class WorldController : MonoBehaviour
 
     private GameOverController GameOverController;
     private UIController UIController;
+    private ShipController ShipController;
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
@@ -39,6 +40,7 @@ public class WorldController : MonoBehaviour
     {
         GameOverController = GameOverObject.GetComponent<GameOverController>();
         UIController = UIObject.GetComponent<UIController>();
+        ShipController = Ship.GetComponent<ShipController>();
 
         for (int i = 0; i < 5; i++)
         {
@@ -52,6 +54,11 @@ public class WorldController : MonoBehaviour
     {
         Points += points;
         UIController.UpdatePoints(Points);
+    }
+
+    public void EnemyKilled()
+    {
+        ShipController.EnemyKilled();
     }
 
     public void OrbPickedUp()
@@ -76,7 +83,7 @@ public class WorldController : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
         YouWonObject.SetActive(true);
     }
-    
+
     public void ShipDestroyed()
     {
         ShouldSpawnObjects = false;
