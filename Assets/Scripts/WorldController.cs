@@ -4,6 +4,10 @@ using UnityEngine;
 public class WorldController : MonoBehaviour
 {
     public GameObject Ship;
+
+    public GameObject Orb;
+    public GameObject Arrow;
+
     public GameObject Asteroid;
     public GameObject Enemy1;
     public GameObject Enemy2;
@@ -13,6 +17,8 @@ public class WorldController : MonoBehaviour
     public GameObject ShieldPowerUp;    
     public GameObject BlastersPowerUp;
     public GameObject GameOverObject;
+    public GameObject YouWonObject;
+
     public GameObject UIObject;
 
     private GameOverController GameOverController;
@@ -23,6 +29,7 @@ public class WorldController : MonoBehaviour
     private float CreatePowerUpCooldown = 0.5f;
     private float CreateAsteroidCooldown = 0.75f;
 
+    private int Orbs = 0;
     private int Points = 0;
     private float TotalTime = 0;
 
@@ -30,6 +37,13 @@ public class WorldController : MonoBehaviour
     {
         GameOverController = GameOverObject.GetComponent<GameOverController>();
         UIController = UIObject.GetComponent<UIController>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject orb = Instantiate(Orb, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
+            GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
+            arrow.GetComponent<ArrowController>().Target = orb;
+        }
     }
 
     public void AddPoints(int points) 
@@ -38,6 +52,22 @@ public class WorldController : MonoBehaviour
         UIController.UpdatePoints(Points);
     }
 
+    public void OrbPickedUp()
+    {
+        Orbs += 1;
+        AddPoints(1000);
+
+        if (Orbs >= 5)
+        {
+            AllOrbsPickedUp();
+        }
+    }
+
+    public void AllOrbsPickedUp()
+    {
+        gameObject.SetActive(false);
+        YouWonObject.SetActive(true);
+    }
     public void ShipDestroyed()
     {
         gameObject.SetActive(false);

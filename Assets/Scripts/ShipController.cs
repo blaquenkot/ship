@@ -288,6 +288,15 @@ public class ShipController : MonoBehaviour, IDamageable
         {
             ModifyFactor(powerUp.Amount, powerUp.Type);
             powerUp.Consume();
+        } 
+        else 
+        {
+            OrbController orb = collider.GetComponent<OrbController>();
+            if(orb) 
+            {
+                WorldController.OrbPickedUp();
+                orb.Consume();
+            }
         }
     }
 
