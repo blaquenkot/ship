@@ -6389,6 +6389,8 @@ MonoBehaviour:
   LeftParticleObject: {fileID: 7400208562274838406}
   RightParticleObject: {fileID: 51984541193550829}
   WorldControllerObject: {fileID: 0}
+  Explosion: {fileID: 3982804760635339075, guid: fdac1a8083b6442a4bc19bce312585c5,
+    type: 3}
 --- !u!1 &7400208562274838406
 GameObject:
   m_ObjectHideFlags: 0

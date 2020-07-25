@@ -9,6 +9,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public float HealthLimit = 0f;
     public float ShotCooldownTime = 0.2f;
     public float BaseShootPower = 10f;
+    public GameObject Explosion;
     public GameObject[] AccelerationParts;
     public GameObject AccelerationGaugeObject;
     public GameObject[] RotationParts;
@@ -389,5 +390,11 @@ public class ShipController : MonoBehaviour, IDamageable
     private void Destroyed()
     {
         WorldController.ShipDestroyed();
+
+        GameObject explosion = Instantiate(Explosion);
+        explosion.transform.parent = transform.parent;
+        explosion.transform.position = transform.position;
+
+        Destroy(gameObject);
     }
 }

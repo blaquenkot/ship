@@ -5,6 +5,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 {
     public float Health = 10f;
     public float ShootPower = 0.5f;
+    public float MaxShootCooldown = 1.5f;
     public GameObject Shot;
     public GameObject LookAhead;
     public GameObject Explosion;
@@ -27,7 +28,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        if(IsVisible) 
+        if(IsVisible && Player) 
         {
             RotateTowardsPlayer(Time.deltaTime);
 
@@ -40,7 +41,7 @@ public class EnemyController : MonoBehaviour, IDamageable
                 ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
                 shot.Fire(direction, Body.velocity, ShootPower);
 
-                ShotCooldown = 1.5f;
+                ShotCooldown = MaxShootCooldown + Random.Range(-0.15f, 0.15f);
             }
         }
     }
@@ -84,7 +85,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         transform.rotation = Quaternion.AngleAxis(
             transform.eulerAngles.z + clampedDiff,
             Vector3.forward
-        );
+        );    
     }
 
     private void Destroyed()

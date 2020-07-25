@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 2495402422596473928, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}
       propertyPath: ShootPower
-      value: 0.25
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2495402422596473928, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}

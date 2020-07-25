@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour
@@ -28,6 +29,7 @@ public class WorldController : MonoBehaviour
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
     private float CreateAsteroidCooldown = 0.75f;
+    private bool ShouldSpawnObjects = true;
 
     private int Orbs = 0;
     private int Points = 0;
@@ -65,79 +67,95 @@ public class WorldController : MonoBehaviour
 
     public void AllOrbsPickedUp()
     {
-        gameObject.SetActive(false);
+        ShouldSpawnObjects = false;
+        StartCoroutine(ShowYouWon());
+    }
+
+    IEnumerator ShowYouWon()
+    {
+        yield return new WaitForSeconds(0.75f);
         YouWonObject.SetActive(true);
     }
+    
     public void ShipDestroyed()
     {
-        gameObject.SetActive(false);
+        ShouldSpawnObjects = false;
+        StartCoroutine(ShowGameOver());
+    }
+
+    IEnumerator ShowGameOver()
+    {
         GameOverController.UpdateInfo(Points, GetTimeAsString());
+        yield return new WaitForSeconds(0.75f);
         GameOverObject.SetActive(true);
     }
 
     void LateUpdate()
     {
-        TotalTime += Time.deltaTime;
-        UIController.UpdateTime(GetTimeAsString());
-
-        CreateAsteroidCooldown -= Time.deltaTime;
-        if(CreateAsteroidCooldown <= 0f)
+        if(ShouldSpawnObjects) 
         {
-            Instantiate(Asteroid, GetRandomPosition(2f, false, 0), transform.rotation, transform.parent);
+            TotalTime += Time.deltaTime;
+            UIController.UpdateTime(GetTimeAsString());
 
-            CreateAsteroidCooldown = 0.5f + Random.value;
-        }
+            CreateAsteroidCooldown -= Time.deltaTime;
+            if(CreateAsteroidCooldown <= 0f)
+            {
+                Instantiate(Asteroid, GetRandomPosition(2f, false, 0), transform.rotation, transform.parent);
 
-        CreateEnemyCooldown -= Time.deltaTime;
-        if(CreateEnemyCooldown <= 0f)
-        {
-            Vector2 randomPositionOnScreen = GetRandomPosition(2f, true, 0);
-            GameObject enemyPrefab = null;
-            if(Random.Range(0, 2) == 0)
-            {
-                enemyPrefab = Enemy1;
-            } 
-            else 
-            {
-                enemyPrefab = Enemy2;
+                CreateAsteroidCooldown = 0.5f + Random.value;
             }
-            Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
 
-            CreateEnemyCooldown = 0.65f + Random.value;
-        }
-
-        CreatePowerUpCooldown -= Time.deltaTime;
-        if(CreatePowerUpCooldown <= 0f)
-        {
-            Vector2 randomPositionOnScreen = GetRandomPosition(1f, true, 0);
-            PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
-            GameObject powerUpPrefab = null;
-            switch(type)
+            CreateEnemyCooldown -= Time.deltaTime;
+            if(CreateEnemyCooldown <= 0f)
             {
-                case PowerUpType.Acceleration:
+                Vector2 randomPositionOnScreen = GetRandomPosition(2f, true, 0);
+                GameObject enemyPrefab = null;
+                if(Random.Range(0, 2) == 0)
                 {
-                    powerUpPrefab = AccelerationPowerUp;
-                    break;
-                }
-                case PowerUpType.Torque:
+                    enemyPrefab = Enemy1;
+                } 
+                else 
                 {
-                    powerUpPrefab = RotationPowerUp;
-                    break;
+                    enemyPrefab = Enemy2;
                 }
-                case PowerUpType.Shoot:
-                {
-                    powerUpPrefab = BlastersPowerUp;
-                    break;
-                }
-                case PowerUpType.Shield:
-                {
-                    powerUpPrefab = ShieldPowerUp;
-                    break;
-                }
-            }
-            Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
+                Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
 
-            CreatePowerUpCooldown = 0.2f + Random.value;
+                CreateEnemyCooldown = 0.65f + Random.value;
+            }
+
+            CreatePowerUpCooldown -= Time.deltaTime;
+            if(CreatePowerUpCooldown <= 0f)
+            {
+                Vector2 randomPositionOnScreen = GetRandomPosition(1f, true, 0);
+                PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
+                GameObject powerUpPrefab = null;
+                switch(type)
+                {
+                    case PowerUpType.Acceleration:
+                    {
+                        powerUpPrefab = AccelerationPowerUp;
+                        break;
+                    }
+                    case PowerUpType.Torque:
+                    {
+                        powerUpPrefab = RotationPowerUp;
+                        break;
+                    }
+                    case PowerUpType.Shoot:
+                    {
+                        powerUpPrefab = BlastersPowerUp;
+                        break;
+                    }
+                    case PowerUpType.Shield:
+                    {
+                        powerUpPrefab = ShieldPowerUp;
+                        break;
+                    }
+                }
+                Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
+
+                CreatePowerUpCooldown = 0.2f + Random.value;
+            }
         }
     }
 
