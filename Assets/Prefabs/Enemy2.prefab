@@ -22,6 +22,12 @@ PrefabInstance:
       propertyPath: ShootPower
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 2495402422596473928, guid: c689a66dab6484b5ca97b141bf77f7b5,
+        type: 3}
+      propertyPath: Shot
+      value: 
+      objectReference: {fileID: 2238584777406463549, guid: c8de5b606c8d8407e989105ca1420f85,
+        type: 3}
     - target: {fileID: 6328986234058697515, guid: c689a66dab6484b5ca97b141bf77f7b5,
         type: 3}
       propertyPath: m_LocalPosition.x
