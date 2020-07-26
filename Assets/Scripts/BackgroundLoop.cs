@@ -16,7 +16,7 @@ public class BackgroundLoop : MonoBehaviour
         }
     }
 
-    void LateUpdate() 
+    void Update() 
     {
         foreach (var obj in Objects)
         {
@@ -28,22 +28,23 @@ public class BackgroundLoop : MonoBehaviour
     {
         float objectWidth = obj.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
         float objectHeight = obj.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
-        int childsNeededX = (int)Mathf.Ceil(ScreenBounds.x * 3 / objectWidth);
-        int childsNeededY = (int)Mathf.Ceil(ScreenBounds.y * 3 / objectHeight);
+        int childsNeededX = (int)Mathf.Ceil(ScreenBounds.x * 4 / objectWidth);
+        int childsNeededY = (int)Mathf.Ceil(ScreenBounds.y * 4 / objectHeight);
 
         GameObject emptyClone = Instantiate(obj);
 
-        for (int i = -1; i <= childsNeededY; i++)
+        for (int i = -childsNeededY; i <= childsNeededY; i++)
         {
             GameObject clone = Instantiate(emptyClone);
             clone.transform.SetParent(obj.transform);
-            for (int j = -1; j <= childsNeededX; j++)
+            for (int j = -childsNeededX; j <= childsNeededX; j++)
             {
                 GameObject c = Instantiate(emptyClone);
                 c.transform.SetParent(clone.transform);
-                c.transform.position = new Vector3(objectWidth * j, objectHeight * i, obj.transform.position.z);
+                c.transform.position = new Vector3(objectWidth * j, 0, obj.transform.position.z);
                 c.name = obj.name + i + j;
             }
+            clone.transform.position = new Vector3(0, objectHeight * i, obj.transform.position.z);
 
             Destroy(clone.GetComponent<SpriteRenderer>());
         }
@@ -61,15 +62,13 @@ public class BackgroundLoop : MonoBehaviour
         GameObject lastTestChild = testChildren[testChildren.Length - 1].gameObject;
 
         float halfObjectWidth = lastTestChild.GetComponent<SpriteRenderer>().bounds.extents.x;
-        float comparationHalfObjectWidth = halfObjectWidth * 0.5f;
         float halfObjectHeight = lastTestChild.GetComponent<SpriteRenderer>().bounds.extents.y;
-        float comparationHalfObjectHeight = halfObjectHeight * 0.9f;
 
-        if(transform.position.x + ScreenBounds.x > lastTestChild.transform.position.x + comparationHalfObjectWidth) 
+        if(transform.position.x + ScreenBounds.x > lastTestChild.transform.position.x) 
         {
             needsAdjustX = 1;
         } 
-        else if(transform.position.x - ScreenBounds.x < firstTestChild.transform.position.x - comparationHalfObjectWidth) 
+        else if(transform.position.x - ScreenBounds.x < firstTestChild.transform.position.x) 
         {
             needsAdjustX = -1;
         }
@@ -99,41 +98,27 @@ public class BackgroundLoop : MonoBehaviour
         int needsAdjustY = 0;
 
         Transform topRoot = obj.transform.GetChild(obj.transform.childCount - 1);
-        Transform topTestChild = topRoot.GetChild(0);
-        Transform bottomRoot = obj.transform.GetChild(1);
-        Transform bottomTestChild = bottomRoot.GetChild(0);
+        Transform bottomRoot = obj.transform.GetChild(0);
         
-        if(transform.position.y + ScreenBounds.y > topTestChild.position.y + comparationHalfObjectHeight) 
+        if(transform.position.y + ScreenBounds.y > topRoot.position.y) 
         {
             needsAdjustY = 1;
         } 
-        else if(transform.position.y - ScreenBounds.y < bottomTestChild.position.y - comparationHalfObjectHeight) 
+        else if(transform.position.y - ScreenBounds.y < bottomRoot.position.y) 
         {
             needsAdjustY = -1;
         }
 
-        if(needsAdjustY != 0) {
-            Transform[] topChildren = topRoot.GetComponentsInChildren<Transform>();
-            Transform[] bottomChildren = bottomRoot.GetComponentsInChildren<Transform>();
-
+        if(needsAdjustY != 0) 
+        {
             if(needsAdjustY > 0)
             {
-                float topY = topChildren[0].transform.position.y;
-                for (int i = 0; i < bottomChildren.Length; i++)
-                {
-                    Transform child = bottomChildren[i];
-                    child.transform.position = new Vector3(child.transform.position.x, topY + halfObjectHeight * 2, child.transform.position.z);
-                }
+                bottomRoot.transform.position = new Vector3(bottomRoot.transform.position.x, topRoot.transform.position.y + halfObjectHeight * 2, bottomRoot.transform.position.z);
                 bottomRoot.SetAsLastSibling();
             }
             else
             {
-                float bottomY = bottomChildren[0].transform.position.y;
-                for (int i = 0; i < topChildren.Length; i++)
-                {
-                    Transform child = topChildren[i];
-                    child.transform.position = new Vector3(child.transform.position.x, bottomY - halfObjectHeight * 2, child.transform.position.z);
-                }
+                topRoot.transform.position = new Vector3(topRoot.transform.position.x, bottomRoot.transform.position.y - halfObjectHeight * 2, topRoot.transform.position.z);
                 topRoot.SetAsFirstSibling();
             }
         }

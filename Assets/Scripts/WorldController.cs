@@ -107,7 +107,11 @@ public class WorldController : MonoBehaviour
             CreateAsteroidCooldown -= Time.deltaTime;
             if(CreateAsteroidCooldown <= 0f)
             {
-                Instantiate(Asteroid, GetRandomPosition(2f, false, 0), transform.rotation, transform.parent);
+                Vector2? position = GetRandomPosition(2f, false, 0);
+                if(position.HasValue) 
+                {
+                    Instantiate(Asteroid, position.Value, transform.rotation, transform.parent);
+                }
 
                 CreateAsteroidCooldown = 0.5f + Random.value;
             }
@@ -115,63 +119,68 @@ public class WorldController : MonoBehaviour
             CreateEnemyCooldown -= Time.deltaTime;
             if(CreateEnemyCooldown <= 0f)
             {
-                Vector2 randomPositionOnScreen = GetRandomPosition(2f, true, 0);
-                GameObject enemyPrefab = null;
-                if(Random.Range(0, 2) == 0)
+                Vector2? position = GetRandomPosition(2f, true, 0);
+                if(position.HasValue) 
                 {
-                    enemyPrefab = Enemy1;
-                } 
-                else 
-                {
-                    enemyPrefab = Enemy2;
+                    GameObject enemyPrefab = null;
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        enemyPrefab = Enemy1;
+                    } 
+                    else 
+                    {
+                        enemyPrefab = Enemy2;
+                    }
+                    Instantiate(enemyPrefab, position.Value, transform.rotation, transform.parent);
                 }
-                Instantiate(enemyPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
-
                 CreateEnemyCooldown = 0.65f + Random.value;
             }
 
             CreatePowerUpCooldown -= Time.deltaTime;
             if(CreatePowerUpCooldown <= 0f)
             {
-                Vector2 randomPositionOnScreen = GetRandomPosition(1f, true, 0);
-                PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
-                GameObject powerUpPrefab = null;
-                switch(type)
+                Vector2? position = GetRandomPosition(1f, true, 0);
+                if(position.HasValue) 
                 {
-                    case PowerUpType.Acceleration:
+                    PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
+                    GameObject powerUpPrefab = null;
+                    switch(type)
                     {
-                        powerUpPrefab = AccelerationPowerUp;
-                        break;
+                        case PowerUpType.Acceleration:
+                        {
+                            powerUpPrefab = AccelerationPowerUp;
+                            break;
+                        }
+                        case PowerUpType.Torque:
+                        {
+                            powerUpPrefab = RotationPowerUp;
+                            break;
+                        }
+                        case PowerUpType.Shoot:
+                        {
+                            powerUpPrefab = BlastersPowerUp;
+                            break;
+                        }
+                        case PowerUpType.Shield:
+                        {
+                            powerUpPrefab = ShieldPowerUp;
+                            break;
+                        }
                     }
-                    case PowerUpType.Torque:
-                    {
-                        powerUpPrefab = RotationPowerUp;
-                        break;
-                    }
-                    case PowerUpType.Shoot:
-                    {
-                        powerUpPrefab = BlastersPowerUp;
-                        break;
-                    }
-                    case PowerUpType.Shield:
-                    {
-                        powerUpPrefab = ShieldPowerUp;
-                        break;
-                    }
+                    Instantiate(powerUpPrefab, position.Value, transform.rotation, transform.parent);
                 }
-                Instantiate(powerUpPrefab, randomPositionOnScreen, transform.rotation, transform.parent);
-
                 CreatePowerUpCooldown = 0.2f + Random.value;
             }
         }
     }
 
-    private Vector2 GetRandomPosition(float radius, bool inScreen, int iteration)
+    private Vector2? GetRandomPosition(float radius, bool inScreen, int iteration)
     {
         iteration += 1;
 
-        if(iteration >= 50) {
-            return Vector2.positiveInfinity;
+        if(iteration >= 50)
+        {
+            return null;
         }
 
         // 0.25 for screen left margin
