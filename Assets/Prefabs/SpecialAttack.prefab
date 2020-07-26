@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -68577963
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4eeba5e8e90844bf6a5b61a7d55049c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72adc1f957e034797a8ec64bdfd4c619, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.68
 --- !u!114 &790644981329249362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b333b7f3676884871a784e66ff916d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldController: {fileID: 0}
 --- !u!1 &4877349986842092645
 GameObject:
   m_ObjectHideFlags: 0

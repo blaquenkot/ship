@@ -11,8 +11,8 @@ public class SpecialAttackController : MonoBehaviour
         Ship = ship;
         WorldController = worldController;
 
-        transform.DOScale(Vector3.one * 50f, 0.5f).OnComplete(() => {
-            transform.DOScale(Vector3.zero, 0.5f).OnComplete(() => {
+        transform.DOScale(Vector3.one * 12f, 0.25f).OnComplete(() => {
+            transform.DOScale(Vector3.zero, 0.25f).OnComplete(() => {
                 Destroy(gameObject);
             });
         });
