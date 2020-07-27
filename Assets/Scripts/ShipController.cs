@@ -235,14 +235,19 @@ public class ShipController : MonoBehaviour, IDamageable
         if(ExecuteSpecialAttack && SpecialAttackCooldown <= 0f)
         {
             SpecialAttackController specialAttackController = Instantiate(SpecialAttack, transform.position, transform.rotation, transform.parent).GetComponent<SpecialAttackController>();
+            
             specialAttackController.Fire(gameObject, WorldController);
+            
+            ShakeCameraController.Shake(SpecialAttackController.Duration);
+            
             SpecialAttackCooldown = 30f;
         }
     }
 
     public bool TakeDamage(float damageTaken)
     {
-        if(ShieldFactor > FactorMinLimit) {
+        if(ShieldFactor > FactorMinLimit) 
+        {
             ModifyShieldFactor(-damageTaken);
         } 
         else 

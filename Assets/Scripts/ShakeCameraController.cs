@@ -22,10 +22,10 @@ public class ShakeCameraController : MonoBehaviour
         }
     }
 
-    public void Shake() {
+    public void Shake(float duration = 0.25f) {
         UpdateNoise(2f, 2f);
         IsShaking = true;
-        ShakeTime = 0.25f;
+        ShakeTime = duration;
     }
 
     private void UpdateNoise(float amplitudeGain, float frequencyGain) 

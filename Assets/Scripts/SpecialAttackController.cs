@@ -3,16 +3,22 @@ using DG.Tweening;
 
 public class SpecialAttackController : MonoBehaviour
 {
+    public static float Duration = 0.5f;
     private WorldController WorldController;
     private GameObject Ship;
+
+    private Vector3 MinScale = Vector3.zero;
+    private Vector3 MaxScale = Vector3.one * 12f;
 
     public void Fire(GameObject ship, WorldController worldController)
     {
         Ship = ship;
         WorldController = worldController;
 
-        transform.DOScale(Vector3.one * 12f, 0.25f).OnComplete(() => {
-            transform.DOScale(Vector3.zero, 0.25f).OnComplete(() => {
+        float internalDuration = SpecialAttackController.Duration * 0.5f;
+
+        transform.DOScale(MaxScale, internalDuration).OnComplete(() => {
+            transform.DOScale(MinScale, internalDuration).OnComplete(() => {
                 Destroy(gameObject);
             });
         });
