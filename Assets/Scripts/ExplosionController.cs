@@ -3,7 +3,7 @@ using DG.Tweening;
 
 public class ExplosionController : MonoBehaviour
 {
-    private float Timer = 0.5f;
+    private float Timer = 1f;
 
     void Start() 
     {        
