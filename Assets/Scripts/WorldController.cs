@@ -28,7 +28,7 @@ public class WorldController : MonoBehaviour
     public UIController UIController;
     private ShipController ShipController;
     private ColorAdjustments ColorAdjustments;
-    private List<GameObject> InactiveArrows = new List<GameObject>();
+    private List<GameObject> InactiveObjectsToActiveOnFirstOrb = new List<GameObject>();
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
@@ -59,7 +59,9 @@ public class WorldController : MonoBehaviour
             if(i != 0)
             {
                 arrow.SetActive(false);
-                InactiveArrows.Add(arrow);
+                InactiveObjectsToActiveOnFirstOrb.Add(arrow);
+                orb.SetActive(false);
+                InactiveObjectsToActiveOnFirstOrb.Add(orb);
             }
         }
     }
@@ -85,12 +87,12 @@ public class WorldController : MonoBehaviour
     {
         if(Orbs == 0)
         {
-            foreach (var arrow in InactiveArrows)
+            foreach (var inactiveObject in InactiveObjectsToActiveOnFirstOrb)
             {
-                arrow.SetActive(true);
+                inactiveObject.SetActive(true);
             }
         }
-        
+
         Orbs += 1;
         AddPoints(1000);
 
