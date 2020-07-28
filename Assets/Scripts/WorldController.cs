@@ -56,9 +56,9 @@ public class WorldController : MonoBehaviour
         UIController.UpdatePoints(Points);
     }
 
-    public void EnemyKilled()
+    public void EnemyKilled(bool wasSpecialAttack)
     {
-        ShipController.EnemyKilled();
+        ShipController.EnemyKilled(wasSpecialAttack);
     }
 
     public void OrbPickedUp()

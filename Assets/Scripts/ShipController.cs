@@ -311,7 +311,7 @@ public class ShipController : MonoBehaviour, IDamageable
                 WorldController.AddPoints(1);
 
                 if(damageable.IsEnemy()) {
-                    WorldController.EnemyKilled();
+                    WorldController.EnemyKilled(false);
                 }
             }
         }
@@ -319,18 +319,21 @@ public class ShipController : MonoBehaviour, IDamageable
         ShakeCameraController.Shake();
     }
 
-    public void EnemyKilled()
+    public void EnemyKilled(bool wasSpecialAttack)
     {
-        SpecialAttackCooldown -= 2.5f;
+        if(!wasSpecialAttack)
+        {
+            SpecialAttackCooldown -= 2.5f;
 
-        PowerUpType weakerType = new Dictionary<PowerUpType, float>() {
-            { PowerUpType.Acceleration, AccelerationFactor },
-            { PowerUpType.Shield, ShieldFactor },
-            { PowerUpType.Shoot, ShootFactor },
-            { PowerUpType.Torque, TorqueFactor },
-        }.OrderBy(kvp => kvp.Value).First().Key;
+            PowerUpType weakerType = new Dictionary<PowerUpType, float>() {
+                { PowerUpType.Acceleration, AccelerationFactor },
+                { PowerUpType.Shield, ShieldFactor },
+                { PowerUpType.Shoot, ShootFactor },
+                { PowerUpType.Torque, TorqueFactor },
+            }.OrderBy(kvp => kvp.Value).First().Key;
 
-        ModifyFactor(0.5f, weakerType);
+            ModifyFactor(0.5f, weakerType);
+        }
     }
 
     public bool IsEnemy()

@@ -34,7 +34,7 @@ public class ShotController : MonoBehaviour
                 WorldController.AddPoints(1);
 
                 if(damageable.IsEnemy()) {
-                    WorldController.EnemyKilled();
+                    WorldController.EnemyKilled(false);
                 }
             }
 

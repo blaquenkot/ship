@@ -36,7 +36,7 @@ public class SpecialAttackController : MonoBehaviour
 
                 if(killeable.IsEnemy()) 
                 {
-                    WorldController.EnemyKilled();
+                    WorldController.EnemyKilled(true);
                 }
             }
         }
