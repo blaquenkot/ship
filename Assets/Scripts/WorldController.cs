@@ -28,6 +28,7 @@ public class WorldController : MonoBehaviour
     public UIController UIController;
     private ShipController ShipController;
     private ColorAdjustments ColorAdjustments;
+    private List<GameObject> InactiveArrows = new List<GameObject>();
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
@@ -54,6 +55,12 @@ public class WorldController : MonoBehaviour
             GameObject orb = Instantiate(Orb, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
             arrow.GetComponent<ArrowController>().Target = orb;
+            
+            if(i != 0)
+            {
+                arrow.SetActive(false);
+                InactiveArrows.Add(arrow);
+            }
         }
     }
 
@@ -76,6 +83,14 @@ public class WorldController : MonoBehaviour
 
     public void OrbPickedUp()
     {
+        if(Orbs == 0)
+        {
+            foreach (var arrow in InactiveArrows)
+            {
+                arrow.SetActive(true);
+            }
+        }
+        
         Orbs += 1;
         AddPoints(1000);
 
