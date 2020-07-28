@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 
@@ -315,6 +316,15 @@ public class ShipController : MonoBehaviour, IDamageable
     public void EnemyKilled()
     {
         SpecialAttackCooldown -= 2.5f;
+
+        PowerUpType weakerType = new Dictionary<PowerUpType, float>() {
+            { PowerUpType.Acceleration, AccelerationFactor },
+            { PowerUpType.Shield, ShieldFactor },
+            { PowerUpType.Shoot, ShootFactor },
+            { PowerUpType.Torque, TorqueFactor },
+        }.OrderBy(kvp => kvp.Value).First().Key;
+
+        ModifyFactor(0.5f, weakerType);
     }
 
     public bool IsEnemy()
