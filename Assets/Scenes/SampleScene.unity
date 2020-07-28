@@ -483,7 +483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.399042, y: 0, z: -10}
+  m_LocalPosition: {x: -6.3991976, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1105,7 +1105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778020483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.399042, y: 0, z: -10}
+  m_LocalPosition: {x: -6.3991976, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 670027388}
@@ -1403,6 +1403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ship: {fileID: 1397947367}
+  Volume: {fileID: 2049303478}
   Orb: {fileID: 4838711408782908097, guid: 6614394bbccc84cfd9f8377c069fbe94, type: 3}
   Arrow: {fileID: 6490095917818305712, guid: 1bfd376c1a9ac417e9a0bb8dd0f56a72, type: 3}
   Asteroid: {fileID: 6200632985198936166, guid: 7aa99dbd62aca4787887de09d05a7ffe,
@@ -1420,6 +1421,7 @@ MonoBehaviour:
   GameOverObject: {fileID: 1891352916}
   YouWonObject: {fileID: 211938025}
   UIObject: {fileID: 415096616}
+  UIController: {fileID: 0}
 --- !u!4 &2139610510
 Transform:
   m_ObjectHideFlags: 0
@@ -1481,6 +1483,11 @@ PrefabInstance:
       propertyPath: WorldControllerObject
       value: 
       objectReference: {fileID: 2139610508}
+    - target: {fileID: 3788649221494772163, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
+        type: 3}
+      propertyPath: Volume
+      value: 
+      objectReference: {fileID: 2049303478}
     - target: {fileID: 4884479688570335012, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
         type: 3}
       propertyPath: m_LocalPosition.x

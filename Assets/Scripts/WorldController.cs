@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 public class WorldController : MonoBehaviour
 {
     public GameObject Ship;
+    public Volume Volume;
 
     public GameObject Orb;
     public GameObject Arrow;
@@ -25,6 +27,7 @@ public class WorldController : MonoBehaviour
     private GameOverController GameOverController;
     public UIController UIController;
     private ShipController ShipController;
+    private ColorAdjustments ColorAdjustments;
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
@@ -36,8 +39,12 @@ public class WorldController : MonoBehaviour
     private int Points = 0;
     private float TotalTime = 0;
 
+    private int Flashes = 0;
+    private float FlashCooldown = 0f;
+
     public void Awake()
     {
+        Volume.sharedProfile.TryGet<ColorAdjustments>(out ColorAdjustments);
         GameOverController = GameOverObject.GetComponent<GameOverController>();
         UIController = UIObject.GetComponent<UIController>();
         ShipController = Ship.GetComponent<ShipController>();
@@ -48,6 +55,12 @@ public class WorldController : MonoBehaviour
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
             arrow.GetComponent<ArrowController>().Target = orb;
         }
+    }
+
+    public void Flash(int amount)
+    {
+        Flashes = amount;
+        FlashCooldown = 0f;
     }
 
     public void AddPoints(int points) 
@@ -97,13 +110,36 @@ public class WorldController : MonoBehaviour
         GameOverObject.SetActive(true);
     }
 
+    void Update()
+    {
+        if(Flashes > 0)
+        {
+            FlashCooldown -= Time.deltaTime;
+
+            if(FlashCooldown <= 0) 
+            {
+
+                if(ColorAdjustments.postExposure.value == 0f)
+                {
+                    ColorAdjustments.postExposure.SetValue(new NoInterpMinFloatParameter(10f, 0, true));
+                }
+                else
+                {
+                    ColorAdjustments.postExposure.SetValue(new NoInterpMinFloatParameter(0f, 0, true));
+                    Flashes -= 1;
+                }
+
+                FlashCooldown = 0.1f;
+            }
+        }
+    }
+
     void LateUpdate()
     {
         if(ShouldSpawnObjects) 
         {
             TotalTime += Time.deltaTime;
             
-
             CreateAsteroidCooldown -= Time.deltaTime;
             if(CreateAsteroidCooldown <= 0f)
             {

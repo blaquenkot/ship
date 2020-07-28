@@ -246,6 +246,7 @@ public class ShipController : MonoBehaviour, IDamageable
             
                 ShakeCameraController.Shake(SpecialAttackController.Duration);
                 WorldController.UIController.UpdateSpecialGauge(false);
+                WorldController.Flash(2);
                 SpecialAttackCooldown = 15f;
             }
         }
