@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) 
+        {
+            OnClickStart();
+        }
+    }
+
     public void OnClickStart() {
         SceneManager.LoadScene("SampleScene");
     }
