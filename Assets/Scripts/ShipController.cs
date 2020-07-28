@@ -354,6 +354,7 @@ public class ShipController : MonoBehaviour, IDamageable
             OrbController orb = collider.GetComponent<OrbController>();
             if(orb) 
             {
+                SpecialAttackCooldown = 0f;
                 WorldController.OrbPickedUp();
                 orb.Consume();
             }
