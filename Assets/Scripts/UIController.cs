@@ -4,15 +4,52 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public Text PointsLabel;
-    public Text TimeLabel;
-
-    public void UpdatePoints(int points) 
+    public Image SpecialGauge;
+    public Sprite SpecialOnSprite;
+    public Sprite SpecialOffSprite;
+    private float FlickTimer = 0.5f;
+    private bool SpecialLoaded = true;
+    void Update()
     {
-        PointsLabel.text = "Points: " + points;
+        if (SpecialLoaded)
+        {
+            FlickTimer -= Time.deltaTime;
+            if (FlickTimer <= 0f)
+            {
+                if (SpecialGauge.sprite == SpecialOnSprite)
+                {
+                    SpecialGauge.sprite = SpecialOffSprite;
+                    FlickTimer = 0.2f;
+                }
+                else
+                {
+                    SpecialGauge.sprite = SpecialOnSprite;
+                    FlickTimer = 0.7f;
+                }
+
+            }
+        }
     }
-
-    public void UpdateTime(string time) 
+    public void UpdatePoints(int points)
     {
-        TimeLabel.text = "Time: " + time;
+        PointsLabel.text = points.ToString();
+    }
+    public void UpdateSpecialGauge(bool isLoaded)
+    {
+        if (SpecialLoaded == isLoaded)
+        {
+            return;
+        }
+        SpecialLoaded = isLoaded;
+
+        if (isLoaded)
+        {
+            SpecialGauge.sprite = SpecialOnSprite;
+
+        }
+        else
+        {
+            SpecialGauge.sprite = SpecialOffSprite;
+        }
     }
 }

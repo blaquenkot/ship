@@ -3,21 +3,35 @@ using UnityEngine.UI;
 
 public class GaugeController : MonoBehaviour, IGauge
 {
-    private float minAngle = 10;
-    private float maxAngle = 170;
-    public Sprite Image0;
+    public Sprite ImageOn;
+    public Sprite ImageOff;
     public Sprite Image1;
     public Sprite Image2;
     public Sprite Image3;
     public Sprite Image4;
     public Sprite Image5;
+    public Image GaugeLightImage;
+    private Sprite CurrentImage1;
+    private Sprite CurrentImage2;
+    private float FlickTimer = 0.5f;
 
-
-    public GameObject GaugeLight;
-    private UnityEngine.UI.Image GaugeLightImage;
-    public void Start()
-    {
-        GaugeLightImage = GaugeLight.GetComponent<UnityEngine.UI.Image>();
+    void Update()
+    { 
+        FlickTimer -= Time.deltaTime;
+        if (FlickTimer <= 0f)
+        {
+            if (GaugeLightImage.sprite == CurrentImage1)
+            {
+                GaugeLightImage.sprite = CurrentImage2;
+                FlickTimer = 0.7f;
+            }
+            else
+            {
+                GaugeLightImage.sprite = CurrentImage1;
+                FlickTimer = 0.2f;
+            }
+ 
+        }
     }
 
 
@@ -25,27 +39,33 @@ public class GaugeController : MonoBehaviour, IGauge
     {
         if(value< 0.20f)
         {
-            GaugeLightImage.sprite = Image0;
+            CurrentImage1 = ImageOff;
+            CurrentImage2 = ImageOn;
         }
        else if (value < 0.35f)
         {
-            GaugeLightImage.sprite = Image1;
+            CurrentImage1 = Image1;
+            CurrentImage2 = Image1;
         }
         else if (value < 0.50f)
         {
-            GaugeLightImage.sprite = Image2;
+            CurrentImage1 = Image2;
+            CurrentImage2 = Image2;
         }
         else if (value < 0.65f)
         {
-            GaugeLightImage.sprite = Image3;
+            CurrentImage1 = Image3;
+            CurrentImage2 = Image3;
         }
         else if (value < 0.80f)
         {
-            GaugeLightImage.sprite = Image4;
+            CurrentImage1 = Image4;
+            CurrentImage2 = Image4;
         }
         else 
         {
-            GaugeLightImage.sprite = Image5;
+            CurrentImage1 = Image5;
+            CurrentImage2 = Image5;
         }
     }
         }
