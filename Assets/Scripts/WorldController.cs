@@ -23,7 +23,7 @@ public class WorldController : MonoBehaviour
     public GameObject UIObject;
 
     private GameOverController GameOverController;
-    private UIController UIController;
+    public UIController UIController;
     private ShipController ShipController;
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
@@ -102,7 +102,7 @@ public class WorldController : MonoBehaviour
         if(ShouldSpawnObjects) 
         {
             TotalTime += Time.deltaTime;
-            UIController.UpdateTime(GetTimeAsString());
+            
 
             CreateAsteroidCooldown -= Time.deltaTime;
             if(CreateAsteroidCooldown <= 0f)

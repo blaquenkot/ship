@@ -233,15 +233,21 @@ public class ShipController : MonoBehaviour, IDamageable
         }
 
         SpecialAttackCooldown -= Time.deltaTime;
-        if(ExecuteSpecialAttack && SpecialAttackCooldown <= 0f)
+       
+        if (SpecialAttackCooldown <= 0f)
         {
-            SpecialAttackController specialAttackController = Instantiate(SpecialAttack, transform.position, transform.rotation, transform.parent).GetComponent<SpecialAttackController>();
+            WorldController.UIController.UpdateSpecialGauge(true);
+
+            if (ExecuteSpecialAttack)
+            {
+                SpecialAttackController specialAttackController = Instantiate(SpecialAttack, transform.position, transform.rotation, transform.parent).GetComponent<SpecialAttackController>();
             
-            specialAttackController.Fire(gameObject, WorldController);
+                specialAttackController.Fire(gameObject, WorldController);
             
-            ShakeCameraController.Shake(SpecialAttackController.Duration);
-            
-            SpecialAttackCooldown = 30f;
+                ShakeCameraController.Shake(SpecialAttackController.Duration);
+                WorldController.UIController.UpdateSpecialGauge(false);
+                SpecialAttackCooldown = 15f;
+            }
         }
     }
 

@@ -8,7 +8,7 @@ public class SpecialAttackController : MonoBehaviour
     private GameObject Ship;
 
     private Vector3 MinScale = Vector3.zero;
-    private Vector3 MaxScale = Vector3.one * 12f;
+    private Vector3 MaxScale = Vector3.one * 30f;
 
     public void Fire(GameObject ship, WorldController worldController)
     {
