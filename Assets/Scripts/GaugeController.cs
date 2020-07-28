@@ -34,7 +34,6 @@ public class GaugeController : MonoBehaviour, IGauge
         }
     }
 
-
     public void SetValue(float value)
     {
         if(value< 0.20f)
@@ -42,7 +41,7 @@ public class GaugeController : MonoBehaviour, IGauge
             CurrentImage1 = ImageOff;
             CurrentImage2 = ImageOn;
         }
-       else if (value < 0.35f)
+        else if (value < 0.35f)
         {
             CurrentImage1 = Image1;
             CurrentImage2 = Image1;
@@ -67,5 +66,7 @@ public class GaugeController : MonoBehaviour, IGauge
             CurrentImage1 = Image5;
             CurrentImage2 = Image5;
         }
+
+        FlickTimer = 0f;
     }
-        }
+}

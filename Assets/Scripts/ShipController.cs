@@ -122,10 +122,6 @@ public class ShipController : MonoBehaviour, IDamageable
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
         ExecuteSpecialAttack = Input.GetKey(KeyCode.X);
-        AccelerationGauge.SetValue(AccelerationFactor / FactorMaxLimit);
-        RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
-        ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
-        BlasterGauge.SetValue(ShootFactor / FactorMaxLimit);
     }
 
     void FixedUpdate()
@@ -395,24 +391,28 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
         UpdateParts(AccelerationParts, AccelerationFactor / FactorMaxLimit);
+        AccelerationGauge.SetValue(AccelerationFactor / FactorMaxLimit);
     }
 
     private void ModifyTorqueFactor(float value) 
     {
         TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit);
         UpdateParts(RotationParts, TorqueFactor / FactorMaxLimit);
+        RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
     }
 
     private void ModifyShootFactor(float value) 
     {
         ShootFactor = Mathf.Clamp(ShootFactor + value, FactorMinLimit, FactorMaxLimit);
         UpdateParts(BlasterParts, ShootFactor / FactorMaxLimit);
+        BlasterGauge.SetValue(ShootFactor / FactorMaxLimit);
     }
 
     private void ModifyShieldFactor(float value) 
     {
         ShieldFactor = Mathf.Clamp(ShieldFactor + value, FactorMinLimit, FactorMaxLimit);
         UpdateParts(ShieldParts, ShieldFactor / FactorMaxLimit);
+        ShieldGauge.SetValue(ShieldFactor / FactorMaxLimit);
     }
 
     private void UpdateParts(GameObject[] parts, float ratio)
