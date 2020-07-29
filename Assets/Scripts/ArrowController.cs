@@ -3,6 +3,7 @@ using UnityEngine;
 public class ArrowController : MonoBehaviour
 {
     public GameObject Target;
+    public SpriteRenderer PilotSpriteRenderer;
 
     private Camera Camera;
     private SpriteRenderer SpriteRenderer;
@@ -28,8 +29,9 @@ public class ArrowController : MonoBehaviour
         }
 
         SpriteRenderer.enabled = !OrbSpriteRenderer.isVisible;
+        PilotSpriteRenderer.enabled = !OrbSpriteRenderer.isVisible;
 
-        if(SpriteRenderer.enabled)
+        if (SpriteRenderer.enabled)
         {
             var direction = transform.rotation * Vector2.right;
             var diffVector = Target.transform.position - transform.position;
@@ -37,7 +39,7 @@ public class ArrowController : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + angleDiff, Vector3.forward);
             
             Vector2 targetInViewportPosition = Camera.WorldToViewportPoint(Target.transform.position);
-            Vector3 clampedPosition = Camera.ViewportToWorldPoint(new Vector2(Mathf.Clamp(targetInViewportPosition.x, 0.3f, 0.95f), Mathf.Clamp(targetInViewportPosition.y, 0.05f, 0.95f)));
+            Vector3 clampedPosition = Camera.ViewportToWorldPoint(new Vector2(Mathf.Clamp(targetInViewportPosition.x, 0.31f, 0.94f), Mathf.Clamp(targetInViewportPosition.y, 0.1f, 0.9f)));
             clampedPosition.z = 0;
             transform.position = clampedPosition;
 
