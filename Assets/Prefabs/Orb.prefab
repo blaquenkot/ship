@@ -146,7 +146,7 @@ SpriteRenderer:
   m_SortingLayerID: -68577963
   m_SortingLayer: 3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: c8ad903a68a8b44618cd61e9c2333592, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a8ba250a2dc4e465b8f323d11d61ccdb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -169,7 +169,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -188,7 +188,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -206,3 +206,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca7e55420a384d169d0a9aeefdc37fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PilotSprite: {fileID: 21300000, guid: c8ad903a68a8b44618cd61e9c2333592, type: 3}
+  IsVisible: 0
