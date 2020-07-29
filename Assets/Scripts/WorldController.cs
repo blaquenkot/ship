@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using System.Linq;
+
 public class WorldController : MonoBehaviour
 {
     public GameObject Ship;
@@ -21,6 +23,8 @@ public class WorldController : MonoBehaviour
     public GameObject BlastersPowerUp;
     public GameObject GameOverObject;
     public GameObject YouWonObject;
+
+    public Sprite[] PilotImages;
 
     public GameObject UIObject;
 
@@ -50,11 +54,17 @@ public class WorldController : MonoBehaviour
         UIController = UIObject.GetComponent<UIController>();
         ShipController = Ship.GetComponent<ShipController>();
 
+        List<Sprite> Pilots = PilotImages.ToList();
+
         for (int i = 0; i < 5; i++)
         {
             GameObject orb = Instantiate(Orb, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
-            arrow.GetComponent<ArrowController>().Target = orb;
+            ArrowController arrowController = arrow.GetComponent<ArrowController>();
+            arrowController.Target = orb;
+            int index = Random.Range(0, Pilots.Count);
+            arrowController.SetPilotImage(Pilots[index]);
+            Pilots.RemoveAt(index);
             
             if(i != 0)
             {

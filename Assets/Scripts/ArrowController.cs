@@ -43,9 +43,10 @@ public class ArrowController : MonoBehaviour
             clampedPosition.z = 0;
             transform.position = clampedPosition;
 
-            Color color = SpriteRenderer.color;
-            color.a = 1/targetInViewportPosition.magnitude;
-            SpriteRenderer.color = color;
         }
+    }
+    public void SetPilotImage(Sprite Image)
+    {
+        PilotSpriteRenderer.sprite = Image;
     }
 }
