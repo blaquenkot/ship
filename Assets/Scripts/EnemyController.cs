@@ -6,24 +6,46 @@ public class EnemyController : MonoBehaviour, IDamageable, IKilleable
     public float Health = 10f;
     public float ShootPower = 0.5f;
     public float MaxShootCooldown = 1.5f;
+
+    public FlashingLight Light;
     public GameObject Shot;
     public GameObject LookAhead;
     public GameObject Explosion;
 
     private Rigidbody2D Body;
+    private SpriteRenderer SpriteRenderer;
     private ShipController Player;
+    private Camera Camera;
 
     private float MaxRotation = 100;
     private float ShotCooldown = 1.5f;
     private bool IsVisible = true;
+    private float HalfWidth;
 
     void Start() 
     {
         Body = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
         Player = UnityEngine.Object.FindObjectOfType<ShipController>();
         RotateTowardsPlayer(10f);
+
+        Camera = Camera.main;
+        HalfWidth = SpriteRenderer.bounds.extents.x;
         
-        transform.DOScale(Vector3.one, 0.75f);
+        transform.DOScale(Vector3.one, 0.75f).OnComplete(() => {
+            HalfWidth = SpriteRenderer.bounds.extents.x;
+        });
+    }
+
+    void Update()
+    {
+        if(SpriteRenderer.isVisible)
+        {
+            Vector3 fixedPosition = new Vector3(transform.position.x + HalfWidth, transform.position.y, transform.position.z);
+            IsVisible = Camera.WorldToViewportPoint(fixedPosition).x > 0.25f;
+        } else {
+            IsVisible = false;
+        }
     }
 
     void FixedUpdate()
@@ -45,20 +67,11 @@ public class EnemyController : MonoBehaviour, IDamageable, IKilleable
             }
         }
     }
-
-    void OnBecameVisible()
-    {
-        IsVisible = true;
-    }
-
-    void OnBecameInvisible()
-    {
-        IsVisible = false;
-    }
-
     public bool TakeDamage(float damageTaken)
     {
         Health -= damageTaken;
+
+        Light.MakeFlash();
 
         if(Health <= 0)
         {

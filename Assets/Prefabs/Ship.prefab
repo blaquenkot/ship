@@ -4764,6 +4764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6857811634328050892}
   - component: {fileID: 2325234419770501612}
+  - component: {fileID: 330744759465402680}
   m_Layer: 0
   m_Name: Point Light 2D
   m_TagString: Untagged
@@ -4813,7 +4814,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 3
+  m_PointLightOuterRadius: 1.85
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
@@ -4826,6 +4827,18 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &330744759465402680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061093528450476620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f0c2d09e8cc4721a2d3ca6e7c39334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3636971206751508901
 GameObject:
   m_ObjectHideFlags: 0
@@ -5632,6 +5645,7 @@ MonoBehaviour:
   ShotCooldownTime: 0.2
   BaseShootPower: 10
   NoLightsMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  Light: {fileID: 330744759465402680}
   Explosion: {fileID: 3982804760635339075, guid: fdac1a8083b6442a4bc19bce312585c5,
     type: 3}
   SpecialAttack: {fileID: 945852512912690991, guid: 13ad4565d6f2f4e75884a47ccb63c4df,
@@ -15729,15 +15743,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75d3b59cfd18b4baf8b3f7f868906666, type: 3}
---- !u!1 &712656873018514751 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7976875302496013174, guid: 75d3b59cfd18b4baf8b3f7f868906666,
-    type: 3}
-  m_PrefabInstance: {fileID: 7444538649462363721}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6701594975854069195 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4202009544077726594, guid: 75d3b59cfd18b4baf8b3f7f868906666,
+    type: 3}
+  m_PrefabInstance: {fileID: 7444538649462363721}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &712656873018514751 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7976875302496013174, guid: 75d3b59cfd18b4baf8b3f7f868906666,
     type: 3}
   m_PrefabInstance: {fileID: 7444538649462363721}
   m_PrefabAsset: {fileID: 0}

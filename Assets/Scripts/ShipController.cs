@@ -13,6 +13,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public float BaseShootPower = 10f;
 
     public Material NoLightsMaterial;
+    public FlashingLight Light;
     public GameObject Explosion;
     public GameObject SpecialAttack;
     public GameObject[] AccelerationParts;
@@ -253,6 +254,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     public bool TakeDamage(float damageTaken)
     {
+        Light.MakeFlash();
         if(ShieldFactor > FactorMinLimit) 
         {
             ModifyShieldFactor(-damageTaken);

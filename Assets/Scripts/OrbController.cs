@@ -4,8 +4,10 @@ using DG.Tweening;
 public class OrbController : MonoBehaviour, IDamageable
 {
     public Sprite PilotSprite;
+    public FlashingLight Light;
     public bool IsVisible = false;
 
+    private float AnimationDuration = 1.1f;
     private float Health = 10f;
     private SpriteRenderer SpriteRenderer;
     private CircleCollider2D Collider;
@@ -34,6 +36,16 @@ public class OrbController : MonoBehaviour, IDamageable
             IsVisible = Camera.WorldToViewportPoint(fixedPosition).x > 0.25f;
         } else {
             IsVisible = false;
+        }
+
+        if(IsVisible)
+        {
+            AnimationDuration -= Time.deltaTime;
+            if(AnimationDuration <= 0)
+            {
+                Animate();
+                AnimationDuration = 1.1f;
+            }
         }
     }
 
@@ -68,7 +80,10 @@ public class OrbController : MonoBehaviour, IDamageable
         return false;
     }
 
-    public bool TakeDamage(float damageTaken) {
+    public bool TakeDamage(float damageTaken) 
+    {
+        Light.MakeFlash();
+
         Health -= damageTaken;
 
         if(Health <= 0)
