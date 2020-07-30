@@ -352,11 +352,22 @@ public class ShipController : MonoBehaviour, IDamageable
         else 
         {
             OrbController orb = collider.GetComponent<OrbController>();
-            if(orb.CanBeConsumed()) 
+            if(orb) 
             {
-                SpecialAttackCooldown = 0f;
-                WorldController.OrbPickedUp();
-                orb.Consume();
+                if(orb.CanBeConsumed())
+                {
+                    SpecialAttackCooldown = 0f;
+                    WorldController.OrbPickedUp();
+                    orb.Consume();
+                }
+            } 
+            else 
+            {
+                if(collider.name == "SpaceStation")
+                {
+                    Destroy(gameObject);
+                    WorldController.SpaceStationReached();
+                }
             }
         }
     }

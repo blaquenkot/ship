@@ -10,6 +10,10 @@ public class WorldController : MonoBehaviour
     public GameObject Ship;
     public Volume Volume;
 
+    public GameObject SpaceStation;
+    public GameObject SpaceStationArrow;
+    public Sprite SpaceStationArrowSprite;
+
     public GameObject Orb;
     public GameObject Arrow;
 
@@ -27,7 +31,6 @@ public class WorldController : MonoBehaviour
     public Sprite[] PilotImages;
 
     public GameObject UIObject;
-
     private GameOverController GameOverController;
     public UIController UIController;
     private ShipController ShipController;
@@ -74,6 +77,12 @@ public class WorldController : MonoBehaviour
                 InactiveObjectsToActiveOnFirstOrb.Add(orb);
             }
         }
+
+        SpaceStation.SetActive(false);
+        ArrowController spaceStationArrowController = SpaceStationArrow.GetComponent<ArrowController>();
+        spaceStationArrowController.Target = SpaceStation;
+        spaceStationArrowController.SetPilotImage(SpaceStationArrowSprite);
+        SpaceStationArrow.SetActive(false);
     }
 
     public void Flash(int amount)
@@ -112,15 +121,21 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    public void AllOrbsPickedUp()
+    public void SpaceStationReached()
     {
         ShouldSpawnObjects = false;
-        StartCoroutine(ShowYouWon());
+        ShowYouWon();
     }
 
-    IEnumerator ShowYouWon()
+    void AllOrbsPickedUp()
     {
-        yield return new WaitForSeconds(0.75f);
+        SpaceStation.transform.position = Ship.transform.position + (Vector3)Random.insideUnitCircle.normalized * Random.Range(50f, 150f);
+        SpaceStation.SetActive(true);
+        SpaceStationArrow.SetActive(true);
+    }
+
+    void ShowYouWon()
+    {
         YouWonObject.SetActive(true);
     }
 
