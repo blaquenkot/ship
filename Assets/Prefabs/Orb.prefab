@@ -98,6 +98,8 @@ GameObject:
   - component: {fileID: 9127781091942783227}
   - component: {fileID: 173689459094755632}
   - component: {fileID: 7058038236044886181}
+  - component: {fileID: 71775273388186740}
+  - component: {fileID: -3883948806434312790}
   m_Layer: 13
   m_Name: Orb
   m_TagString: Untagged
@@ -158,7 +160,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -68577963
   m_SortingLayer: 3
-  m_SortingOrder: 2
+  m_SortingOrder: 1000
   m_Sprite: {fileID: 21300000, guid: a8ba250a2dc4e465b8f323d11d61ccdb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -222,3 +224,28 @@ MonoBehaviour:
   PilotSprite: {fileID: 21300000, guid: c8ad903a68a8b44618cd61e9c2333592, type: 3}
   Light: {fileID: 4595061909749420994}
   IsVisible: 0
+--- !u!114 &71775273388186740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838711408782908097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72d00be72e944920b29a9601afcd039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3883948806434312790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838711408782908097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a053a9624a44191a2a617b52314200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowArrowWhenVisible: 1

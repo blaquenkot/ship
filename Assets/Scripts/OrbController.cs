@@ -5,40 +5,23 @@ public class OrbController : MonoBehaviour, IDamageable
 {
     public Sprite PilotSprite;
     public FlashingLight Light;
-    public bool IsVisible = false;
 
     private float AnimationDuration = 1.1f;
     private float Health = 10f;
     private SpriteRenderer SpriteRenderer;
     private CircleCollider2D Collider;
-
-    private Camera Camera;
-    private float HalfWidth;
+    private VisibleObject VisibleObject;
 
     void Awake()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
         Collider = GetComponent<CircleCollider2D>();
-        Camera = Camera.main;
-        HalfWidth = SpriteRenderer.bounds.extents.x;
+        VisibleObject = GetComponent<VisibleObject>();
     }
-
-    void Start()
-    {
-        InvokeRepeating("Animate", 0, 1.1f);
-    }
-
+    
     void Update()
     {
-        if(SpriteRenderer.isVisible)
-        {
-            Vector3 fixedPosition = new Vector3(transform.position.x + HalfWidth, transform.position.y, transform.position.z);
-            IsVisible = Camera.WorldToViewportPoint(fixedPosition).x > 0.25f;
-        } else {
-            IsVisible = false;
-        }
-
-        if(IsVisible)
+        if(VisibleObject.IsVisible)
         {
             AnimationDuration -= Time.deltaTime;
             if(AnimationDuration <= 0)
@@ -73,6 +56,11 @@ public class OrbController : MonoBehaviour, IDamageable
             //AudioSource.PlayClipAtPoint(Sound, transform.position);
             Destroy(gameObject);
         }
+    }
+
+    public bool ShowArrowWhileVisible()
+    {
+        return true;
     }
 
     public bool IsEnemy()

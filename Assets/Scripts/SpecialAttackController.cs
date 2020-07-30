@@ -26,15 +26,15 @@ public class SpecialAttackController : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D collision) 
     {
-        IKilleable killeable = collision.collider.gameObject.GetComponent<IKilleable>();
-        if(killeable != null) 
+        IDamageable damageable = collision.collider.gameObject.GetComponent<IDamageable>();
+        if(damageable != null) 
         {
-            killeable.Kill();
+            damageable.TakeDamage(9999999);
             if(WorldController) 
             {
                 WorldController.AddPoints(1);
 
-                if(killeable.IsEnemy()) 
+                if(damageable.IsEnemy()) 
                 {
                     WorldController.EnemyKilled(true);
                 }

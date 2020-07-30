@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class EnemyController : MonoBehaviour, IDamageable, IKilleable
+public class EnemyController : MonoBehaviour, IDamageable
 {
     public float Health = 10f;
     public float ShootPower = 0.5f;
@@ -15,42 +15,24 @@ public class EnemyController : MonoBehaviour, IDamageable, IKilleable
     private Rigidbody2D Body;
     private SpriteRenderer SpriteRenderer;
     private ShipController Player;
-    private Camera Camera;
-
+    private VisibleObject VisibleObject;
     private float MaxRotation = 100;
     private float ShotCooldown = 1.5f;
-    private bool IsVisible = true;
-    private float HalfWidth;
 
     void Start() 
     {
         Body = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        VisibleObject = GetComponent<VisibleObject>();
         Player = UnityEngine.Object.FindObjectOfType<ShipController>();
         RotateTowardsPlayer(10f);
-
-        Camera = Camera.main;
-        HalfWidth = SpriteRenderer.bounds.extents.x;
         
-        transform.DOScale(Vector3.one, 0.75f).OnComplete(() => {
-            HalfWidth = SpriteRenderer.bounds.extents.x;
-        });
-    }
-
-    void Update()
-    {
-        if(SpriteRenderer.isVisible)
-        {
-            Vector3 fixedPosition = new Vector3(transform.position.x + HalfWidth, transform.position.y, transform.position.z);
-            IsVisible = Camera.WorldToViewportPoint(fixedPosition).x > 0.25f;
-        } else {
-            IsVisible = false;
-        }
+        transform.DOScale(Vector3.one, 0.75f);
     }
 
     void FixedUpdate()
     {
-        if(IsVisible && Player) 
+        if(VisibleObject.IsVisible && Player) 
         {
             RotateTowardsPlayer(Time.deltaTime);
 
@@ -82,12 +64,6 @@ public class EnemyController : MonoBehaviour, IDamageable, IKilleable
         {
             return false;
         }
-    }
-
-    public void Kill()
-    {
-        Health = 0;
-        Destroyed();
     }
 
     public bool IsEnemy()

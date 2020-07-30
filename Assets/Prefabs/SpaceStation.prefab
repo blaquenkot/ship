@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1572216594168347081}
   - component: {fileID: 117636165630137812}
   - component: {fileID: 5813376471298801812}
+  - component: {fileID: 2957829295821131130}
+  - component: {fileID: -3082459156081372017}
   m_Layer: 14
   m_Name: SpaceStation
   m_TagString: Untagged
@@ -120,3 +122,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5.28
+--- !u!114 &2957829295821131130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7568601635908635410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72d00be72e944920b29a9601afcd039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3082459156081372017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7568601635908635410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a053a9624a44191a2a617b52314200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowArrowWhenVisible: 0

@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class AsteroidController : MonoBehaviour, IDamageable, IKilleable
+public class AsteroidController : MonoBehaviour, IDamageable
 {
     public float Health = 5f;
     public float Velocity = 2.5f;
@@ -34,12 +34,6 @@ public class AsteroidController : MonoBehaviour, IDamageable, IKilleable
         {
             return false;
         }
-    }
-
-    public void Kill()
-    {
-        Health = 0;
-        Destroyed();
     }
 
     public bool IsEnemy()
