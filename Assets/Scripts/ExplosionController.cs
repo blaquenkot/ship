@@ -3,19 +3,18 @@ using DG.Tweening;
 
 public class ExplosionController : MonoBehaviour
 {
-    private float Timer = 1f;
-
     void Start() 
     {        
-        transform.DOScale(Vector3.one, 0.3f);
-    }
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color color = spriteRenderer.color;
+        color.a = 0.5f;
 
-    void FixedUpdate() 
-    {
-        Timer -= Time.deltaTime;
-        if(Timer <= 0)
-        {
-            Destroy(gameObject);
-        }
+        DOTween.Sequence()
+                .Append(transform.DOScale(Vector3.one * 1.5f, 0.75f))
+                .Join(spriteRenderer.DOColor(color, 0.75f))
+                .Play()
+                .OnComplete(() => {
+                    Destroy(gameObject);
+                });
     }
 }
