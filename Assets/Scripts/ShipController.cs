@@ -2,6 +2,7 @@
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
+using DG.Tweening;
 
 public class ShipController : MonoBehaviour, IDamageable
 {
@@ -10,6 +11,8 @@ public class ShipController : MonoBehaviour, IDamageable
     public float HealthLimit = 0f;
     public float ShotCooldownTime = 0.2f;
     public float BaseShootPower = 10f;
+
+    public Material NoLightsMaterial;
     public GameObject Explosion;
     public GameObject SpecialAttack;
     public GameObject[] AccelerationParts;
@@ -424,10 +427,17 @@ public class ShipController : MonoBehaviour, IDamageable
             if(part.activeSelf != isActive) {
                 if(!isActive) {
                     GameObject clone = Instantiate(part);
-                    clone.transform.GetChild(0).gameObject.SetActive(true);
                     clone.transform.parent = transform.parent;
                     clone.transform.position = transform.position;
-                    Destroy(clone, 2f);
+                    clone.transform.localScale = transform.localScale;
+                    SpriteRenderer renderer = clone.GetComponent<SpriteRenderer>();
+                    renderer.material = NoLightsMaterial;
+                    renderer.sortingOrder = -100;
+                    clone.transform
+                            .DOScale(Vector3.one * 0.1f, 4f)
+                            .OnComplete(() => {
+                                Destroy(clone);
+                            });
                 }
                 part.SetActive(isActive);
             }
