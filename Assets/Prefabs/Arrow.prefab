@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  PilotSpriteRenderer: {fileID: 3494210201549411563}
+  CentralSpriteRenderer: {fileID: 3494210201549411563}
 --- !u!1 &6558517065595683303
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 3494210201549411563}
   - component: {fileID: 8160559925768154180}
   m_Layer: 0
-  m_Name: Pilot
+  m_Name: Central
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
