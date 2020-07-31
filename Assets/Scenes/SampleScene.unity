@@ -483,7 +483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.3969917, y: 0, z: -10}
+  m_LocalPosition: {x: -6.400687, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1174,7 +1174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778020483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.3969917, y: 0, z: -10}
+  m_LocalPosition: {x: -6.400687, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 670027388}
@@ -1558,7 +1558,7 @@ MonoBehaviour:
   SpaceStationArrow: {fileID: 1776040881}
   SpaceStationArrowSprite: {fileID: 21300000, guid: bb0d6a520aae94c4dbf33e46ebc3397f,
     type: 3}
-  Orb: {fileID: 4838711408782908097, guid: 6614394bbccc84cfd9f8377c069fbe94, type: 3}
+  Pilot: {fileID: 4838711408782908097, guid: 6614394bbccc84cfd9f8377c069fbe94, type: 3}
   Arrow: {fileID: 6490095917818305712, guid: 1bfd376c1a9ac417e9a0bb8dd0f56a72, type: 3}
   Asteroid: {fileID: 6200632985198936166, guid: 7aa99dbd62aca4787887de09d05a7ffe,
     type: 3}

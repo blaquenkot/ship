@@ -97,11 +97,11 @@ GameObject:
   - component: {fileID: 513097798469217628}
   - component: {fileID: 9127781091942783227}
   - component: {fileID: 173689459094755632}
-  - component: {fileID: 7058038236044886181}
+  - component: {fileID: 7546356443540072414}
   - component: {fileID: 71775273388186740}
   - component: {fileID: -3883948806434312790}
   m_Layer: 13
-  m_Name: Orb
+  m_Name: Pilot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +209,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.7
---- !u!114 &7058038236044886181
+--- !u!114 &7546356443540072414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,12 +218,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4838711408782908097}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fca7e55420a384d169d0a9aeefdc37fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 90d1ab83397304e2ab610ae28d69e7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PilotSprite: {fileID: 21300000, guid: c8ad903a68a8b44618cd61e9c2333592, type: 3}
   Light: {fileID: 4595061909749420994}
-  IsVisible: 0
 --- !u!114 &71775273388186740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d00be72e944920b29a9601afcd039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsVisible: 0
 --- !u!114 &-3883948806434312790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,4 +248,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a053a9624a44191a2a617b52314200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowArrowWhenVisible: 1
+  ShowArrowWhileVisible: 1

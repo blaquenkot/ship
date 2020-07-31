@@ -14,7 +14,7 @@ public class WorldController : MonoBehaviour
     public GameObject SpaceStationArrow;
     public Sprite SpaceStationArrowSprite;
 
-    public GameObject Orb;
+    public GameObject Pilot;
     public GameObject Arrow;
 
     public GameObject Asteroid;
@@ -35,7 +35,7 @@ public class WorldController : MonoBehaviour
     public UIController UIController;
     private ShipController ShipController;
     private ColorAdjustments ColorAdjustments;
-    private List<GameObject> InactiveObjectsToActiveOnFirstOrb = new List<GameObject>();
+    private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
 
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
     private float CreateEnemyCooldown = 1f;
@@ -43,7 +43,7 @@ public class WorldController : MonoBehaviour
     private float CreateAsteroidCooldown = 0.75f;
     private bool ShouldSpawnObjects = true;
 
-    private int Orbs = 0;
+    private int Pilots = 0;
     private int Points = 0;
     private float TotalTime = 0;
 
@@ -61,27 +61,27 @@ public class WorldController : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            GameObject orb = Instantiate(Orb, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
+            GameObject pilot = Instantiate(Pilot, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
             ArrowController arrowController = arrow.GetComponent<ArrowController>();
-            arrowController.Target = orb;
+            arrowController.Target = pilot;
             int index = Random.Range(0, Pilots.Count);
-            arrowController.SetPilotImage(Pilots[index]);
+            arrowController.SetCentralImage(Pilots[index]);
             Pilots.RemoveAt(index);
             
             if(i != 0)
             {
                 arrow.SetActive(false);
-                InactiveObjectsToActiveOnFirstOrb.Add(arrow);
-                orb.SetActive(false);
-                InactiveObjectsToActiveOnFirstOrb.Add(orb);
+                InactiveObjectsToActivateOnFirstPilot.Add(arrow);
+                Pilot.SetActive(false);
+                InactiveObjectsToActivateOnFirstPilot.Add(pilot);
             }
         }
 
         SpaceStation.SetActive(false);
         ArrowController spaceStationArrowController = SpaceStationArrow.GetComponent<ArrowController>();
         spaceStationArrowController.Target = SpaceStation;
-        spaceStationArrowController.SetPilotImage(SpaceStationArrowSprite);
+        spaceStationArrowController.SetCentralImage(SpaceStationArrowSprite);
         SpaceStationArrow.SetActive(false);
     }
 
@@ -102,22 +102,22 @@ public class WorldController : MonoBehaviour
         ShipController.EnemyKilled(wasSpecialAttack);
     }
 
-    public void OrbPickedUp()
+    public void PilotPickedUp()
     {
-        if(Orbs == 0)
+        if(Pilots == 0)
         {
-            foreach (var inactiveObject in InactiveObjectsToActiveOnFirstOrb)
+            foreach (var inactiveObject in InactiveObjectsToActivateOnFirstPilot)
             {
                 inactiveObject.SetActive(true);
             }
         }
 
-        Orbs += 1;
+        Pilots += 1;
         AddPoints(1000);
 
-        if (Orbs >= 5)
+        if (Pilots >= 5)
         {
-            AllOrbsPickedUp();
+            AllPilotsPickedUp();
         }
     }
 
@@ -127,7 +127,7 @@ public class WorldController : MonoBehaviour
         ShowYouWon();
     }
 
-    void AllOrbsPickedUp()
+    void AllPilotsPickedUp()
     {
         SpaceStation.transform.position = Ship.transform.position + (Vector3)Random.insideUnitCircle.normalized * Random.Range(50f, 150f);
         SpaceStation.SetActive(true);

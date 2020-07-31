@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class OrbController : MonoBehaviour, IDamageable
+public class PilotController : MonoBehaviour, IDamageable
 {
     public Sprite PilotSprite;
     public FlashingLight Light;
@@ -18,7 +18,7 @@ public class OrbController : MonoBehaviour, IDamageable
         Collider = GetComponent<CircleCollider2D>();
         VisibleObject = GetComponent<VisibleObject>();
     }
-    
+
     void Update()
     {
         if(VisibleObject.IsVisible)

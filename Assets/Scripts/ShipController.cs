@@ -255,6 +255,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public bool TakeDamage(float damageTaken)
     {
         Light.MakeFlash();
+
         if(ShieldFactor > FactorMinLimit) 
         {
             ModifyShieldFactor(-damageTaken);
@@ -353,14 +354,14 @@ public class ShipController : MonoBehaviour, IDamageable
         } 
         else 
         {
-            OrbController orb = collider.GetComponent<OrbController>();
-            if(orb) 
+            PilotController Pilot = collider.GetComponent<PilotController>();
+            if(Pilot) 
             {
-                if(orb.CanBeConsumed())
+                if(Pilot.CanBeConsumed())
                 {
                     SpecialAttackCooldown = 0f;
-                    WorldController.OrbPickedUp();
-                    orb.Consume();
+                    WorldController.PilotPickedUp();
+                    Pilot.Consume();
                 }
             } 
             else 

@@ -3,11 +3,10 @@ using UnityEngine;
 public class ArrowController : MonoBehaviour
 {
     public GameObject Target;
-    public SpriteRenderer PilotSpriteRenderer;
+    public SpriteRenderer CentralSpriteRenderer;
 
     private Camera Camera;
     private SpriteRenderer SpriteRenderer;
-    private SpriteRenderer OrbSpriteRenderer;
     private PointableObject PointableObject;
     private VisibleObject VisibleObject;
 
@@ -19,7 +18,6 @@ public class ArrowController : MonoBehaviour
 
     void Start()
     {
-        OrbSpriteRenderer = Target.GetComponent<SpriteRenderer>();
         PointableObject = Target.GetComponent<PointableObject>();
         VisibleObject = Target.GetComponent<VisibleObject>();
     }
@@ -42,7 +40,7 @@ public class ArrowController : MonoBehaviour
         if(!PointableObject.ShowArrowWhileVisible) 
         {
             SpriteRenderer.enabled = IsFarFromTarget;
-            PilotSpriteRenderer.enabled = IsFarFromTarget;
+            CentralSpriteRenderer.enabled = IsFarFromTarget;
         }
 
         if(IsFarFromTarget || !VisibleObject.IsVisible)
@@ -57,8 +55,8 @@ public class ArrowController : MonoBehaviour
         transform.localScale = Vector3.one * Mathf.Clamp(scale, 1f, 1.5f);
     }
 
-    public void SetPilotImage(Sprite Image)
+    public void SetCentralImage(Sprite Image)
     {
-        PilotSpriteRenderer.sprite = Image;
+        CentralSpriteRenderer.sprite = Image;
     }
 }
