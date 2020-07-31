@@ -297,6 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff23ee40e7c5a485fb94b91fea9c3177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Border: {fileID: 2945368946226108008}
   Target: {fileID: 0}
   Type: 0
   Amount: 0.75

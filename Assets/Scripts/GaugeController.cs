@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GaugeController : MonoBehaviour, IGauge
+public class GaugeController : MonoBehaviour
 {
     public Sprite ImageOn;
     public Sprite ImageOff;

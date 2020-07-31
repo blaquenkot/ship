@@ -7,42 +7,34 @@ using System.Linq;
 
 public class WorldController : MonoBehaviour
 {
-    public GameObject Ship;
+    public ShipController ShipController;
     public Volume Volume;
-
     public GameObject SpaceStation;
     public GameObject SpaceStationArrow;
     public Sprite SpaceStationArrowSprite;
-
     public GameObject Pilot;
     public GameObject Arrow;
-
     public GameObject Asteroid;
     public GameObject Enemy1;
     public GameObject Enemy2;
-
     public GameObject AccelerationPowerUp;
     public GameObject RotationPowerUp;    
     public GameObject ShieldPowerUp;    
     public GameObject BlastersPowerUp;
-    public GameObject GameOverObject;
     public GameObject YouWonObject;
-
     public Sprite[] PilotImages;
-
-    public GameObject UIObject;
-    private GameOverController GameOverController;
+    public GameOverController GameOverController;
     public UIController UIController;
-    private ShipController ShipController;
+    
     private ColorAdjustments ColorAdjustments;
     private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
-
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
+
+    private bool ShouldSpawnObjects = true;
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
     private float CreateAsteroidCooldown = 0.75f;
-    private bool ShouldSpawnObjects = true;
-
+    
     private int Pilots = 0;
     private int Points = 0;
     private float TotalTime = 0;
@@ -53,9 +45,6 @@ public class WorldController : MonoBehaviour
     public void Awake()
     {
         Volume.sharedProfile.TryGet<ColorAdjustments>(out ColorAdjustments);
-        GameOverController = GameOverObject.GetComponent<GameOverController>();
-        UIController = UIObject.GetComponent<UIController>();
-        ShipController = Ship.GetComponent<ShipController>();
 
         List<Sprite> Pilots = PilotImages.ToList();
 
@@ -73,7 +62,7 @@ public class WorldController : MonoBehaviour
             {
                 arrow.SetActive(false);
                 InactiveObjectsToActivateOnFirstPilot.Add(arrow);
-                Pilot.SetActive(false);
+                pilot.SetActive(false);
                 InactiveObjectsToActivateOnFirstPilot.Add(pilot);
             }
         }
@@ -129,7 +118,7 @@ public class WorldController : MonoBehaviour
 
     void AllPilotsPickedUp()
     {
-        SpaceStation.transform.position = Ship.transform.position + (Vector3)Random.insideUnitCircle.normalized * Random.Range(50f, 150f);
+        SpaceStation.transform.position = ShipController.gameObject.transform.position + (Vector3)Random.insideUnitCircle.normalized * Random.Range(50f, 150f);
         SpaceStation.SetActive(true);
         SpaceStationArrow.SetActive(true);
     }
@@ -149,7 +138,7 @@ public class WorldController : MonoBehaviour
     {
         GameOverController.UpdateInfo(Points, GetTimeAsString());
         yield return new WaitForSeconds(0.75f);
-        GameOverObject.SetActive(true);
+        GameOverController.gameObject.SetActive(true);
     }
 
     void Update()
@@ -264,7 +253,7 @@ public class WorldController : MonoBehaviour
         // 0.25 for screen left margin
         Vector2 location = Camera.main.ViewportToWorldPoint(GetRandomRelativePosition(inScreen));
 
-        if(Vector2.Distance(Ship.transform.position, location) > 7.5f) {
+        if(Vector2.Distance(ShipController.gameObject.transform.position, location) > 7.5f) {
             transform.position = location;
     
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);

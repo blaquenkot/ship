@@ -16,35 +16,24 @@ public class ShipController : MonoBehaviour, IDamageable
     public FlashingLight Light;
     public GameObject Explosion;
     public GameObject SpecialAttack;
+    public GaugeController AccelerationGauge;
+    public GaugeController RotationGauge;
+    public GaugeController ShieldGauge;
+    public GaugeController BlasterGauge;
     public GameObject[] AccelerationParts;
-    public GameObject AccelerationGaugeObject;
     public GameObject[] RotationParts;
-    public GameObject RotationGaugeObject;
     public GameObject[] ShieldParts;
-    public GameObject ShieldGaugeObject;
     public GameObject[] BlasterParts;
-    public GameObject BlasterGaugeObject;
-    public GameObject[] CannonsLevel1;
-    public GameObject[] CannonsLevel2;
-    public GameObject[] CannonsLevel3;
-    public GameObject TailParticleObject;
-    public GameObject LeftParticleObject;
-    public GameObject RightParticleObject;
-    public GameObject WorldControllerObject;
+    public CannonController[] CannonControllersLevel1;
+    public CannonController[] CannonControllersLevel2;
+    public CannonController[] CannonControllersLevel3;
+    public ParticleSystem TailParticleSystem;
+    public ParticleSystem LeftParticleSystem;
+    public ParticleSystem RightParticleSystem;
+    public WorldController WorldController;
 
     private Rigidbody2D Body;
-    private IGauge AccelerationGauge;
-    private IGauge RotationGauge;
-    private IGauge ShieldGauge;
-    private IGauge BlasterGauge;
     private ShakeCameraController ShakeCameraController;
-    private CannonController[] CannonControllersLevel1;
-    private CannonController[] CannonControllersLevel2;
-    private CannonController[] CannonControllersLevel3;
-    private ParticleSystem TailParticleSystem;
-    private ParticleSystem LeftParticleSystem;
-    private ParticleSystem RightParticleSystem;
-    private WorldController WorldController;
     private bool Shoot = false;
     private bool ExecuteSpecialAttack = false;
     private float DesiredRotation = 0f;
@@ -70,38 +59,19 @@ public class ShipController : MonoBehaviour, IDamageable
     void Start()
     {
         Body = GetComponent<Rigidbody2D>();
-        AccelerationGauge = AccelerationGaugeObject.GetComponent<IGauge>();
-        RotationGauge = RotationGaugeObject.GetComponent<IGauge>();
-        ShieldGauge = ShieldGaugeObject.GetComponent<IGauge>();
-        BlasterGauge = BlasterGaugeObject.GetComponent<IGauge>();
         ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
-        TailParticleSystem = TailParticleObject.GetComponent<ParticleSystem>();
-        LeftParticleSystem = LeftParticleObject.GetComponent<ParticleSystem>();
-        RightParticleSystem = RightParticleObject.GetComponent<ParticleSystem>();
-        WorldController = WorldControllerObject.GetComponent<WorldController>();
 
         ShootSound = Resources.Load<AudioClip>("laser1");
         
         Body.angularDrag = BaseAngularDrag * AngularDragFactor;
 
-        CannonControllersLevel1 = new CannonController[CannonsLevel1.Length];
-        CannonControllersLevel2 = new CannonController[CannonsLevel2.Length];
-        CannonControllersLevel3 = new CannonController[CannonsLevel3.Length];
-
-        for (int i = 0; i < CannonsLevel1.Length; i++)
+        List<CannonController> allCannons = CannonControllersLevel1
+                                                .Concat(CannonControllersLevel2)
+                                                .Concat(CannonControllersLevel3)
+                                                .ToList();
+        foreach (var cannon in allCannons)
         {
-            CannonControllersLevel1[i] = CannonsLevel1[i].GetComponent<CannonController>();
-            CannonControllersLevel1[i].WorldController = WorldController;
-        }
-        for (int i = 0; i < CannonsLevel2.Length; i++)
-        {
-            CannonControllersLevel2[i] = CannonsLevel2[i].GetComponent<CannonController>();
-            CannonControllersLevel2[i].WorldController = WorldController;
-        }
-        for (int i = 0; i < CannonsLevel3.Length; i++)
-        {
-            CannonControllersLevel3[i] = CannonsLevel3[i].GetComponent<CannonController>();
-            CannonControllersLevel3[i].WorldController = WorldController;
+            cannon.WorldController = WorldController;
         }
 
         // Forcing update for ship components

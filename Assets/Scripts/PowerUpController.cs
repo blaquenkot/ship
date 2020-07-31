@@ -7,12 +7,12 @@ public class PowerUpController : MonoBehaviour
 {
     private const float Acceleration = 0.4f;
 
+    public Transform Border;
     public GameObject Target;
     public PowerUpType Type = PowerUpType.Acceleration;
     public float Amount = 0.25f;
 
     private AudioClip Sound;
-    private Transform Border;
     private float Velocity = 0f;
 
     void Awake()

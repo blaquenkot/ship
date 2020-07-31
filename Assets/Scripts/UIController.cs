@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     public Sprite SpecialOffSprite;
     private float FlickTimer = 0.5f;
     private bool SpecialLoaded = true;
+    
     void Update()
     {
         if (SpecialLoaded)
