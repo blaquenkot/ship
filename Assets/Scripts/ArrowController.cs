@@ -9,6 +9,8 @@ public class ArrowController : MonoBehaviour
     private SpriteRenderer SpriteRenderer;
     private PointableObject PointableObject;
     private VisibleObject VisibleObject;
+    private float HideAndShowCooldown = 0.2f;
+    private int HideAndShowTimes = 0;
 
     void Awake()
     {
@@ -30,6 +32,27 @@ public class ArrowController : MonoBehaviour
             return;
         }
 
+        if(HideAndShowTimes > 0)
+        {
+            HideAndShowCooldown -= Time.deltaTime;
+            if(HideAndShowCooldown <= 0f)
+            {
+                if(!SpriteRenderer.enabled) 
+                {
+                    SpriteRenderer.enabled = true;
+                    CentralSpriteRenderer.enabled = true;
+                    HideAndShowTimes -= 1;
+                } 
+                else 
+                {
+                    SpriteRenderer.enabled = false;
+                    CentralSpriteRenderer.enabled = false;
+                }
+                
+                HideAndShowCooldown = 0.2f;
+            }
+        }
+        
         var direction = transform.rotation * Vector2.right;
         var diffVector = Target.transform.position - transform.position;
         var angleDiff = Vector2.SignedAngle(direction, diffVector);
@@ -58,5 +81,11 @@ public class ArrowController : MonoBehaviour
     public void SetCentralImage(Sprite Image)
     {
         CentralSpriteRenderer.sprite = Image;
+    }
+
+    public void HideAndShow(int times)
+    {
+        HideAndShowCooldown = 0.2f;
+        HideAndShowTimes = times;
     }
 }

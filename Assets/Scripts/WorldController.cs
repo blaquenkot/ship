@@ -65,6 +65,10 @@ public class WorldController : MonoBehaviour
                 pilot.SetActive(false);
                 InactiveObjectsToActivateOnFirstPilot.Add(pilot);
             }
+            else
+            {
+                arrowController.HideAndShow(2);
+            }
         }
 
         SpaceStation.SetActive(false);
@@ -98,6 +102,12 @@ public class WorldController : MonoBehaviour
             foreach (var inactiveObject in InactiveObjectsToActivateOnFirstPilot)
             {
                 inactiveObject.SetActive(true);
+
+                ArrowController arrowController = inactiveObject.GetComponent<ArrowController>();
+                if(arrowController)
+                {
+                    arrowController.HideAndShow(2);
+                }
             }
         }
 
