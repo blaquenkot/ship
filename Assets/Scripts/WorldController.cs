@@ -131,6 +131,7 @@ public class WorldController : MonoBehaviour
         SpaceStation.transform.position = ShipController.gameObject.transform.position + (Vector3)Random.insideUnitCircle.normalized * Random.Range(50f, 150f);
         SpaceStation.SetActive(true);
         SpaceStationArrow.SetActive(true);
+        SpaceStationArrow.GetComponent<ArrowController>().HideAndShow(2);
     }
 
     void ShowYouWon()
