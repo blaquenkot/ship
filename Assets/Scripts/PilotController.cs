@@ -5,9 +5,11 @@ public class PilotController : MonoBehaviour, IDamageable
 {
     public Sprite PilotSprite;
     public FlashingLight Light;
+    public WorldController WorldController;
 
     private float AnimationDuration = 1.1f;
-    private float Health = 10f;
+    private float ContainerHealth = 10f;
+    private float HealthTimer = 3f;
     private SpriteRenderer SpriteRenderer;
     private CircleCollider2D Collider;
     private VisibleObject VisibleObject;
@@ -29,6 +31,15 @@ public class PilotController : MonoBehaviour, IDamageable
                 Animate();
                 AnimationDuration = 1.1f;
             }
+
+            if(ContainerHealth <= 0f)
+            {
+                HealthTimer -= Time.deltaTime;
+                if(HealthTimer <= 0)
+                {
+                    HealthTimerExpired();
+                }
+            }
         }
     }
 
@@ -45,14 +56,24 @@ public class PilotController : MonoBehaviour, IDamageable
 				});
     }
 
+    void HealthTimerExpired()
+    {
+        // change sprite!
+        transform.DOScale(Vector3.one * 0.25f, 0.75f).OnComplete(() => {
+            WorldController.PilotDied();
+            Destroy(gameObject);
+        });
+    }
+
     public bool CanBeConsumed()
     {
-        return (Health <= 0);
+        return (ContainerHealth <= 0);
     }
 
     public void Consume()
     {
-        if(CanBeConsumed()) {
+        if(CanBeConsumed()) 
+        {
             //AudioSource.PlayClipAtPoint(Sound, transform.position);
             Destroy(gameObject);
         }
@@ -72,9 +93,9 @@ public class PilotController : MonoBehaviour, IDamageable
     {
         Light.MakeFlash();
 
-        Health -= damageTaken;
+        ContainerHealth -= damageTaken;
 
-        if(Health <= 0)
+        if(ContainerHealth <= 0)
         {
             SpriteRenderer.sprite = PilotSprite;
             Collider.isTrigger = true;

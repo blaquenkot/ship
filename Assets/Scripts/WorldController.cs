@@ -34,7 +34,8 @@ public class WorldController : MonoBehaviour
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
     private float CreateAsteroidCooldown = 0.75f;
-    
+
+    private int TotalPilots = 5;
     private int Pilots = 0;
     private int Points = 0;
     private float TotalTime = 0;
@@ -48,9 +49,10 @@ public class WorldController : MonoBehaviour
 
         List<Sprite> Pilots = PilotImages.ToList();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < TotalPilots; i++)
         {
             GameObject pilot = Instantiate(Pilot, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
+            pilot.GetComponent<PilotController>().WorldController = this;
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
             ArrowController arrowController = arrow.GetComponent<ArrowController>();
             arrowController.Target = pilot;
@@ -95,26 +97,20 @@ public class WorldController : MonoBehaviour
         ShipController.EnemyKilled(wasSpecialAttack);
     }
 
+    public void PilotDied()
+    {
+        PilotsChanged();
+        TotalPilots -= 1;
+    }
+
     public void PilotPickedUp()
     {
-        if(Pilots == 0)
-        {
-            foreach (var inactiveObject in InactiveObjectsToActivateOnFirstPilot)
-            {
-                inactiveObject.SetActive(true);
-
-                ArrowController arrowController = inactiveObject.GetComponent<ArrowController>();
-                if(arrowController)
-                {
-                    arrowController.HideAndShow(2);
-                }
-            }
-        }
+        PilotsChanged();
 
         Pilots += 1;
         AddPoints(1000);
 
-        if (Pilots >= 5)
+        if (Pilots >= TotalPilots)
         {
             AllPilotsPickedUp();
         }
@@ -316,5 +312,22 @@ public class WorldController : MonoBehaviour
     private string GetTimeAsString()
     {
         return Mathf.Floor(TotalTime / 60).ToString("00") + ':' + (TotalTime % 60).ToString("00");
+    }
+
+    private void PilotsChanged()
+    {
+        if(Pilots == 0)
+        {
+            foreach (var inactiveObject in InactiveObjectsToActivateOnFirstPilot)
+            {
+                inactiveObject.SetActive(true);
+
+                ArrowController arrowController = inactiveObject.GetComponent<ArrowController>();
+                if(arrowController)
+                {
+                    arrowController.HideAndShow(2);
+                }
+            }
+        }
     }
 }
