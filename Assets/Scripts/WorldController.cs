@@ -52,7 +52,6 @@ public class WorldController : MonoBehaviour
         for (int i = 0; i < TotalPilots; i++)
         {
             GameObject pilot = Instantiate(Pilot, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
-            pilot.GetComponent<PilotController>().WorldController = this;
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
             ArrowController arrowController = arrow.GetComponent<ArrowController>();
             arrowController.Target = pilot;
@@ -60,6 +59,10 @@ public class WorldController : MonoBehaviour
             arrowController.SetCentralImage(Pilots[index]);
             Pilots.RemoveAt(index);
             
+            PilotController pilotController = pilot.GetComponent<PilotController>();
+            pilotController.WorldController = this;
+            pilotController.ArrowController = arrowController;
+
             if(i != 0)
             {
                 arrow.SetActive(false);

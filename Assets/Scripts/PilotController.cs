@@ -3,13 +3,16 @@ using DG.Tweening;
 
 public class PilotController : MonoBehaviour, IDamageable
 {
+    private const float MaxHealthTimer = 10f;
+
     public Sprite PilotSprite;
     public FlashingLight Light;
     public WorldController WorldController;
+    public ArrowController ArrowController;
 
     private float AnimationDuration = 1.1f;
     private float ContainerHealth = 10f;
-    private float HealthTimer = 3f;
+    private float HealthTimer = MaxHealthTimer;
     private SpriteRenderer SpriteRenderer;
     private CircleCollider2D Collider;
     private VisibleObject VisibleObject;
@@ -31,14 +34,15 @@ public class PilotController : MonoBehaviour, IDamageable
                 Animate();
                 AnimationDuration = 1.1f;
             }
+        }
 
-            if(ContainerHealth <= 0f)
+        if(ContainerHealth <= 0f)
+        {
+            HealthTimer -= Time.deltaTime;
+            ArrowController.SetProgress(HealthTimer/MaxHealthTimer);
+            if(HealthTimer <= 0)
             {
-                HealthTimer -= Time.deltaTime;
-                if(HealthTimer <= 0)
-                {
-                    HealthTimerExpired();
-                }
+                HealthTimerExpired();
             }
         }
     }

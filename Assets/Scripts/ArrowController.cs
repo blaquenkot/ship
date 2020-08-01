@@ -4,7 +4,8 @@ public class ArrowController : MonoBehaviour
 {
     public GameObject Target;
     public SpriteRenderer CentralSpriteRenderer;
-
+    public SpriteRenderer ProgressSpriteRenderer;
+    
     private Camera Camera;
     private SpriteRenderer SpriteRenderer;
     private PointableObject PointableObject;
@@ -81,6 +82,12 @@ public class ArrowController : MonoBehaviour
     public void SetCentralImage(Sprite Image)
     {
         CentralSpriteRenderer.sprite = Image;
+    }
+
+    public void SetProgress(float progress)
+    {
+        float angle = Mathf.Lerp(360, 0, progress);
+        ProgressSpriteRenderer.material.SetFloat("_Arc2", angle);
     }
 
     public void HideAndShow(int times)
