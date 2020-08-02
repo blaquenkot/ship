@@ -36,7 +36,7 @@ public class WorldController : MonoBehaviour
     private float CreateAsteroidCooldown = 0.75f;
 
     private int TotalPilots = 5;
-    private int Pilots = 0;
+    private int PickedUpPilots = 0;
     private int Points = 0;
     private float TotalTime = 0;
 
@@ -102,18 +102,18 @@ public class WorldController : MonoBehaviour
 
     public void PilotDied()
     {
-        PilotsChanged();
+        OnPilotsChanges();
         TotalPilots -= 1;
     }
 
     public void PilotPickedUp()
     {
-        PilotsChanged();
+        OnPilotsChanges();
 
-        Pilots += 1;
+        PickedUpPilots += 1;
         AddPoints(1000);
 
-        if (Pilots >= TotalPilots)
+        if (PickedUpPilots >= TotalPilots)
         {
             AllPilotsPickedUp();
         }
@@ -317,9 +317,9 @@ public class WorldController : MonoBehaviour
         return Mathf.Floor(TotalTime / 60).ToString("00") + ':' + (TotalTime % 60).ToString("00");
     }
 
-    private void PilotsChanged()
+    private void OnPilotsChanges()
     {
-        if(Pilots == 0)
+        if(PickedUpPilots == 0)
         {
             foreach (var inactiveObject in InactiveObjectsToActivateOnFirstPilot)
             {
