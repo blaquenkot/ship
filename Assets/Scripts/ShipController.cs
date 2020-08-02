@@ -384,9 +384,11 @@ public class ShipController : MonoBehaviour, IDamageable
         AccelerationGauge.SetValue(ratio);
 
         ParticleSystem.MainModule main = TailParticleSystem.main;
+        TailParticleSystem.Pause();
         main.startSpeed = new ParticleSystem.MinMaxCurve(Mathf.Lerp(2.5f, 10f, ratio));
         main.startLifetime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(0.05f, 0.1f, ratio));
         main.duration = Mathf.Lerp(1f, 4f, ratio);
+        TailParticleSystem.Play();
     }
 
     private void ModifyTorqueFactor(float value) 
@@ -400,15 +402,19 @@ public class ShipController : MonoBehaviour, IDamageable
         ParticleSystem.MinMaxCurve startLifetimeCurve = new ParticleSystem.MinMaxCurve(Mathf.Lerp(0.05f, 0.1f, ratio));
         float duration = Mathf.Lerp(0.5f, 1f, ratio);
 
+        LeftParticleSystem.Pause();
         ParticleSystem.MainModule leftMain = LeftParticleSystem.main;
         leftMain.startSpeed = startSpeedCurve;
         leftMain.startLifetime = startLifetimeCurve;
         leftMain.duration = duration;
+        LeftParticleSystem.Play();
 
+        RightParticleSystem.Pause();
         ParticleSystem.MainModule rightMain = RightParticleSystem.main;
         rightMain.startSpeed = startSpeedCurve;
         rightMain.startLifetime = startLifetimeCurve;
         rightMain.duration = duration;
+        RightParticleSystem.Play();
     }
 
     private void ModifyShootFactor(float value) 
