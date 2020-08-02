@@ -24,6 +24,7 @@ public class WorldController : MonoBehaviour
     public GameObject YouWonObject;
     public Sprite[] PilotImages;
     public GameOverController GameOverController;
+    public PauseMenuController PauseMenuController;
     public UIController UIController;
     
     private ColorAdjustments ColorAdjustments;
@@ -153,6 +154,19 @@ public class WorldController : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(Time.timeScale == 0f)
+            {
+                UnpauseGame();
+            }
+            else 
+            {
+                PauseGame();
+            }
+            return;
+        }
+
         if(Flashes > 0)
         {
             FlashCooldown -= Time.deltaTime;
@@ -249,6 +263,18 @@ public class WorldController : MonoBehaviour
                 CreatePowerUpCooldown = 0.2f + Random.value;
             }
         }
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0f;
+        PauseMenuController.gameObject.SetActive(true);
+    }
+
+    void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+        PauseMenuController.gameObject.SetActive(false);
     }
 
     private Vector2? GetRandomPosition(float radius, bool inScreen, int iteration)
