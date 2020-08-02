@@ -18,6 +18,9 @@ public class ShotController : MonoBehaviour
 
     public void Fire(Vector2 direction, Vector2 baseVelocity, float hitPower) 
     {
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         HitPower = hitPower;
 
         Body.velocity = baseVelocity + direction * Speed;

@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour, IDamageable
             ShotCooldown -= Time.deltaTime;
             if(ShotCooldown <= 0)
             {
-                Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation);
+                Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation + Random.Range(-15f, 15f));
                 ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
                 shot.Fire(direction, Body.velocity, ShootPower);
 
@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         var direction = transform.rotation * Vector2.right;
         var diffVector = Player.transform.position - transform.position;
-        var angleDiff = Vector2.SignedAngle(direction, diffVector) + Random.Range(-2f, 2f);
+        var angleDiff = Vector2.SignedAngle(direction, diffVector) + Random.Range(-4f, 4f);
         var clampedDiff = Mathf.Clamp(
             angleDiff,
             -MaxRotation * time,
@@ -85,7 +85,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         transform.rotation = Quaternion.AngleAxis(
             transform.eulerAngles.z + clampedDiff,
             Vector3.forward
-        );    
+        );
     }
 
     private void Destroyed()
