@@ -7,6 +7,8 @@ using System.Linq;
 
 public class WorldController : MonoBehaviour
 {
+    private const int MaxPilots = 5;
+
     public ShipController ShipController;
     public Volume Volume;
     public GameObject SpaceStation;
@@ -31,12 +33,13 @@ public class WorldController : MonoBehaviour
     private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
 
+    private bool AllPilotsArrowsShown = false;
     private bool ShouldSpawnObjects = true;
     private float CreateEnemyCooldown = 1f;
     private float CreatePowerUpCooldown = 0.5f;
     private float CreateAsteroidCooldown = 0.75f;
 
-    private int TotalPilots = 5;
+    private int TotalPilots = MaxPilots;
     private int PickedUpPilots = 0;
     private int Points = 0;
     private float TotalTime = 0;
@@ -50,7 +53,7 @@ public class WorldController : MonoBehaviour
 
         List<Sprite> Pilots = PilotImages.ToList();
 
-        for (int i = 0; i < TotalPilots; i++)
+        for (int i = 0; i < MaxPilots; i++)
         {
             GameObject pilot = Instantiate(Pilot, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
@@ -103,21 +106,20 @@ public class WorldController : MonoBehaviour
 
     public void PilotDied()
     {
-        OnPilotsChanges();
+        ShowAllPilotsArrows();
         TotalPilots -= 1;
+
+        PilotsChanged();
     }
 
     public void PilotPickedUp()
     {
-        OnPilotsChanges();
+        ShowAllPilotsArrows();
 
         PickedUpPilots += 1;
         AddPoints(1000);
 
-        if (PickedUpPilots >= TotalPilots)
-        {
-            AllPilotsPickedUp();
-        }
+        PilotsChanged();
     }
 
     public void SpaceStationReached()
@@ -343,9 +345,17 @@ public class WorldController : MonoBehaviour
         return Mathf.Floor(TotalTime / 60).ToString("00") + ':' + (TotalTime % 60).ToString("00");
     }
 
-    private void OnPilotsChanges()
+    private void PilotsChanged()
     {
-        if(PickedUpPilots == 0)
+        if (PickedUpPilots >= TotalPilots)
+        {
+            AllPilotsPickedUp();
+        }
+    }
+
+    private void ShowAllPilotsArrows()
+    {
+        if(!AllPilotsArrowsShown) 
         {
             foreach (var inactiveObject in InactiveObjectsToActivateOnFirstPilot)
             {
@@ -357,6 +367,8 @@ public class WorldController : MonoBehaviour
                     arrowController.HideAndShow(2);
                 }
             }
+
+            AllPilotsArrowsShown = true;
         }
     }
 }
