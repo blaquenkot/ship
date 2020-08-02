@@ -379,15 +379,36 @@ public class ShipController : MonoBehaviour, IDamageable
     private void ModifyAccelerationFactor(float value) 
     {
         AccelerationFactor = Mathf.Clamp(AccelerationFactor + value, FactorMinLimit, FactorMaxLimit);
-        UpdateParts(AccelerationParts, AccelerationFactor / FactorMaxLimit);
-        AccelerationGauge.SetValue(AccelerationFactor / FactorMaxLimit);
+        float ratio = AccelerationFactor / FactorMaxLimit;
+        UpdateParts(AccelerationParts, ratio);
+        AccelerationGauge.SetValue(ratio);
+
+        ParticleSystem.MainModule main = TailParticleSystem.main;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(Mathf.Lerp(2.5f, 10f, ratio));
+        main.startLifetime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(0.05f, 0.1f, ratio));
+        main.duration = Mathf.Lerp(1f, 4f, ratio);
     }
 
     private void ModifyTorqueFactor(float value) 
     {
         TorqueFactor = Mathf.Clamp(TorqueFactor + value, FactorMinLimit, FactorMaxLimit);
-        UpdateParts(RotationParts, TorqueFactor / FactorMaxLimit);
-        RotationGauge.SetValue(TorqueFactor / FactorMaxLimit);
+        float ratio = TorqueFactor / FactorMaxLimit;
+        UpdateParts(RotationParts, ratio);
+        RotationGauge.SetValue(ratio);
+
+        ParticleSystem.MinMaxCurve startSpeedCurve = new ParticleSystem.MinMaxCurve(Mathf.Lerp(1f, 6f, ratio));
+        ParticleSystem.MinMaxCurve startLifetimeCurve = new ParticleSystem.MinMaxCurve(Mathf.Lerp(0.05f, 0.1f, ratio));
+        float duration = Mathf.Lerp(0.5f, 1f, ratio);
+
+        ParticleSystem.MainModule leftMain = LeftParticleSystem.main;
+        leftMain.startSpeed = startSpeedCurve;
+        leftMain.startLifetime = startLifetimeCurve;
+        leftMain.duration = duration;
+
+        ParticleSystem.MainModule rightMain = RightParticleSystem.main;
+        rightMain.startSpeed = startSpeedCurve;
+        rightMain.startLifetime = startLifetimeCurve;
+        rightMain.duration = duration;
     }
 
     private void ModifyShootFactor(float value) 

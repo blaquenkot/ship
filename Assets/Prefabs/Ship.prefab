@@ -5650,6 +5650,10 @@ MonoBehaviour:
     type: 3}
   SpecialAttack: {fileID: 945852512912690991, guid: 13ad4565d6f2f4e75884a47ccb63c4df,
     type: 3}
+  AccelerationGauge: {fileID: 0}
+  RotationGauge: {fileID: 0}
+  ShieldGauge: {fileID: 0}
+  BlasterGauge: {fileID: 0}
   AccelerationParts:
   - {fileID: 4774364068719440102}
   - {fileID: 4310516878609027758}
