@@ -61,7 +61,7 @@ public class ArrowController : MonoBehaviour
         
         bool IsFarFromTarget = diffVector.magnitude > 5f;
         bool IsNotVisible = !VisibleObject.IsVisible;
-        if(!PointableObject.ShowArrowWhileVisible) 
+        if(HideAndShowTimes == 0 && !PointableObject.ShowArrowWhileVisible) 
         {
             SpriteRenderer.enabled = IsNotVisible;
             CentralSpriteRenderer.enabled = IsNotVisible;
