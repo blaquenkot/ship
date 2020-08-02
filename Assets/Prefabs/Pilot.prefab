@@ -97,9 +97,10 @@ GameObject:
   - component: {fileID: 513097798469217628}
   - component: {fileID: 9127781091942783227}
   - component: {fileID: 173689459094755632}
-  - component: {fileID: 7546356443540072414}
   - component: {fileID: 71775273388186740}
   - component: {fileID: -3883948806434312790}
+  - component: {fileID: 8596119322287758201}
+  - component: {fileID: 7546356443540072414}
   m_Layer: 13
   m_Name: Pilot
   m_TagString: Untagged
@@ -209,20 +210,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.7
---- !u!114 &7546356443540072414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4838711408782908097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d1ab83397304e2ab610ae28d69e7b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PilotSprite: {fileID: 21300000, guid: c8ad903a68a8b44618cd61e9c2333592, type: 3}
-  Light: {fileID: 4595061909749420994}
 --- !u!114 &71775273388186740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,3 +236,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowArrowWhileVisible: 1
+--- !u!114 &8596119322287758201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838711408782908097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e146eedff2b14f43b385089af24c5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanBePickedUpWithSpecialAttack: 0
+--- !u!114 &7546356443540072414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838711408782908097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d1ab83397304e2ab610ae28d69e7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PilotSprite: {fileID: 21300000, guid: c8ad903a68a8b44618cd61e9c2333592, type: 3}
+  Light: {fileID: 4595061909749420994}
+  WorldController: {fileID: 0}
+  ArrowController: {fileID: 0}

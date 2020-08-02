@@ -44,10 +44,10 @@ public class SpecialAttackController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        PowerUpController powerUp = collider.GetComponent<PowerUpController>();
-        if(powerUp)
+        PickupableObject pickupableObject = collider.GetComponent<PickupableObject>();
+        if(pickupableObject && pickupableObject.CanBePickedUpWithSpecialAttack)
         {
-            powerUp.Target = Ship;
+            pickupableObject.SetTarget(Ship.gameObject);
         }
     }
 }

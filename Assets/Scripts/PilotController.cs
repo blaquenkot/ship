@@ -69,20 +69,6 @@ public class PilotController : MonoBehaviour, IDamageable
         });
     }
 
-    public bool CanBeConsumed()
-    {
-        return (ContainerHealth <= 0);
-    }
-
-    public void Consume()
-    {
-        if(CanBeConsumed()) 
-        {
-            //AudioSource.PlayClipAtPoint(Sound, transform.position);
-            Destroy(gameObject);
-        }
-    }
-
     public bool ShowArrowWhileVisible()
     {
         return true;
@@ -99,7 +85,7 @@ public class PilotController : MonoBehaviour, IDamageable
         {
             return false;
         }
-        
+
         Light.MakeFlash();
 
         ContainerHealth -= damageTaken;

@@ -320,19 +320,14 @@ public class ShipController : MonoBehaviour, IDamageable
         if(powerUp)
         {
             ModifyFactor(powerUp.Amount, powerUp.Type);
-            powerUp.Consume();
         } 
         else 
         {
             PilotController Pilot = collider.GetComponent<PilotController>();
             if(Pilot) 
             {
-                if(Pilot.CanBeConsumed())
-                {
-                    SpecialAttackCooldown = 0f;
-                    WorldController.PilotPickedUp();
-                    Pilot.Consume();
-                }
+                SpecialAttackCooldown = 0f;
+                WorldController.PilotPickedUp();
             } 
             else 
             {
@@ -342,6 +337,12 @@ public class ShipController : MonoBehaviour, IDamageable
                     WorldController.SpaceStationReached();
                 }
             }
+        }
+
+        PickupableObject pickupableObject = collider.GetComponent<PickupableObject>();
+        if(pickupableObject)
+        {
+            pickupableObject.PickUp(gameObject);
         }
     }
 
