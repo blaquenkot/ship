@@ -83,11 +83,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.Escape))
-        {
-            
-        } 
-        else if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E))
         {
             ModifyFactor(-AccelerationFactor, PowerUpType.Acceleration);
             ModifyFactor(-ShieldFactor, PowerUpType.Shield);

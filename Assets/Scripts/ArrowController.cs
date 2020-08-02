@@ -60,14 +60,14 @@ public class ArrowController : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + angleDiff, Vector3.forward);
         
         bool IsFarFromTarget = diffVector.magnitude > 5f;
-
+        bool IsNotVisible = !VisibleObject.IsVisible;
         if(!PointableObject.ShowArrowWhileVisible) 
         {
-            SpriteRenderer.enabled = IsFarFromTarget;
-            CentralSpriteRenderer.enabled = IsFarFromTarget;
+            SpriteRenderer.enabled = IsNotVisible;
+            CentralSpriteRenderer.enabled = IsNotVisible;
         }
 
-        if(IsFarFromTarget || !VisibleObject.IsVisible)
+        if(IsFarFromTarget || IsNotVisible)
         {
             Vector2 targetInViewportPosition = Camera.WorldToViewportPoint(Target.transform.position);
             Vector3 clampedPosition = Camera.ViewportToWorldPoint(new Vector2(Mathf.Clamp(targetInViewportPosition.x, 0.33f, 0.92f), Mathf.Clamp(targetInViewportPosition.y, 0.12f, 0.88f)));

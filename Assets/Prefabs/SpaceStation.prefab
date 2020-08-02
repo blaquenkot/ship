@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d00be72e944920b29a9601afcd039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsVisible: 0
 --- !u!114 &-3082459156081372017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,4 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a053a9624a44191a2a617b52314200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowArrowWhenVisible: 0
+  ShowArrowWhileVisible: 0
