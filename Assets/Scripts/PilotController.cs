@@ -95,6 +95,11 @@ public class PilotController : MonoBehaviour, IDamageable
 
     public bool TakeDamage(float damageTaken) 
     {
+        if(!VisibleObject.IsVisible) 
+        {
+            return false;
+        }
+        
         Light.MakeFlash();
 
         ContainerHealth -= damageTaken;
