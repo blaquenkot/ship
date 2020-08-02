@@ -283,7 +283,8 @@ public class ShipController : MonoBehaviour, IDamageable
             {
                 WorldController.AddPoints(1);
 
-                if(damageable.IsEnemy()) {
+                if(damageable.IsEnemy()) 
+                {
                     WorldController.EnemyKilled(false);
                 }
             }

@@ -86,7 +86,7 @@ public class ArrowController : MonoBehaviour
 
     public void SetProgress(float progress)
     {
-        float angle = Mathf.Lerp(360, 0, progress);
+        float angle = Mathf.Lerp(342, 27, progress);
         ProgressSpriteRenderer.material.SetFloat("_Arc2", angle);
     }
 
