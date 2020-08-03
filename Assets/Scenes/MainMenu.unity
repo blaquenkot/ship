@@ -310,6 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 606748433}
   - component: {fileID: 606748432}
+  - component: {fileID: 606748434}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -329,6 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cb27dfa1267f4c09bb48ae476d7a645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MuteButtonText: {fileID: 1820733316}
+  AudioController: {fileID: 0}
 --- !u!4 &606748433
 Transform:
   m_ObjectHideFlags: 0
@@ -343,6 +346,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &606748434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606748431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af512305c4d84417e97015a696e29240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &828969178
 GameObject:
   m_ObjectHideFlags: 0
