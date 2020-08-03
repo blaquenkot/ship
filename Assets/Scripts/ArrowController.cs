@@ -120,6 +120,11 @@ public class ArrowController : MonoBehaviour
 
     public void SetProgress(float progress)
     {
+        if(!ProgressSpriteRenderer)
+        {
+            return;
+        }
+
         UpdateProgressColor(progress);
 
         float a = VisibleObject.IsVisible ? 360 : 342;

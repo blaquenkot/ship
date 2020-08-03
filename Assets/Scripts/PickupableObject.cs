@@ -10,6 +10,7 @@ public class PickupableObject : MonoBehaviour
     private GameObject Target;
     private AudioClip Sound;
     private float Velocity = 0f;
+    private bool PickedUp = false;
 
     void Awake()
     {
@@ -32,8 +33,14 @@ public class PickupableObject : MonoBehaviour
         Target = target;
     }
 
+    public bool CanBePickedUp()
+    {
+        return !PickedUp;
+    }
+
     public void PickUp(GameObject target)
     {
+        PickedUp = true;
         Target = target;
         AudioSource.PlayClipAtPoint(Sound, transform.position);
         transform.DOScale(Vector3.one * 0.5f, 0.2f).OnComplete(() => {

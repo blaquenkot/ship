@@ -317,33 +317,33 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        PowerUpController powerUp = collider.GetComponent<PowerUpController>();
-        if(powerUp)
+        PickupableObject pickupableObject = collider.GetComponent<PickupableObject>();
+        if(pickupableObject && pickupableObject.CanBePickedUp())
         {
-            ModifyFactor(powerUp.Amount, powerUp.Type);
-        } 
-        else 
-        {
-            PilotController Pilot = collider.GetComponent<PilotController>();
-            if(Pilot) 
+            pickupableObject.PickUp(gameObject);
+
+            PowerUpController powerUp = collider.GetComponent<PowerUpController>();
+            if(powerUp)
             {
-                SpecialAttackCooldown = 0f;
-                WorldController.PilotPickedUp();
+                ModifyFactor(powerUp.Amount, powerUp.Type);
             } 
             else 
             {
-                if(collider.name == "SpaceStation")
+                PilotController Pilot = collider.GetComponent<PilotController>();
+                if(Pilot) 
                 {
-                    Destroy(gameObject);
-                    WorldController.SpaceStationReached();
-                }
+                    SpecialAttackCooldown = 0f;
+                    WorldController.PilotPickedUp();
+                } 
             }
-        }
-
-        PickupableObject pickupableObject = collider.GetComponent<PickupableObject>();
-        if(pickupableObject)
+        } 
+        else 
         {
-            pickupableObject.PickUp(gameObject);
+            if(collider.name == "SpaceStation")
+            {
+                Destroy(gameObject);
+                WorldController.SpaceStationReached();
+            }
         }
     }
 
