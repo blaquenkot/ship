@@ -341,8 +341,10 @@ public class ShipController : MonoBehaviour, IDamageable
         {
             if(collider.name == "SpaceStation")
             {
-                Destroy(gameObject);
                 WorldController.SpaceStationReached();
+                transform.DOScale(transform.localScale * 0.5f, 0.25f).OnComplete(() => {
+                    Destroy(gameObject);
+                });
             }
         }
     }
