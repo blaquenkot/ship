@@ -13,16 +13,24 @@ public class ArrowController : MonoBehaviour
     private SpriteRenderer SpriteRenderer;
     private PointableObject PointableObject;
     private VisibleObject VisibleObject;
-    private Color ProgressColor = Color.green;
+    private Color ProgressColor;
     private float HideAndShowCooldown = 0.2f;
     private int HideAndShowTimes = 0;
     private bool CanChangeArrowOpacity = true;
+    private Color LowProgressColor;
+    private Color MediumProgressColor;
+    private Color HighProgressColor;
 
     void Awake()
     {
         Camera = Camera.main;
         Ship = Object.FindObjectOfType<ShipController>().gameObject;
         SpriteRenderer = GetComponent<SpriteRenderer>();
+
+        ColorUtility.TryParseHtmlString("#932121", out LowProgressColor);
+        ColorUtility.TryParseHtmlString("#7f3470", out MediumProgressColor);
+        ColorUtility.TryParseHtmlString("#5c54f9", out HighProgressColor);
+        ProgressColor = HighProgressColor;
         ProgressSpriteRenderer.material.SetColor("_Color", ProgressColor);
     }
 
@@ -152,23 +160,23 @@ public class ArrowController : MonoBehaviour
         Color? newColor = null;
         if(progress < 0.2f)
         {
-            if(ProgressColor != Color.red)
+            if(ProgressColor != LowProgressColor)
             {
-                newColor = Color.red;
+                newColor = LowProgressColor;
             }
         }
         else if (progress < 0.55f)
         {
-            if(ProgressColor != Color.yellow)
+            if(ProgressColor != MediumProgressColor)
             {
-                newColor = Color.yellow;
+                newColor = MediumProgressColor;
             }
         }
         else
         {
-            if(ProgressColor != Color.green)
+            if(ProgressColor != HighProgressColor)
             {
-                newColor = Color.green;
+                newColor = HighProgressColor;
             }
         }
 
