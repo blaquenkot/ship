@@ -60,7 +60,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 2.5
+  m_PointLightOuterRadius: 4
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
@@ -222,7 +222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d00be72e944920b29a9601afcd039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsVisible: 0
 --- !u!114 &-3883948806434312790
 MonoBehaviour:
   m_ObjectHideFlags: 0
