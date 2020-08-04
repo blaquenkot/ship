@@ -28,8 +28,8 @@ public class ArrowController : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
 
         ColorUtility.TryParseHtmlString("#932121", out LowProgressColor);
-        ColorUtility.TryParseHtmlString("#7f3470", out MediumProgressColor);
-        ColorUtility.TryParseHtmlString("#5c54f9", out HighProgressColor);
+        ColorUtility.TryParseHtmlString("#5a6930", out MediumProgressColor);
+        ColorUtility.TryParseHtmlString("#15c141", out HighProgressColor);
         ProgressColor = HighProgressColor;
         ProgressSpriteRenderer.material.SetColor("_Color", ProgressColor);
     }
