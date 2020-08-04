@@ -35,9 +35,9 @@ public class WorldController : MonoBehaviour
 
     private bool AllPilotsArrowsShown = false;
     private bool ShouldSpawnObjects = true;
-    private float CreateEnemyCooldown = 1f;
-    private float CreatePowerUpCooldown = 0.5f;
-    private float CreateAsteroidCooldown = 0.75f;
+    private float CreateEnemyCooldown = 2f;
+    private float CreatePowerUpCooldown = 1.5f;
+    private float CreateAsteroidCooldown = 1.75f;
 
     private int TotalPilots = MaxPilots;
     private int PickedUpPilots = 0;

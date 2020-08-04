@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
     public Text MuteButtonText;
 
+    private SceneManagerController SceneManagerController;
     private AudioController AudioController;
 
     void Awake()
     {
         AudioController = GetComponent<AudioController>();
+        SceneManagerController = Object.FindObjectOfType<SceneManagerController>();
     }
 
     void Update()
@@ -25,7 +26,7 @@ public class MainMenuController : MonoBehaviour
 
     public void OnClickStart() 
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManagerController.GoToNexScene();
     }
 
     public void OnClickSound() 
