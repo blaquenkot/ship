@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -19,5 +20,11 @@ public class PauseMenuController : MonoBehaviour
     public void OnClickAudio() 
     {
         AudioController.ToggleMute();
+    }
+
+    public void OnClickRestart() 
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

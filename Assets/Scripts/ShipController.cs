@@ -83,15 +83,6 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.E))
-        {
-            ModifyFactor(-AccelerationFactor, PowerUpType.Acceleration);
-            ModifyFactor(-ShieldFactor, PowerUpType.Shield);
-            ModifyFactor(-ShootFactor, PowerUpType.Shoot);
-            ModifyFactor(-TorqueFactor, PowerUpType.Torque);
-            Destroyed();
-        }
-
         DesiredRotation = Input.GetAxis("Horizontal");
         DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
         Shoot = Input.GetButton("Shoot");
