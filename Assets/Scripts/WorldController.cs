@@ -27,7 +27,7 @@ public class WorldController : MonoBehaviour
     public Sprite[] PilotImages;
     public GameOverController GameOverController;
     public PauseMenuController PauseMenuController;
-    public UIController UIController;
+    public GameUIController GameUIController;
     
     private ColorAdjustments ColorAdjustments;
     private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
@@ -96,7 +96,7 @@ public class WorldController : MonoBehaviour
     public void AddPoints(int points) 
     {
         Points += points;
-        UIController.UpdatePoints(Points);
+        GameUIController.UpdatePoints(Points);
     }
 
     public void EnemyKilled(bool wasSpecialAttack)

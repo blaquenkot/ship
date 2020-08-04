@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4675441705650296275}
   - component: {fileID: 4675441705650296276}
   - component: {fileID: 4675441705650296277}
-  - component: {fileID: 4675441705650296273}
+  - component: {fileID: 4203570832675147877}
   m_Layer: 5
   m_Name: GameUICanvas
   m_TagString: Untagged
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4675441705650296273
+--- !u!114 &4203570832675147877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,11 +189,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4675441705650296278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8570b18f11814ba3af5dfb932339712, type: 3}
+  m_Script: {fileID: 11500000, guid: 90fecfeddc7254299b3abeaaaffd24c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PointsLabel: {fileID: 0}
-  SpecialGauge: {fileID: 0}
 --- !u!1001 &4596597720083190763
 PrefabInstance:
   m_ObjectHideFlags: 0
