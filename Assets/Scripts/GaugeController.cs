@@ -34,37 +34,37 @@ public class GaugeController : MonoBehaviour
         }
     }
 
+    void UpdateCurrentImages(Sprite image1, Sprite image2)
+    {
+        CurrentImage1 = image1;
+        CurrentImage2 = image2;
+    }
+
     public void SetValue(float value)
     {
         if(value< 0.20f)
         {
-            CurrentImage1 = ImageOff;
-            CurrentImage2 = ImageOn;
+            UpdateCurrentImages(ImageOff, ImageOn);
         }
         else if (value < 0.35f)
         {
-            CurrentImage1 = Image1;
-            CurrentImage2 = Image1;
+            UpdateCurrentImages(Image1, Image1);
         }
         else if (value < 0.50f)
         {
-            CurrentImage1 = Image2;
-            CurrentImage2 = Image2;
+            UpdateCurrentImages(Image2, Image2);
         }
         else if (value < 0.65f)
         {
-            CurrentImage1 = Image3;
-            CurrentImage2 = Image3;
+            UpdateCurrentImages(Image3, Image3);
         }
         else if (value < 0.80f)
         {
-            CurrentImage1 = Image4;
-            CurrentImage2 = Image4;
+            UpdateCurrentImages(Image4, Image4);
         }
         else 
         {
-            CurrentImage1 = Image5;
-            CurrentImage2 = Image5;
+            UpdateCurrentImages(Image5, Image5);
         }
 
         FlickTimer = 0f;

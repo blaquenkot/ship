@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class ShipController : MonoBehaviour, IDamageable
 {
+    private const float MaxSpecialAttackTimer = 15f;
     public float FactorMaxLimit = 8f;
     public float FactorMinLimit = 0f;
     public float HealthLimit = 0f;
@@ -20,6 +21,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public GaugeController RotationGauge;
     public GaugeController ShieldGauge;
     public GaugeController BlasterGauge;
+    public SpecialGaugeController SpecialGaugeController;
     public GameObject[] AccelerationParts;
     public GameObject[] RotationParts;
     public GameObject[] ShieldParts;
@@ -39,7 +41,7 @@ public class ShipController : MonoBehaviour, IDamageable
     private float DesiredRotation = 0f;
     private float DesiredMovement = 0f;
 
-    private float SpecialAttackCooldown = 0f;
+    private float SpecialAttackTimer = MaxSpecialAttackTimer;
     private float ShotCooldown = 0f;
     private float AccelerationFactor = 4f;
     private float TorqueFactor = 4f;
@@ -79,6 +81,7 @@ public class ShipController : MonoBehaviour, IDamageable
         ModifyFactor(0f, PowerUpType.Shield);
         ModifyFactor(0f, PowerUpType.Shoot);
         ModifyFactor(0f, PowerUpType.Torque);
+        UpdateSpecialAttackTimer(MaxSpecialAttackTimer);
     }
 
     void Update()
@@ -193,12 +196,10 @@ public class ShipController : MonoBehaviour, IDamageable
             ShotCooldown = ShotCooldownTime;
         }
 
-        SpecialAttackCooldown -= Time.deltaTime;
+        UpdateSpecialAttackTimer(SpecialAttackTimer + Time.deltaTime);
        
-        if (SpecialAttackCooldown <= 0f)
+        if (SpecialAttackTimer >= MaxSpecialAttackTimer)
         {
-            WorldController.UIController.UpdateSpecialGauge(true);
-
             if (ExecuteSpecialAttack)
             {
                 SpecialAttackController specialAttackController = Instantiate(SpecialAttack, transform.position, transform.rotation, transform.parent).GetComponent<SpecialAttackController>();
@@ -206,9 +207,8 @@ public class ShipController : MonoBehaviour, IDamageable
                 specialAttackController.Fire(gameObject, WorldController);
             
                 ShakeCameraController.Shake(SpecialAttackController.Duration);
-                WorldController.UIController.UpdateSpecialGauge(false);
                 WorldController.Flash(2);
-                SpecialAttackCooldown = 15f;
+                UpdateSpecialAttackTimer(0f);
             }
         }
     }
@@ -284,11 +284,17 @@ public class ShipController : MonoBehaviour, IDamageable
         ShakeCameraController.Shake();
     }
 
+    void UpdateSpecialAttackTimer(float newValue)
+    {
+        SpecialAttackTimer = newValue;
+        SpecialGaugeController.SetValue(Mathf.Clamp01(SpecialAttackTimer/MaxSpecialAttackTimer));
+    }
+
     public void EnemyKilled(bool wasSpecialAttack)
     {
         if(!wasSpecialAttack)
         {
-            SpecialAttackCooldown -= 2.5f;
+            UpdateSpecialAttackTimer(SpecialAttackTimer + 2.5f);
 
             PowerUpType weakerType = new Dictionary<PowerUpType, float>() {
                 { PowerUpType.Acceleration, AccelerationFactor },
@@ -323,7 +329,7 @@ public class ShipController : MonoBehaviour, IDamageable
                 PilotController Pilot = collider.GetComponent<PilotController>();
                 if(Pilot) 
                 {
-                    SpecialAttackCooldown = 0f;
+                    UpdateSpecialAttackTimer(MaxSpecialAttackTimer);
                     WorldController.PilotPickedUp();
                 } 
             }

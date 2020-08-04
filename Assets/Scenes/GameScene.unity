@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -594,7 +594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3183093, y: 0, z: -10}
+  m_LocalPosition: {x: -6.3999987, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1285,7 +1285,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778020483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3183093, y: 0, z: -10}
+  m_LocalPosition: {x: -6.3999987, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 670027388}
@@ -1592,6 +1592,18 @@ MonoBehaviour:
   Objects:
   - {fileID: 52920966}
   - {fileID: 651374733}
+--- !u!114 &1577254991 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8830691558549986957, guid: f4ea6edc6031f45e790ae59b08b0d969,
+    type: 3}
+  m_PrefabInstance: {fileID: 678243546}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f589144e55060483f968568f71878ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1776040881 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6490095917818305712, guid: 1bfd376c1a9ac417e9a0bb8dd0f56a72,
@@ -1950,6 +1962,11 @@ PrefabInstance:
       propertyPath: BlasterGauge
       value: 
       objectReference: {fileID: 430396880}
+    - target: {fileID: 3788649221494772163, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
+        type: 3}
+      propertyPath: SpecialGaugeController
+      value: 
+      objectReference: {fileID: 1577254991}
     - target: {fileID: 4884479688570335012, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
         type: 3}
       propertyPath: m_LocalPosition.x
