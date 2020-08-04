@@ -17,17 +17,13 @@ public class SpecialGaugeController : MonoBehaviour
     public Sprite ImageOff;
     public Sprite ImageOn;
 
-    private Image GaugeImage;
+    public Image GaugeImage;
 
     private Sprite CurrentImage1;
     private Sprite CurrentImage2;
     private float FlickTimer = 0.5f;
 
-    void Awake()
-    {
-        GaugeImage = GetComponent<Image>();
-    }
-
+    
     void Update()
     { 
         FlickTimer -= Time.deltaTime;
