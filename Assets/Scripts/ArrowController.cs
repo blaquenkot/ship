@@ -139,6 +139,14 @@ public class ArrowController : MonoBehaviour
         HideAndShowTimes = times;
     }
 
+    public void HideArrow()
+    {
+        CanChangeArrowOpacity = false;
+        Color color = SpriteRenderer.color;
+        color.a = 0f;
+        SpriteRenderer.DOColor(color, 0.5f);
+    }
+
     void UpdateProgressColor(float progress)
     {
         Color? newColor = null;

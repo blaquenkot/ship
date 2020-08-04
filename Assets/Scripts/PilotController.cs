@@ -16,6 +16,7 @@ public class PilotController : MonoBehaviour, IDamageable
     private SpriteRenderer SpriteRenderer;
     private CircleCollider2D Collider;
     private VisibleObject VisibleObject;
+    private bool IsAlive = true;
 
     void Awake()
     {
@@ -26,23 +27,26 @@ public class PilotController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if(VisibleObject.IsVisible)
+        if(IsAlive)
         {
-            AnimationDuration -= Time.deltaTime;
-            if(AnimationDuration <= 0)
+            if(VisibleObject.IsVisible)
             {
-                Animate();
-                AnimationDuration = 1.1f;
+                AnimationDuration -= Time.deltaTime;
+                if(AnimationDuration <= 0)
+                {
+                    Animate();
+                    AnimationDuration = 1.1f;
+                }
             }
-        }
 
-        if(ContainerHealth <= 0f)
-        {
-            HealthTimer -= Time.deltaTime;
-            ArrowController.SetProgress(HealthTimer/MaxHealthTimer);
-            if(HealthTimer <= 0)
+            if(ContainerHealth <= 0f)
             {
-                HealthTimerExpired();
+                HealthTimer -= Time.deltaTime;
+                ArrowController.SetProgress(HealthTimer/MaxHealthTimer);
+                if(HealthTimer <= 0)
+                {
+                    HealthTimerExpired();
+                }
             }
         }
     }
@@ -62,11 +66,17 @@ public class PilotController : MonoBehaviour, IDamageable
 
     void HealthTimerExpired()
     {
-        // change sprite!
-        transform.DOScale(Vector3.one * 0.25f, 0.75f).OnComplete(() => {
-            WorldController.PilotDied();
-            Destroy(gameObject);
-        });
+        // change sprite?
+        IsAlive = false;
+        ArrowController.HideArrow();
+        DOTween.Sequence()
+                .Join(transform.DOScale(Vector3.one * 0.25f, 0.75f))
+                .Join(ArrowController.gameObject.transform.DOScale(Vector3.one * 0.25f, 0.75f))
+                .Play()
+                .OnComplete(() => {
+                    WorldController.PilotDied();
+                    Destroy(gameObject);
+                });
     }
 
     public bool ShowArrowWhileVisible()
