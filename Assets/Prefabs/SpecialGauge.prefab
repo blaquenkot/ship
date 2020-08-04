@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1684, y: 703}
+  m_SizeDelta: {x: 1975, y: 703}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2366891831027185249
 CanvasRenderer:
@@ -100,4 +100,3 @@ MonoBehaviour:
   Image10: {fileID: 21300000, guid: d045218cb82651c4e8e00b7167cb076f, type: 3}
   ImageOff: {fileID: 21300000, guid: 8aa62aadd7fce1048941c884a4f662e6, type: 3}
   ImageOn: {fileID: 21300000, guid: 0e01b336911fa914f876427cd75fe4f6, type: 3}
-  GaugeImage: {fileID: 909076855433735269}
