@@ -9,6 +9,11 @@ public class GameUIController : MonoBehaviour
         MissionController = GetComponentInChildren<MissionController>();
     }
 
+    public void UpdateCurrentTarget(MissionTargetState state)
+    {
+        MissionController.UpdateCurrentTarget(state);
+    }
+
     public void UpdatePoints(int points)
     {
         MissionController.UpdatePoints(points);

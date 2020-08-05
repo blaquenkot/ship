@@ -106,7 +106,10 @@ public class WorldController : MonoBehaviour
 
     public void PilotDied()
     {
+        GameUIController.UpdateCurrentTarget(MissionTargetState.Lost);
+
         ShowAllPilotsArrows();
+
         TotalPilots -= 1;
 
         PilotsChanged();
@@ -114,9 +117,12 @@ public class WorldController : MonoBehaviour
 
     public void PilotPickedUp()
     {
+        GameUIController.UpdateCurrentTarget(MissionTargetState.Completed);
+
         ShowAllPilotsArrows();
 
         PickedUpPilots += 1;
+        
         AddPoints(1000);
 
         PilotsChanged();
