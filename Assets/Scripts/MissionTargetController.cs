@@ -24,6 +24,16 @@ public class MissionTargetController : MonoBehaviour
         }); 
     }
 
+    void Appear()
+    {
+        Color color = Image.color;
+        color.a = 0.0f;
+        Image.color = color;
+        Image.enabled = true;
+        color.a = 1f;
+        Image.DOColor(color, 0.25f);
+    }
+
     public void UpdateState(MissionTargetState state)
     {
         Sprite newSprite = null;
@@ -54,7 +64,9 @@ public class MissionTargetController : MonoBehaviour
         if(newSprite)
         {
             Image.sprite = newSprite;
-            Image.enabled = true;
+            if(!Image.enabled) {
+                Appear();
+            }
             Pulse();
         }
         else

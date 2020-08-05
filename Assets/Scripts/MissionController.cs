@@ -9,7 +9,7 @@ public class MissionController : MonoBehaviour
 
     private int InitialTargetSize;
 
-    void Awake()
+    void Start()
     {
         InitialTargetSize = Targets.Count;
 
