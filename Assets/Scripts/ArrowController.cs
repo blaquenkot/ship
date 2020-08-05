@@ -85,28 +85,32 @@ public class ArrowController : MonoBehaviour
 
         if(CanChangeArrowOpacity)
         {
-            Color color = SpriteRenderer.color;
-            if(color.a == 1f && VisibleObject.IsVisible || color.a == 0f && !VisibleObject.IsVisible)
+            Color arrowColor = SpriteRenderer.color;
+            if(arrowColor.a == 1f && VisibleObject.IsVisible || arrowColor.a == 0f && !VisibleObject.IsVisible)
             {
+                Color centralSpriteColor = CentralSpriteRenderer.color;
                 CanChangeArrowOpacity = false;
                 float arcAngle;
                 if(VisibleObject.IsVisible)
                 {
-                    color.a = 0f;
+                    arrowColor.a = 0f;
+                    centralSpriteColor.a = 0.8f;
                     arcAngle = 0f;
-
                 }
                 else
                 {
-                    color.a = 1f;
+                    arrowColor.a = 1f;
+                    centralSpriteColor.a = 1f;
                     arcAngle = 20f;
                 }
-                color.a = VisibleObject.IsVisible ? 0f : 1f;
                 ProgressSpriteRenderer.material.SetFloat("_Arc1", arcAngle);
 
-                SpriteRenderer.DOColor(color, 0.5f).OnComplete(() => {
-                    CanChangeArrowOpacity = true;
-                });
+                DOTween.Sequence()
+                        .Join(SpriteRenderer.DOColor(arrowColor, 0.5f))
+                        .Join(CentralSpriteRenderer.DOColor(centralSpriteColor, 0.5f))
+                        .OnComplete(() => {
+                            CanChangeArrowOpacity = true;
+                        });
             }
         }
 
