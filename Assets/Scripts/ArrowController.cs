@@ -17,8 +17,8 @@ public class ArrowController : MonoBehaviour
     private Color ProgressColor;
     private bool ShouldPulsePeriodically = false;
     private float PulseCooldown = MaxPulseCooldown;
-    private float HideAndShowCooldown = 0.2f;
-    private int HideAndShowTimes = 0;
+    private float BlinkCooldown = 0.2f;
+    private int BlinkTimes = 0;
     private bool CanChangeArrowOpacity = true;
     private Color LowProgressColor;
     private Color MediumProgressColor;
@@ -51,16 +51,16 @@ public class ArrowController : MonoBehaviour
             return;
         }
 
-        if(HideAndShowTimes > 0)
+        if(BlinkTimes > 0)
         {
-            HideAndShowCooldown -= Time.deltaTime;
-            if(HideAndShowCooldown <= 0f)
+            BlinkCooldown -= Time.deltaTime;
+            if(BlinkCooldown <= 0f)
             {
                 if(!SpriteRenderer.enabled) 
                 {
                     SpriteRenderer.enabled = true;
                     CentralSpriteRenderer.enabled = true;
-                    HideAndShowTimes -= 1;
+                    BlinkTimes -= 1;
                 } 
                 else 
                 {
@@ -68,7 +68,7 @@ public class ArrowController : MonoBehaviour
                     CentralSpriteRenderer.enabled = false;
                 }
                 
-                HideAndShowCooldown = 0.2f;
+                BlinkCooldown = 0.2f;
             }
         }
 
@@ -89,7 +89,7 @@ public class ArrowController : MonoBehaviour
         
         float maxDistance = (new Vector3(VisibleObject.HalfWidth + Padding, VisibleObject.HalfHeight + Padding, 0f)).magnitude;
 
-        if(HideAndShowTimes == 0 && !PointableObject.ShowArrowWhileVisible) 
+        if(BlinkTimes == 0 && !PointableObject.ShowArrowWhileVisible) 
         {
             bool IsNotVisible = !VisibleObject.IsVisible;
             SpriteRenderer.enabled = IsNotVisible;
@@ -156,10 +156,10 @@ public class ArrowController : MonoBehaviour
         }
     }
 
-    public void HideAndShow(int times)
+    public void Blink(int times)
     {
-        HideAndShowCooldown = 0.2f;
-        HideAndShowTimes = times;
+        BlinkCooldown = 0.2f;
+        BlinkTimes = times;
     }
 
     public void TogglePulse()

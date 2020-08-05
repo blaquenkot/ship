@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MissionController : MonoBehaviour
 {
     public List<MissionTargetController> Targets;
+    public MissionTargetController SpaceStationTarget;
     public Text PointsText;
 
     private int InitialTargetSize;
@@ -13,6 +14,7 @@ public class MissionController : MonoBehaviour
     {
         InitialTargetSize = Targets.Count;
 
+        SpaceStationTarget.UpdateState(MissionTargetState.NotVisible);
         for (int i = 0; i < Targets.Count; i++)
         {
             if(i == 0)
@@ -41,6 +43,30 @@ public class MissionController : MonoBehaviour
         {
             Targets[0].UpdateState(state);
             Targets.RemoveAt(0);
+        }
+
+        if(Targets.Count == 0)
+        {
+            SpaceStationTarget.UpdateState(MissionTargetState.Ready);
+            SpaceStationTarget.ToggleBlink();
+        }
+    }
+
+    public void MissionSucceed()
+    {
+        if(SpaceStationTarget.State == MissionTargetState.Ready)
+        {
+            SpaceStationTarget.ToggleBlink();
+            SpaceStationTarget.UpdateState(MissionTargetState.Completed);
+        }
+    }
+
+    public void MissionFailed()
+    {
+        if(SpaceStationTarget.State == MissionTargetState.Ready)
+        {
+            SpaceStationTarget.ToggleBlink();
+            SpaceStationTarget.UpdateState(MissionTargetState.Lost);
         }
     }
 

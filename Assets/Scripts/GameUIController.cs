@@ -9,6 +9,16 @@ public class GameUIController : MonoBehaviour
         MissionController = GetComponentInChildren<MissionController>();
     }
 
+    public void MissionSucceed()
+    {
+        MissionController.MissionSucceed();
+    }
+
+    public void MissionFailed()
+    {
+        MissionController.MissionFailed();
+    }
+
     public void UpdateCurrentTarget(MissionTargetState state)
     {
         MissionController.UpdateCurrentTarget(state);

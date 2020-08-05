@@ -5,15 +5,34 @@ using DG.Tweening;
 public enum MissionTargetState { NotVisible, Ready, Completed, Lost }
 public class MissionTargetController : MonoBehaviour
 {
+    public MissionTargetState State { private set; get; }
     public Sprite ReadySprite;
     public Sprite CompletedSprite;
     public Sprite LostSprite;
 
     private Image Image;
+    private bool ShouldBlink = false;
+    private float BlinkCooldown = 0.2f;
 
     void Awake()
     {
         Image = GetComponent<Image>();
+    }
+
+    void FixedUpdate()
+    {
+        if(ShouldBlink)
+        {
+            BlinkCooldown -= Time.deltaTime;
+            if(BlinkCooldown <= 0f)
+            {
+                Color color = Image.color;
+                color.a = color.a == 0f ? 1f : 0f;
+                Image.DOColor(color, 0.15f);
+                
+                BlinkCooldown = 0.2f;
+            }
+        }
     }
 
     void Pulse()
@@ -36,9 +55,11 @@ public class MissionTargetController : MonoBehaviour
 
     public void UpdateState(MissionTargetState state)
     {
+        State = state;
+
         Sprite newSprite = null;
 
-        switch(state)
+        switch(State)
         {
             case MissionTargetState.NotVisible:
             {
@@ -72,6 +93,17 @@ public class MissionTargetController : MonoBehaviour
         else
         {
             Image.enabled = false;
+        }
+    }
+
+    public void ToggleBlink()
+    {
+        ShouldBlink = !ShouldBlink;
+        if(!ShouldBlink)
+        {
+            Color color = Image.color;
+            color.a = 1f;
+            Image.DOColor(color, 0.15f);
         }
     }
 }

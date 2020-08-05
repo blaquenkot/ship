@@ -76,7 +76,7 @@ public class WorldController : MonoBehaviour
             }
             else
             {
-                arrowController.HideAndShow(2);
+                arrowController.Blink(2);
             }
         }
 
@@ -131,6 +131,7 @@ public class WorldController : MonoBehaviour
     public void SpaceStationReached()
     {
         ShouldSpawnObjects = false;
+        GameUIController.MissionSucceed();
         ShowYouWon();
     }
 
@@ -139,7 +140,7 @@ public class WorldController : MonoBehaviour
         SpaceStation.transform.position = ShipController.gameObject.transform.position + (Vector3)Random.insideUnitCircle.normalized * Random.Range(50f, 150f);
         SpaceStation.SetActive(true);
         SpaceStationArrow.SetActive(true);
-        SpaceStationArrow.GetComponent<ArrowController>().HideAndShow(2);
+        SpaceStationArrow.GetComponent<ArrowController>().Blink(2);
     }
 
     void ShowYouWon()
@@ -150,6 +151,7 @@ public class WorldController : MonoBehaviour
     public void ShipDestroyed()
     {
         ShouldSpawnObjects = false;
+        GameUIController.MissionFailed();
         StartCoroutine(ShowGameOver());
     }
 
@@ -370,7 +372,7 @@ public class WorldController : MonoBehaviour
                 ArrowController arrowController = inactiveObject.GetComponent<ArrowController>();
                 if(arrowController)
                 {
-                    arrowController.HideAndShow(2);
+                    arrowController.Blink(2);
                 }
             }
 
