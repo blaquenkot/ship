@@ -5,6 +5,7 @@ public class ArrowController : MonoBehaviour
 {
     private const float Padding = 1f;
     private const float MaxPulseCooldown = 0.5f;
+    private const float MaxBlinkCooldown = 0.25f;
     public GameObject Target;
     public SpriteRenderer CentralSpriteRenderer;
     public SpriteRenderer ProgressSpriteRenderer;
@@ -17,7 +18,7 @@ public class ArrowController : MonoBehaviour
     private Color ProgressColor;
     private bool ShouldPulsePeriodically = false;
     private float PulseCooldown = MaxPulseCooldown;
-    private float BlinkCooldown = 0.2f;
+    private float BlinkCooldown = MaxBlinkCooldown;
     private int BlinkTimes = 0;
     private bool CanChangeArrowOpacity = true;
     private Color LowProgressColor;
@@ -53,22 +54,34 @@ public class ArrowController : MonoBehaviour
 
         if(BlinkTimes > 0)
         {
+            CanChangeArrowOpacity = false;
             BlinkCooldown -= Time.deltaTime;
             if(BlinkCooldown <= 0f)
             {
-                if(!SpriteRenderer.enabled) 
+                Color arrowColor = SpriteRenderer.color;
+                Color centralSpriteColor = CentralSpriteRenderer.color;
+                if(arrowColor.a == 1f) 
                 {
-                    SpriteRenderer.enabled = true;
-                    CentralSpriteRenderer.enabled = true;
-                    BlinkTimes -= 1;
+                    arrowColor.a = 0f;
+                    centralSpriteColor.a = 0f;
                 } 
                 else 
                 {
-                    SpriteRenderer.enabled = false;
-                    CentralSpriteRenderer.enabled = false;
+                    BlinkTimes -= 1;
+                    arrowColor.a = 1f;
+                    centralSpriteColor.a = 1f;
                 }
+
+                DOTween.Sequence()
+                    .Join(SpriteRenderer.DOColor(arrowColor, 0.2f))
+                    .Join(CentralSpriteRenderer.DOColor(centralSpriteColor, 0.2f))
+                    .OnComplete(() => {
+                        if(BlinkTimes == 0) {
+                            CanChangeArrowOpacity = true;
+                        }
+                    });
                 
-                BlinkCooldown = 0.2f;
+                BlinkCooldown = MaxBlinkCooldown;
             }
         }
 
@@ -158,7 +171,6 @@ public class ArrowController : MonoBehaviour
 
     public void Blink(int times)
     {
-        BlinkCooldown = 0.2f;
         BlinkTimes = times;
     }
 
@@ -166,6 +178,7 @@ public class ArrowController : MonoBehaviour
     {
         ShouldPulsePeriodically = !ShouldPulsePeriodically;
     }
+
     public void HideArrow()
     {
         if(SpriteRenderer)
