@@ -4,6 +4,7 @@ using DG.Tweening;
 public class ArrowController : MonoBehaviour
 {
     private const float Padding = 1f;
+    private const float MaxPulseCooldown = 0.5f;
     public GameObject Target;
     public SpriteRenderer CentralSpriteRenderer;
     public SpriteRenderer ProgressSpriteRenderer;
@@ -14,6 +15,8 @@ public class ArrowController : MonoBehaviour
     private PointableObject PointableObject;
     private VisibleObject VisibleObject;
     private Color ProgressColor;
+    private bool ShouldPulsePeriodically = false;
+    private float PulseCooldown = MaxPulseCooldown;
     private float HideAndShowCooldown = 0.2f;
     private int HideAndShowTimes = 0;
     private bool CanChangeArrowOpacity = true;
@@ -66,6 +69,16 @@ public class ArrowController : MonoBehaviour
                 }
                 
                 HideAndShowCooldown = 0.2f;
+            }
+        }
+
+        if(ShouldPulsePeriodically)
+        {
+            PulseCooldown -= Time.deltaTime;
+            if(PulseCooldown <= 0f)
+            {
+                Pulse();
+                PulseCooldown = MaxPulseCooldown;
             }
         }
         
@@ -132,17 +145,15 @@ public class ArrowController : MonoBehaviour
 
     public void SetProgress(float progress)
     {
-        if(!ProgressSpriteRenderer)
+        if(ProgressSpriteRenderer)
         {
-            return;
+            UpdateProgressColor(progress);
+
+            float a = VisibleObject.IsVisible ? 360 : 342;
+            float b = VisibleObject.IsVisible ? 0 : 27;
+            float angle = Mathf.Lerp(a, b, progress);
+            ProgressSpriteRenderer.material.SetFloat("_Arc2", angle);
         }
-
-        UpdateProgressColor(progress);
-
-        float a = VisibleObject.IsVisible ? 360 : 342;
-        float b = VisibleObject.IsVisible ? 0 : 27;
-        float angle = Mathf.Lerp(a, b, progress);
-        ProgressSpriteRenderer.material.SetFloat("_Arc2", angle);
     }
 
     public void HideAndShow(int times)
@@ -151,12 +162,19 @@ public class ArrowController : MonoBehaviour
         HideAndShowTimes = times;
     }
 
+    public void TogglePulse()
+    {
+        ShouldPulsePeriodically = !ShouldPulsePeriodically;
+    }
     public void HideArrow()
     {
-        CanChangeArrowOpacity = false;
-        Color color = SpriteRenderer.color;
-        color.a = 0f;
-        SpriteRenderer.DOColor(color, 0.5f);
+        if(SpriteRenderer)
+        {
+            CanChangeArrowOpacity = false;
+            Color color = SpriteRenderer.color;
+            color.a = 0f;
+            SpriteRenderer.DOColor(color, 0.5f);
+        }
     }
 
     void UpdateProgressColor(float progress)
@@ -166,6 +184,7 @@ public class ArrowController : MonoBehaviour
         {
             if(ProgressColor != LowProgressColor)
             {
+                TogglePulse();
                 newColor = LowProgressColor;
             }
         }

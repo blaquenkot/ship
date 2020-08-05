@@ -69,6 +69,7 @@ public class PilotController : MonoBehaviour, IDamageable
         // change sprite?
         IsAlive = false;
         ArrowController.HideArrow();
+        ArrowController.TogglePulse();
         DOTween.Sequence()
                 .Join(transform.DOScale(Vector3.one * 0.25f, 0.75f))
                 .Join(ArrowController.gameObject.transform.DOScale(Vector3.one * 0.25f, 0.75f))
