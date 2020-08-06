@@ -6,9 +6,14 @@ using SimpleJSON;
 
 public class NetworkingController : MonoBehaviour
 {
-    private const string CurrentVersion = "0.0.1";
+    private string Version;
     private string Session = "";
 
+    void Awake()
+    {
+        Version = Application.version;
+    }
+    
     public void NewSession(Action<JSONNode> callback)
     {
         StartCoroutine(PostRequest("https://api.clank.kotzi.dev/sessions", "", (response) => { 
@@ -22,13 +27,13 @@ public class NetworkingController : MonoBehaviour
 
     public void SaveScore(string name, int score, Action<JSONNode> callback)
     {
-        string json = $"{{\"session\": \"{Session}\",\"score\": {score},\"version\": \"{CurrentVersion}\",\"name\": \"{name}\"}}";
+        string json = $"{{\"session\": \"{Session}\",\"score\": {score},\"version\": \"{Version}\",\"name\": \"{name}\"}}";
         StartCoroutine(PostRequest("https://api.clank.kotzi.dev/scores", json, callback));
     }
 
     public void GetHighscores(Action<JSONNode> callback)
     {
-        StartCoroutine(GetRequest($"https://api.clank.kotzi.dev/scores?version={CurrentVersion}", callback));
+        StartCoroutine(GetRequest($"https://api.clank.kotzi.dev/scores?version={Version}", callback));
     }
 
     IEnumerator GetRequest(string uri, Action<JSONNode> callback)

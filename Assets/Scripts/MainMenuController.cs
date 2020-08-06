@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     public Text MuteButtonText;
+    public Text VersionText;
     public GameObject Highscores;
 
     private SceneManagerController SceneManagerController;
@@ -13,6 +14,7 @@ public class MainMenuController : MonoBehaviour
     {
         AudioController = GetComponent<AudioController>();
         SceneManagerController = Object.FindObjectOfType<SceneManagerController>();
+        VersionText.text = "Version: " + Application.version;
     }
 
     void Update()
