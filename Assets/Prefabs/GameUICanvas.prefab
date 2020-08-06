@@ -199,6 +199,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4675441705650296274}
     m_Modifications:
+    - target: {fileID: 4236123403415284991, guid: e4d246583f09fdb408d2d321de73a431,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6874017097017813280, guid: e4d246583f09fdb408d2d321de73a431,
         type: 3}
       propertyPath: m_LocalPosition.x
