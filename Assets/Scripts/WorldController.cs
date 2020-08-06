@@ -19,6 +19,8 @@ public class WorldController : MonoBehaviour
     public GameObject Asteroid;
     public GameObject Enemy1;
     public GameObject Enemy2;
+    public GameObject PersistentDataControllerPrefab;
+
     public GameObject AccelerationPowerUp;
     public GameObject RotationPowerUp;    
     public GameObject ShieldPowerUp;    
@@ -29,7 +31,7 @@ public class WorldController : MonoBehaviour
     public PauseMenuController PauseMenuController;
     public GameUIController GameUIController;
     public NetworkingController NetworkingController;
-    
+    private PersistentDataController PersistentDataController;
     private ColorAdjustments ColorAdjustments;
     private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
@@ -51,6 +53,13 @@ public class WorldController : MonoBehaviour
     public void Awake()
     {
         NetworkingController.NewSession((_) => {});
+
+        PersistentDataController = Object.FindObjectOfType<PersistentDataController>();
+        if(PersistentDataController == null) {
+            PersistentDataController = Instantiate(PersistentDataControllerPrefab).GetComponent<PersistentDataController>();
+        }
+        GameOverController.GetComponentInChildren<NewHighscoreController>().PersistentDataController = PersistentDataController;
+        YouWonObject.GetComponentInChildren<NewHighscoreController>().PersistentDataController = PersistentDataController;
 
         Volume.sharedProfile.TryGet<ColorAdjustments>(out ColorAdjustments);
 
@@ -160,7 +169,7 @@ public class WorldController : MonoBehaviour
 
     IEnumerator ShowGameOver()
     {
-        GameOverController.UpdateInfo(Points, GetTimeAsString());
+        GameOverController.UpdateInfo(Points, TotalTime);
         yield return new WaitForSeconds(0.75f);
         GameOverController.gameObject.SetActive(true);
     }
@@ -351,11 +360,6 @@ public class WorldController : MonoBehaviour
             return new Vector2(randomX, randomY);
         }
     }
-    private string GetTimeAsString()
-    {
-        return Mathf.Floor(TotalTime / 60).ToString("00") + ':' + (TotalTime % 60).ToString("00");
-    }
-
     private void PilotsChanged()
     {
         if (PickedUpPilots >= TotalPilots)

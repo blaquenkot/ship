@@ -263,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253828030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 291.47885, y: 363.38467, z: -1613.8702}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -839,6 +839,11 @@ PrefabInstance:
       propertyPath: NetworkingController
       value: 
       objectReference: {fileID: 253828031}
+    - target: {fileID: 7852111181172616019, guid: d97ab20530b974185acc132b18ef8525,
+        type: 3}
+      propertyPath: PersistentDataController
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d97ab20530b974185acc132b18ef8525, type: 3}
 --- !u!1 &651374733
@@ -1257,6 +1262,16 @@ PrefabInstance:
     - target: {fileID: 5996611538095876, guid: e73137eff1b08456db03e27833e48440, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1004132086461329552, guid: e73137eff1b08456db03e27833e48440,
+        type: 3}
+      propertyPath: NetworkingController
+      value: 
+      objectReference: {fileID: 253828031}
+    - target: {fileID: 1004132086461329552, guid: e73137eff1b08456db03e27833e48440,
+        type: 3}
+      propertyPath: PersistentDataController
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e73137eff1b08456db03e27833e48440, type: 3}
@@ -1765,6 +1780,8 @@ MonoBehaviour:
     type: 3}
   Enemy1: {fileID: 6229460774091002911, guid: ebc19748d5faa4721a8a870dd54c5e89, type: 3}
   Enemy2: {fileID: 8152183978749156717, guid: acde9e3ced3f74d3d955a0c0157baa08, type: 3}
+  PersistentDataControllerPrefab: {fileID: 5835605371202789236, guid: 79328b8b55bc5497eb0e4f10b0ff899a,
+    type: 3}
   AccelerationPowerUp: {fileID: 1277261566697499969, guid: 2b0dc9e0508254550abda91eb8421626,
     type: 3}
   RotationPowerUp: {fileID: 6651855688366693769, guid: cf9f604160d8b4d588bc0dccbde6e404,

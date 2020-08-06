@@ -8,8 +8,6 @@ public class GameOverController : MonoBehaviour
     public Text PointsLabel;
     public Text TimeLabel;
 
-    private int Points;
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) 
@@ -18,19 +16,14 @@ public class GameOverController : MonoBehaviour
         }
     }
 
-    public void UpdateInfo(int points, string time) 
+    public void UpdateInfo(int points, float time) 
     {
-        Points = points;
+        NewHighscoreController.UpdateInfo(points, time);
 
-        PointsLabel.text = "Points: " + Points;
-        TimeLabel.text = "Time: " + time;
+        PointsLabel.text = "Points: " + points;
+        TimeLabel.text = "Time: " + TimeUtils.GetTimeAsString(time);
     }
 
-    public void OnClickSaveHighscore() 
-    {
-        NewHighscoreController.Show(Points);
-    }
-    
     public void OnClickRetry() 
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

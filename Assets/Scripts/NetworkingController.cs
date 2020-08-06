@@ -17,17 +17,17 @@ public class NetworkingController : MonoBehaviour
     public void NewSession(Action<JSONNode> callback)
     {
         StartCoroutine(PostRequest("https://api.clank.kotzi.dev/sessions", "", (response) => { 
-            if(response["session"] != null) 
+            if(response["session"] != null)
             {
-                Session = response["session"]; 
+                Session = response["session"];
             }
             callback(response);
         }));
     }
 
-    public void SaveScore(string name, int score, Action<JSONNode> callback)
+    public void SaveScore(string name, int score, int time, Action<JSONNode> callback)
     {
-        string json = $"{{\"session\": \"{Session}\",\"score\": {score},\"version\": \"{Version}\",\"name\": \"{name}\"}}";
+        string json = $"{{\"session\": \"{Session}\",\"score\": {score},\"time\": {time},\"version\": \"{Version}\",\"name\": \"{name}\"}}";
         StartCoroutine(PostRequest("https://api.clank.kotzi.dev/scores", json, callback));
     }
 
