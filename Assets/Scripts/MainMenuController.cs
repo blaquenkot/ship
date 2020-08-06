@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     public Text MuteButtonText;
+    public GameObject Highscores;
 
     private SceneManagerController SceneManagerController;
     private AudioController AudioController;
@@ -32,6 +33,11 @@ public class MainMenuController : MonoBehaviour
     public void OnClickSound() 
     {
         AudioController.ToggleMute();
+    }
+
+    public void OnClickHighscores() 
+    {
+        Highscores.SetActive(true);
     }
 }
 

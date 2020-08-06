@@ -28,6 +28,7 @@ public class WorldController : MonoBehaviour
     public GameOverController GameOverController;
     public PauseMenuController PauseMenuController;
     public GameUIController GameUIController;
+    public NetworkingController NetworkingController;
     
     private ColorAdjustments ColorAdjustments;
     private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
@@ -49,6 +50,8 @@ public class WorldController : MonoBehaviour
 
     public void Awake()
     {
+        NetworkingController.NewSession((_) => {});
+
         Volume.sharedProfile.TryGet<ColorAdjustments>(out ColorAdjustments);
 
         List<Sprite> Pilots = PilotImages.ToList();

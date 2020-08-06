@@ -4,8 +4,11 @@ using UnityEngine.UI;
 
 public class GameOverController : MonoBehaviour
 {
+    public NewHighscoreController NewHighscoreController;
     public Text PointsLabel;
     public Text TimeLabel;
+
+    private int Points;
 
     void Update()
     {
@@ -17,10 +20,17 @@ public class GameOverController : MonoBehaviour
 
     public void UpdateInfo(int points, string time) 
     {
-        PointsLabel.text = "Points: " + points;
+        Points = points;
+
+        PointsLabel.text = "Points: " + Points;
         TimeLabel.text = "Time: " + time;
     }
 
+    public void OnClickSaveHighscore() 
+    {
+        NewHighscoreController.Show(Points);
+    }
+    
     public void OnClickRetry() 
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
