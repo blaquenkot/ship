@@ -42,19 +42,19 @@ public class GaugeController : MonoBehaviour
 
     public void SetValue(float value)
     {
-        if(value< 0.20f)
+        if(value <= 0.01f)
         {
             UpdateCurrentImages(ImageOff, ImageOn);
         }
-        else if (value < 0.35f)
+        else if (value < 0.20f)
         {
             UpdateCurrentImages(Image1, Image1);
         }
-        else if (value < 0.50f)
+        else if (value < 0.40f)
         {
             UpdateCurrentImages(Image2, Image2);
         }
-        else if (value < 0.65f)
+        else if (value < 0.60f)
         {
             UpdateCurrentImages(Image3, Image3);
         }

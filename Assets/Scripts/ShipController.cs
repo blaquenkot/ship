@@ -446,8 +446,10 @@ public class ShipController : MonoBehaviour, IDamageable
         {
             GameObject part = parts[i];
             bool isActive = (ratio > (float)i/(float)parts.Length);
-            if(part.activeSelf != isActive) {
-                if(!isActive) {
+            if(part.activeSelf != isActive) 
+            {
+                if(!isActive) 
+                {
                     GameObject clone = Instantiate(part);
                     clone.transform.parent = transform.parent;
                     clone.transform.position = transform.position;
