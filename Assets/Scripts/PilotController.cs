@@ -79,7 +79,7 @@ public class PilotController : MonoBehaviour, IDamageable
                     Destroy(gameObject);
                 });
     }
-
+    
     public bool ShowArrowWhileVisible()
     {
         return true;

@@ -3,12 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using Cinemachine;
 using System.Linq;
 
 public class WorldController : MonoBehaviour
 {
     private const int MaxPilots = 5;
+    private const float IntroTime = 2.5f;
 
     public ShipController ShipController;
     public Volume Volume;
@@ -39,9 +39,9 @@ public class WorldController : MonoBehaviour
 
     private bool AllPilotsArrowsShown = false;
     private bool ShouldSpawnObjects = true;
-    private float CreateEnemyCooldown = 2f;
-    private float CreatePowerUpCooldown = 1.5f;
-    private float CreateAsteroidCooldown = 1.75f;
+    private float CreateEnemyCooldown = 1.25f + 1.75f*IntroTime;
+    private float CreatePowerUpCooldown = 0.75f + 1.75f*IntroTime;
+    private float CreateAsteroidCooldown = 1f + 1.75f*IntroTime;
 
     private int TotalPilots = MaxPilots;
     private int PickedUpPilots = 0;
@@ -106,6 +106,7 @@ public class WorldController : MonoBehaviour
             }
             else
             {
+                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime);
                 arrowController.Blink(2);
             }
         }
