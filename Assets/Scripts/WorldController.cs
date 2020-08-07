@@ -106,7 +106,7 @@ public class WorldController : MonoBehaviour
             }
             else
             {
-                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime);
+                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime, 0.75f);
                 arrowController.Blink(2);
             }
         }
