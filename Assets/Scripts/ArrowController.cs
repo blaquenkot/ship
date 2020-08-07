@@ -120,7 +120,7 @@ public class ArrowController : MonoBehaviour
                 if(VisibleObject.IsVisible)
                 {
                     arrowColor.a = 0f;
-                    centralSpriteColor.a = 0.8f;
+                    centralSpriteColor.a = 0.2f;
                     arcAngle = 0f;
                 }
                 else
