@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -625,7 +625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.398019, y: 0, z: -10}
+  m_LocalPosition: {x: -6.3987627, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -669,11 +669,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2080654368178654596, guid: 722ab3bd0f07e41b9b9c07af21ff4947,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.4643555
-      objectReference: {fileID: 0}
     - target: {fileID: 2193687712804218316, guid: 722ab3bd0f07e41b9b9c07af21ff4947,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -728,21 +723,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2193687712804218316, guid: 722ab3bd0f07e41b9b9c07af21ff4947,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2193687712804218316, guid: 722ab3bd0f07e41b9b9c07af21ff4947,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2193687712804218316, guid: 722ab3bd0f07e41b9b9c07af21ff4947,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7568601635908635410, guid: 722ab3bd0f07e41b9b9c07af21ff4947,
         type: 3}
@@ -1329,7 +1309,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 50
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1074898374}
@@ -1356,7 +1336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778020483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.398019, y: 0, z: -10}
+  m_LocalPosition: {x: -6.3987627, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 670027388}

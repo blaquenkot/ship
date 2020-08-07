@@ -66,9 +66,26 @@ public class WorldController : MonoBehaviour
 
         List<Sprite> Pilots = PilotImages.ToList();
 
+        List<Vector2> points = new List<Vector2>();
         for (int i = 0; i < MaxPilots; i++)
         {
-            GameObject pilot = Instantiate(Pilot, Random.insideUnitCircle.normalized * Random.Range(50f, 150f), transform.rotation, transform.parent);
+            bool badPosition = true;
+            Vector2 position = Vector2.zero;
+            while(badPosition)
+            {
+                badPosition = false;
+                position = Random.insideUnitCircle.normalized;
+                foreach (var point in points)
+                {
+                    if(Vector2.Distance(point, position) < 0.5f)
+                    {
+                        badPosition = true;
+                        break;
+                    }
+                }
+            }
+            points.Add(position);
+            GameObject pilot = Instantiate(Pilot, position * Random.Range(75f, 175f), transform.rotation, transform.parent);
             GameObject arrow = Instantiate(Arrow, Vector2.zero, transform.rotation, transform.parent);
             ArrowController arrowController = arrow.GetComponent<ArrowController>();
             arrowController.Target = pilot;

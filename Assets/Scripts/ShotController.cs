@@ -44,6 +44,7 @@ public class ShotController : MonoBehaviour
             AudioSource.PlayClipAtPoint(HitSound, transform.position);
         }
 
+        
         Destroy(gameObject);
     }
 
