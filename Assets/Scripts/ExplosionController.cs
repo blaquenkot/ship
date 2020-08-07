@@ -10,7 +10,7 @@ public class ExplosionController : MonoBehaviour
         color.a = 0.5f;
 
         DOTween.Sequence()
-                .Append(transform.DOScale(Vector3.one * 1.5f, 0.75f))
+                .Join(transform.DOScale(Vector3.one * 1.5f, 0.75f))
                 .Join(spriteRenderer.DOColor(color, 0.75f))
                 .Play()
                 .OnComplete(() => {
