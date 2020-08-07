@@ -14,6 +14,7 @@ public class VisibleObject : MonoBehaviour
             return Camera.WorldToViewportPoint(fixedPosition).x > 0.25f;
         } 
     }
+    
     public float HalfWidth { get { return SpriteRenderer.bounds.extents.x; } }
     public float HalfHeight { get { return SpriteRenderer.bounds.extents.y; } }
 

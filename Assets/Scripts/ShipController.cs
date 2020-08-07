@@ -61,7 +61,16 @@ public class ShipController : MonoBehaviour, IDamageable
     void Start()
     {
         Body = GetComponent<Rigidbody2D>();
-        ShakeCameraController = UnityEngine.Object.FindObjectOfType<CinemachineVirtualCamera>().GetComponent<ShakeCameraController>();
+        
+        CinemachineVirtualCamera[] cameras= UnityEngine.Object.FindObjectsOfType<CinemachineVirtualCamera>();
+        for (int i = 0; i < cameras.Length; i++)
+        {
+            CinemachineVirtualCamera camera = cameras[i];
+            if(camera.name == "CM vcam1")
+            {
+                ShakeCameraController = camera.GetComponent<ShakeCameraController>();
+            }
+        }
 
         ShootSound = Resources.Load<AudioClip>("laser1");
         
@@ -336,7 +345,8 @@ public class ShipController : MonoBehaviour, IDamageable
         } 
         else 
         {
-            if(collider.name == "SpaceStation")
+            SpaceStationController SpaceStation = collider.GetComponent<SpaceStationController>();
+            if(SpaceStation)
             {
                 WorldController.SpaceStationReached();
                 transform.DOScale(transform.localScale * 0.5f, 0.25f).OnComplete(() => {

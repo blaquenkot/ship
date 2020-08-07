@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using Cinemachine;
 using System.Linq;
 
 public class WorldController : MonoBehaviour
@@ -98,7 +99,6 @@ public class WorldController : MonoBehaviour
         spaceStationArrowController.SetCentralImage(SpaceStationArrowSprite);
         SpaceStationArrow.SetActive(false);
     }
-
     public void Flash(int amount)
     {
         Flashes = amount;
