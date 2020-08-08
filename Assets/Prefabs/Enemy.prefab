@@ -155,6 +155,7 @@ MonoBehaviour:
   MaxShootCooldown: 1.5
   Light: {fileID: 8305819528706354355}
   Shot: {fileID: 2238584777406463549, guid: 5458ba2d58dcd4d3da52475f1e7751b2, type: 3}
+  Burst: {fileID: 6504995127648869225, guid: be1c04fdfa5834489b07b816cd1789b7, type: 3}
   LookAhead: {fileID: 6642160547608704438}
   Explosion: {fileID: 3982804760635339075, guid: fdac1a8083b6442a4bc19bce312585c5,
     type: 3}
