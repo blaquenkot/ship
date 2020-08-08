@@ -69,6 +69,7 @@ public class ShipController : MonoBehaviour, IDamageable
             if(camera.name == "CM vcam1")
             {
                 ShakeCameraController = camera.GetComponent<ShakeCameraController>();
+                break;
             }
         }
 

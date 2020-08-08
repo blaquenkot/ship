@@ -108,6 +108,14 @@ public class WorldController : MonoBehaviour
             else
             {
                 pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime, 0.75f);
+                
+                // The ship should look at the first pilot
+                Vector3 relativePos = pilot.transform.position - ShipController.transform.position;
+                Quaternion rotation = Quaternion.LookRotation(relativePos);
+                rotation.x = ShipController.transform.rotation.x;
+                rotation.y = ShipController.transform.rotation.y;
+                ShipController.transform.rotation = rotation;
+
                 arrowController.Blink(2);
             }
         }
