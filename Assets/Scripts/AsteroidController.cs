@@ -12,21 +12,21 @@ public class AsteroidController : MonoBehaviour, IDamageable
     private Light2D Light;
     private Rigidbody2D Rigidbody;
     private SpriteRenderer SpriteRenderer;
-    private SpriteRenderer[] DerbisSpriteRenderers;
+    private SpriteRenderer[] DebrisSpriteRenderers;
     
     void Awake()
     {
         Light = GetComponentInChildren<Light2D>();
         Rigidbody = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        DerbisSpriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        DebrisSpriteRenderers = GetComponentsInChildren<SpriteRenderer>();
     }
 
     void Start() 
     {
         Vector3 size = Vector3.one * Random.Range(0.75f, 1.5f);
         transform.DOScale(size, 0.75f);
-        foreach (var debris in DerbisSpriteRenderers)
+        foreach (var debris in DebrisSpriteRenderers)
         {   
             debris.transform.localScale = size;
         }
@@ -67,7 +67,7 @@ public class AsteroidController : MonoBehaviour, IDamageable
         SpriteRenderer.enabled = false;
         Light.enabled = false;
         Sequence sequence = DOTween.Sequence();
-        foreach (var debris in DerbisSpriteRenderers)
+        foreach (var debris in DebrisSpriteRenderers)
         {   
             Transform debrisTransform = debris.transform;
             Vector3 newScale = debrisTransform.localScale * 0.25f;
