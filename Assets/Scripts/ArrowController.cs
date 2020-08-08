@@ -6,6 +6,9 @@ public class ArrowController : MonoBehaviour
     private const float Padding = 1f;
     private const float MaxPulseCooldown = 0.5f;
     private const float MaxBlinkCooldown = 0.25f;
+    private const int DefaultSortingOrder = 10;
+    private const int DefaultProgressSortingOrder = 9;
+
     public GameObject Target;
     public SpriteRenderer CentralSpriteRenderer;
     public SpriteRenderer ProgressSpriteRenderer;
@@ -188,6 +191,14 @@ public class ArrowController : MonoBehaviour
             color.a = 0f;
             SpriteRenderer.DOColor(color, 0.5f);
         }
+    }
+
+    public void UpdateSortingOrder(int sortingOrder)
+    {   
+        int arrowSortingOrder = sortingOrder + DefaultSortingOrder;
+        SpriteRenderer.sortingOrder = arrowSortingOrder;
+        CentralSpriteRenderer.sortingOrder = arrowSortingOrder;
+        ProgressSpriteRenderer.sortingOrder = sortingOrder + DefaultProgressSortingOrder;
     }
 
     void UpdateProgressColor(float progress)

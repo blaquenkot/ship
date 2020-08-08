@@ -34,11 +34,12 @@ public class WorldController : MonoBehaviour
     public NetworkingController NetworkingController;
     private PersistentDataController PersistentDataController;
     private ColorAdjustments ColorAdjustments;
+    private List<PilotController> ActivePilots = new List<PilotController>();
     private List<GameObject> InactiveObjectsToActivateOnFirstPilot = new List<GameObject>();
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
 
     private bool AllPilotsArrowsShown = false;
-    private bool ShouldSpawnObjects = true;
+    private bool ShouldUpdate = true;
     private float CreateEnemyCooldown = 1.25f + 1.75f*IntroTime;
     private float CreatePowerUpCooldown = 0.75f + 1.75f*IntroTime;
     private float CreateAsteroidCooldown = 1f + 1.75f*IntroTime;
@@ -106,7 +107,7 @@ public class WorldController : MonoBehaviour
             }
             else
             {
-                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime);
+                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime, 0.75f);
                 arrowController.Blink(2);
             }
         }
@@ -134,8 +135,10 @@ public class WorldController : MonoBehaviour
         ShipController.EnemyKilled(wasSpecialAttack);
     }
 
-    public void PilotDied()
+    public void PilotDied(PilotController pilot)
     {
+        ActivePilots.Remove(pilot);
+
         GameUIController.UpdateCurrentTarget(MissionTargetState.Lost);
 
         ShowAllPilotsArrows();
@@ -145,8 +148,10 @@ public class WorldController : MonoBehaviour
         PilotsChanged();
     }
 
-    public void PilotPickedUp()
+    public void PilotPickedUp(PilotController pilot)
     {
+        ActivePilots.Remove(pilot);
+
         GameUIController.UpdateCurrentTarget(MissionTargetState.Completed);
 
         ShowAllPilotsArrows();
@@ -160,7 +165,7 @@ public class WorldController : MonoBehaviour
 
     public void SpaceStationReached()
     {
-        ShouldSpawnObjects = false;
+        ShouldUpdate = false;
         GameUIController.MissionSucceed();
         ShowYouWon();
     }
@@ -180,7 +185,7 @@ public class WorldController : MonoBehaviour
 
     public void ShipDestroyed()
     {
-        ShouldSpawnObjects = false;
+        ShouldUpdate = false;
         GameUIController.MissionFailed();
         StartCoroutine(ShowGameOver());
     }
@@ -194,7 +199,14 @@ public class WorldController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(!ShouldUpdate) 
+        { 
+            return; 
+        }
+
+        TotalTime += Time.deltaTime;
+
+        if(Input.GetKeyDown(KeyCode.Escape) && !GameOverController.gameObject.activeSelf && !YouWonObject.activeSelf)
         {
             if(Time.timeScale == 0f)
             {
@@ -207,13 +219,80 @@ public class WorldController : MonoBehaviour
             return;
         }
 
+        CreateAsteroidCooldown -= Time.deltaTime;
+        if(CreateAsteroidCooldown <= 0f)
+        {
+            Vector2? position = GetRandomPosition(2f, false, 0);
+            if(position.HasValue) 
+            {
+                Instantiate(Asteroid, position.Value, transform.rotation, transform.parent);
+            }
+
+            CreateAsteroidCooldown = 0.5f + Random.value;
+        }
+
+        CreateEnemyCooldown -= Time.deltaTime;
+        if(CreateEnemyCooldown <= 0f)
+        {
+            Vector2? position = GetRandomPosition(2f, true, 0);
+            if(position.HasValue) 
+            {
+                GameObject enemyPrefab = null;
+                if(Random.Range(0, 2) == 0)
+                {
+                    enemyPrefab = Enemy1;
+                } 
+                else 
+                {
+                    enemyPrefab = Enemy2;
+                }
+                Instantiate(enemyPrefab, position.Value, transform.rotation, transform.parent);
+            }
+            CreateEnemyCooldown = 0.65f + Random.value;
+        }
+
+        CreatePowerUpCooldown -= Time.deltaTime;
+        if(CreatePowerUpCooldown <= 0f)
+        {
+            Vector2? position = GetRandomPosition(1f, true, 0);
+            if(position.HasValue) 
+            {
+                PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
+                GameObject powerUpPrefab = null;
+                switch(type)
+                {
+                    case PowerUpType.Acceleration:
+                    {
+                        powerUpPrefab = AccelerationPowerUp;
+                        break;
+                    }
+                    case PowerUpType.Torque:
+                    {
+                        powerUpPrefab = RotationPowerUp;
+                        break;
+                    }
+                    case PowerUpType.Shoot:
+                    {
+                        powerUpPrefab = BlastersPowerUp;
+                        break;
+                    }
+                    case PowerUpType.Shield:
+                    {
+                        powerUpPrefab = ShieldPowerUp;
+                        break;
+                    }
+                }
+                Instantiate(powerUpPrefab, position.Value, transform.rotation, transform.parent);
+            }
+            CreatePowerUpCooldown = 0.2f + Random.value;
+        }
+
         if(Flashes > 0)
         {
             FlashCooldown -= Time.deltaTime;
 
             if(FlashCooldown <= 0) 
             {
-
                 if(ColorAdjustments.postExposure.value == 0f)
                 {
                     ColorAdjustments.postExposure.SetValue(new NoInterpMinFloatParameter(10f, 0, true));
@@ -227,80 +306,22 @@ public class WorldController : MonoBehaviour
                 FlashCooldown = 0.1f;
             }
         }
-    }
 
-    void LateUpdate()
-    {
-        if(ShouldSpawnObjects) 
+        int activePilotsCount = ActivePilots.Count;
+        if(activePilotsCount > 1)
         {
-            TotalTime += Time.deltaTime;
+            Vector3 shipPosition = ShipController.transform.position;
+            Dictionary<PilotController, float> distances = new Dictionary<PilotController, float>();
+            foreach (var pilot in ActivePilots)
+            {
+                distances.Add(pilot, Vector3.Distance(pilot.transform.position, shipPosition));
+            }
             
-            CreateAsteroidCooldown -= Time.deltaTime;
-            if(CreateAsteroidCooldown <= 0f)
+            int order = activePilotsCount;
+            foreach (var pair in distances.OrderBy(kvp => kvp.Value))
             {
-                Vector2? position = GetRandomPosition(2f, false, 0);
-                if(position.HasValue) 
-                {
-                    Instantiate(Asteroid, position.Value, transform.rotation, transform.parent);
-                }
-
-                CreateAsteroidCooldown = 0.5f + Random.value;
-            }
-
-            CreateEnemyCooldown -= Time.deltaTime;
-            if(CreateEnemyCooldown <= 0f)
-            {
-                Vector2? position = GetRandomPosition(2f, true, 0);
-                if(position.HasValue) 
-                {
-                    GameObject enemyPrefab = null;
-                    if(Random.Range(0, 2) == 0)
-                    {
-                        enemyPrefab = Enemy1;
-                    } 
-                    else 
-                    {
-                        enemyPrefab = Enemy2;
-                    }
-                    Instantiate(enemyPrefab, position.Value, transform.rotation, transform.parent);
-                }
-                CreateEnemyCooldown = 0.65f + Random.value;
-            }
-
-            CreatePowerUpCooldown -= Time.deltaTime;
-            if(CreatePowerUpCooldown <= 0f)
-            {
-                Vector2? position = GetRandomPosition(1f, true, 0);
-                if(position.HasValue) 
-                {
-                    PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
-                    GameObject powerUpPrefab = null;
-                    switch(type)
-                    {
-                        case PowerUpType.Acceleration:
-                        {
-                            powerUpPrefab = AccelerationPowerUp;
-                            break;
-                        }
-                        case PowerUpType.Torque:
-                        {
-                            powerUpPrefab = RotationPowerUp;
-                            break;
-                        }
-                        case PowerUpType.Shoot:
-                        {
-                            powerUpPrefab = BlastersPowerUp;
-                            break;
-                        }
-                        case PowerUpType.Shield:
-                        {
-                            powerUpPrefab = ShieldPowerUp;
-                            break;
-                        }
-                    }
-                    Instantiate(powerUpPrefab, position.Value, transform.rotation, transform.parent);
-                }
-                CreatePowerUpCooldown = 0.2f + Random.value;
+                pair.Key.ArrowController.UpdateSortingOrder(order);
+                order -= 1;
             }
         }
     }
@@ -398,6 +419,14 @@ public class WorldController : MonoBehaviour
                 if(arrowController)
                 {
                     arrowController.Blink(2);
+                }
+                else 
+                {
+                    PilotController pilotController = inactiveObject.GetComponent<PilotController>();
+                    if(pilotController)
+                    {
+                        ActivePilots.Add(pilotController);
+                    }
                 }
             }
 

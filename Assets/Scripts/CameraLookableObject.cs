@@ -5,6 +5,7 @@ public class CameraLookableObject : MonoBehaviour
 {
     public CinemachineVirtualCamera CinemachineVirtualCamera;
     
+    private float DefaultCameraOrthographicSize = 0f;    
     private float ForceCameraMaxTime = 0f;
     private float ForceCameraTimer = 0f;
 
@@ -13,8 +14,10 @@ public class CameraLookableObject : MonoBehaviour
         if(ForceCameraMaxTime != 0f)
         {
             ForceCameraTimer += Time.deltaTime;
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, DefaultCameraOrthographicSize, Time.deltaTime);
             if(ForceCameraTimer >= ForceCameraMaxTime)
             {
+                CinemachineVirtualCamera.m_Lens.OrthographicSize = DefaultCameraOrthographicSize;
                 DeactivateCamera();
                 ForceCameraMaxTime = 0f;
             }
@@ -41,9 +44,11 @@ public class CameraLookableObject : MonoBehaviour
         CinemachineVirtualCamera.Priority = 0;
     }
 
-    public void ForceCamera(float time)
+    public void ForceCamera(float time, float zoomFactor)
     {
         ActivateCamera();
         ForceCameraMaxTime = time;
+        DefaultCameraOrthographicSize = CinemachineVirtualCamera.m_Lens.OrthographicSize;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize *= zoomFactor;
     }
 }

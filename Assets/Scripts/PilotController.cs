@@ -75,11 +75,11 @@ public class PilotController : MonoBehaviour, IDamageable
                 .Join(ArrowController.gameObject.transform.DOScale(Vector3.one * 0.25f, 0.75f))
                 .Play()
                 .OnComplete(() => {
-                    WorldController.PilotDied();
+                    WorldController.PilotDied(this);
                     Destroy(gameObject);
                 });
     }
-    
+
     public bool ShowArrowWhileVisible()
     {
         return true;
@@ -89,7 +89,7 @@ public class PilotController : MonoBehaviour, IDamageable
     {
         return false;
     }
-
+    
     public bool TakeDamage(float damageTaken) 
     {
         if(!VisibleObject.IsVisible) 
