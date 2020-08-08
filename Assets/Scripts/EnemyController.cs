@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     public FlashingLight Light;
     public GameObject Shot;
+    public GameObject Burst;
     public GameObject LookAhead;
     public GameObject Explosion;
 
@@ -41,6 +42,7 @@ public class EnemyController : MonoBehaviour, IDamageable
             ShotCooldown -= Time.deltaTime;
             if(ShotCooldown <= 0)
             {
+                Instantiate(Burst, LookAhead.transform.position, transform.rotation, transform.parent);
                 Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation + Random.Range(-15f, 15f));
                 ShotController shot = Instantiate(Shot, LookAhead.transform.position, transform.rotation, transform.parent).GetComponent<ShotController>();
                 shot.Fire(direction, Body.velocity, ShootPower);

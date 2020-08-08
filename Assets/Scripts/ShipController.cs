@@ -34,8 +34,8 @@ public class ShipController : MonoBehaviour, IDamageable
     public ParticleSystem RightParticleSystem;
     public WorldController WorldController;
 
-    private Rigidbody2D Body;
-    private ShakeCameraController ShakeCameraController;
+    private Rigidbody2D Rigidbody;
+    private SpriteRenderer SpriteRenderer;
     private bool Shoot = false;
     private bool ExecuteSpecialAttack = false;
     private float DesiredRotation = 0f;
@@ -60,21 +60,12 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void Start()
     {
-        Body = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        Rigidbody = GetComponent<Rigidbody2D>();
         
-        CinemachineVirtualCamera[] cameras= UnityEngine.Object.FindObjectsOfType<CinemachineVirtualCamera>();
-        for (int i = 0; i < cameras.Length; i++)
-        {
-            CinemachineVirtualCamera camera = cameras[i];
-            if(camera.name == "CM vcam1")
-            {
-                ShakeCameraController = camera.GetComponent<ShakeCameraController>();
-            }
-        }
-
         ShootSound = Resources.Load<AudioClip>("laser1");
         
-        Body.angularDrag = BaseAngularDrag * AngularDragFactor;
+        Rigidbody.angularDrag = BaseAngularDrag * AngularDragFactor;
 
         List<CannonController> allCannons = CannonControllersLevel1
                                                 .Concat(CannonControllersLevel2)
@@ -95,21 +86,25 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        DesiredRotation = Input.GetAxis("Horizontal");
-        DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
-        Shoot = Input.GetButton("Shoot");
-        ExecuteSpecialAttack = Input.GetKey(KeyCode.X);
+        if(SpriteRenderer.isVisible)
+        {
+            DesiredRotation = Input.GetAxis("Horizontal");
+            DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
+            Shoot = Input.GetButton("Shoot");
+            ExecuteSpecialAttack = Input.GetKey(KeyCode.X);
+        }
     }
 
     void FixedUpdate()
     {
-        Vector2 direction = Vector2Utils.Vector2FromAngle(Body.rotation);
+        Vector2 direction = Vector2Utils.Vector2FromAngle(Rigidbody.rotation);
 
-        if (DesiredMovement > 0) {
+        if (DesiredMovement > 0) 
+        {
             // Set drag to give the ship a terminal velocity
-            Body.drag = MovementDrag;
+            Rigidbody.drag = MovementDrag;
 
-            Body.AddForce(
+            Rigidbody.AddForce(
                 DesiredMovement *
                     AccelerationFactor *
                     Time.deltaTime *
@@ -122,7 +117,7 @@ public class ShipController : MonoBehaviour, IDamageable
                 TailParticleSystem.Play();
             }
         } else {
-            Body.drag = 0;
+            Rigidbody.drag = 0;
 
             if(TailParticleSystem.isPlaying) 
             {
@@ -130,7 +125,7 @@ public class ShipController : MonoBehaviour, IDamageable
             }
         }
 
-        Body.AddTorque(
+        Rigidbody.AddTorque(
             BaseTorque * Time.deltaTime * DesiredRotation * TorqueFactor
         );
 
@@ -178,29 +173,29 @@ public class ShipController : MonoBehaviour, IDamageable
             {
                 foreach (var cannon in CannonControllersLevel1)
                 {
-                    cannon.Fire(direction, Body.velocity);
+                    cannon.Fire(direction, Rigidbody.velocity);
                 }
             }
             if(BlasterParts[1].activeSelf) 
             {
                 foreach (var cannon in CannonControllersLevel2)
                 {
-                    cannon.Fire(direction, Body.velocity);
+                    cannon.Fire(direction, Rigidbody.velocity);
                 }
             }
             if(BlasterParts[2].activeSelf) 
             {
                 foreach (var cannon in CannonControllersLevel3)
                 {
-                    cannon.Fire(direction, Body.velocity);
+                    cannon.Fire(direction, Rigidbody.velocity);
                 }
             }
             
             AudioSource.PlayClipAtPoint(ShootSound, transform.position);
 
-            Body.AddForce(BaseRecoil * Mathf.Exp(ShootFactor) * direction);
+            Rigidbody.AddForce(BaseRecoil * Mathf.Exp(ShootFactor) * direction);
 
-            ShakeCameraController.Shake();
+            Shake();
 
             ShotCooldown = ShotCooldownTime;
         }
@@ -215,7 +210,7 @@ public class ShipController : MonoBehaviour, IDamageable
             
                 specialAttackController.Fire(gameObject, WorldController);
             
-                ShakeCameraController.Shake(SpecialAttackController.Duration);
+                Shake(SpecialAttackController.Duration);
                 WorldController.Flash(2);
                 UpdateSpecialAttackTimer(0f);
             }
@@ -253,7 +248,7 @@ public class ShipController : MonoBehaviour, IDamageable
             }
         }
 
-        ShakeCameraController.Shake();
+        Shake();
 
         if (GetTotalHealth() <= 0f)
         {
@@ -270,7 +265,7 @@ public class ShipController : MonoBehaviour, IDamageable
     {
         float damage = Mathf.Sqrt(collision.relativeVelocity.magnitude);
         float colliderMass = collision.collider.GetComponent<Rigidbody2D>().mass;
-        float totalMass = colliderMass + Body.mass;
+        float totalMass = colliderMass + Rigidbody.mass;
 
         // Damage proportional to the collider's mass
         TakeDamage(damage * colliderMass/totalMass);
@@ -278,7 +273,7 @@ public class ShipController : MonoBehaviour, IDamageable
         if(damageable != null)
         {
             // Damage proportional to the ship's mass
-            bool killed = damageable.TakeDamage(damage * Body.mass/totalMass);
+            bool killed = damageable.TakeDamage(damage * Rigidbody.mass/totalMass);
             if(killed) 
             {
                 WorldController.AddPoints(1);
@@ -290,7 +285,7 @@ public class ShipController : MonoBehaviour, IDamageable
             }
         }
 
-        ShakeCameraController.Shake();
+        Shake();
     }
 
     void UpdateSpecialAttackTimer(float newValue)
@@ -358,7 +353,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private void ModifyFactor(float amount, PowerUpType type) 
     {
-        Body.mass += amount * 0.5f;
+        Rigidbody.mass += amount * 0.5f;
 
         switch(type)
         {
@@ -466,6 +461,22 @@ public class ShipController : MonoBehaviour, IDamageable
                 part.SetActive(isActive);
             }
         }
+    }
+
+    private void Shake(float duration = 0.25f)
+    {
+        CinemachineVirtualCamera[] cameras = UnityEngine.Object.FindObjectsOfType<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera higherPriorityCamera = cameras[0];
+        for (int i = 1; i < cameras.Length; i++)
+        {
+            CinemachineVirtualCamera camera = cameras[i];
+            if(camera.Priority > higherPriorityCamera.Priority)
+            {
+                higherPriorityCamera = camera;
+            }
+        }
+
+        higherPriorityCamera.GetComponent<ShakeCameraController>().Shake(duration);
     }
 
     private float GetTotalHealth()
