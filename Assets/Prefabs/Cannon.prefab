@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Shot: {fileID: 6006592138397947076, guid: 7724888c9bd4b4351a34f3e17959760f, type: 3}
+  Burst: {fileID: 2470777869275715762, guid: 01be819d07bfb45c69f16b8c9dba61ae, type: 3}
+  WorldController: {fileID: 0}
   Damage: 10
