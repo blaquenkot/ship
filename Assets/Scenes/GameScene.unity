@@ -1183,16 +1183,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUICanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 4675441706483911083, guid: f4ea6edc6031f45e790ae59b08b0d969,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 4675441706483911083, guid: f4ea6edc6031f45e790ae59b08b0d969,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -47.233887
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4ea6edc6031f45e790ae59b08b0d969, type: 3}
 --- !u!1001 &686003781
@@ -2043,6 +2033,11 @@ PrefabInstance:
       propertyPath: SpecialGaugeController
       value: 
       objectReference: {fileID: 1577254991}
+    - target: {fileID: 3788649221494772163, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
+        type: 3}
+      propertyPath: GameUIController
+      value: 
+      objectReference: {fileID: 903012085}
     - target: {fileID: 4884479688570335012, guid: ec9e0d9ba84f74b4085ce50329a6a1d0,
         type: 3}
       propertyPath: m_LocalPosition.x

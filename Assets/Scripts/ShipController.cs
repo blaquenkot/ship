@@ -33,6 +33,7 @@ public class ShipController : MonoBehaviour, IDamageable
     public ParticleSystem LeftParticleSystem;
     public ParticleSystem RightParticleSystem;
     public WorldController WorldController;
+    public GameUIController GameUIController;
 
     private Rigidbody2D Rigidbody;
     private SpriteRenderer SpriteRenderer;
@@ -378,6 +379,8 @@ public class ShipController : MonoBehaviour, IDamageable
                 break;
             }
         }
+
+        GameUIController.UpdateHealth(GetTotalHealthRatio());
     }
 
     private void ModifyAccelerationFactor(float value) 
@@ -482,6 +485,11 @@ public class ShipController : MonoBehaviour, IDamageable
     private float GetTotalHealth()
     {
         return AccelerationFactor + TorqueFactor + ShootFactor + ShieldFactor;
+    }
+
+    private float GetTotalHealthRatio()
+    {
+        return GetTotalHealth() / (FactorMaxLimit * 4);
     }
 
     private void Destroyed()

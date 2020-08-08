@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameUIController : MonoBehaviour
 {
+    public Text HPText;
     private MissionController MissionController;
     
     void Awake()
@@ -27,5 +29,10 @@ public class GameUIController : MonoBehaviour
     public void UpdatePoints(int points)
     {
         MissionController.UpdatePoints(points);
+    }
+
+    public void UpdateHealth(float health)
+    {
+        HPText.text = Mathf.Round(health * 100f).ToString() + "%";
     }
 }
