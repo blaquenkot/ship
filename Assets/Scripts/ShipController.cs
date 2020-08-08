@@ -335,11 +335,11 @@ public class ShipController : MonoBehaviour, IDamageable
             } 
             else 
             {
-                PilotController Pilot = collider.GetComponent<PilotController>();
-                if(Pilot) 
+                PilotController pilot = collider.GetComponent<PilotController>();
+                if(pilot) 
                 {
                     UpdateSpecialAttackTimer(MaxSpecialAttackTimer);
-                    WorldController.PilotPickedUp();
+                    WorldController.PilotPickedUp(pilot);
                 } 
             }
         } 
