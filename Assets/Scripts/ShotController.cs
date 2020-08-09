@@ -14,6 +14,7 @@ public class ShotController : MonoBehaviour
     private Light2D Light;
     private float HitPower = 0f;
     private AudioClip HitSound;
+    private AudioClip ShootSound;
 
     void Awake()
     {
@@ -21,7 +22,8 @@ public class ShotController : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
         ExplosionsSpriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         Light = GetComponentInChildren<Light2D>();
-        HitSound = Resources.Load<AudioClip>("metal_hit_05");
+        HitSound = Resources.Load<AudioClip>("damage");
+        ShootSound = Resources.Load<AudioClip>("laser");
     }
 
     public void Fire(Vector2 direction, Vector2 baseVelocity, float hitPower) 
@@ -32,6 +34,8 @@ public class ShotController : MonoBehaviour
         HitPower = hitPower;
 
         Rigidbody.velocity = baseVelocity + direction * Speed;
+
+        AudioSource.PlayClipAtPoint(ShootSound, transform.position);
     }
 
     void OnCollisionEnter2D(Collision2D collision) 
@@ -67,7 +71,7 @@ public class ShotController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         Rigidbody.velocity = Vector2.zero;
         SpriteRenderer.enabled = false;
         Light.enabled = false;
