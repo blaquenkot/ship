@@ -35,12 +35,16 @@ public class MissionTargetController : MonoBehaviour
         }
     }
 
-    void Pulse()
+    void Pulse(int times)
     {
         Vector3 originalScale = transform.localScale;
-        transform.DOScale(originalScale * 1.25f, 0.1f).OnComplete(() => {
-            transform.DOScale(originalScale, 0.1f);
-        }); 
+        Sequence sequence = DOTween.Sequence();
+        for (int i = 0; i < times; i++)
+        {
+            sequence.Append(transform.DOScale(originalScale * 1.25f, 0.1f));
+            sequence.Append(transform.DOScale(originalScale, 0.1f));
+        }
+        sequence.Play();
     }
 
     void Appear()
@@ -88,7 +92,7 @@ public class MissionTargetController : MonoBehaviour
             if(!Image.enabled) {
                 Appear();
             }
-            Pulse();
+            Pulse(4);
         }
         else
         {
