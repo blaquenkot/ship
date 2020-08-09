@@ -57,15 +57,11 @@ public class ShipController : MonoBehaviour, IDamageable
     private float BaseTorque = -3000f;
     private float BaseRecoil = -5f;
 
-    private AudioClip ShootSound;
-
     void Start()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
         Rigidbody = GetComponent<Rigidbody2D>();
-        
-        ShootSound = Resources.Load<AudioClip>("laser1");
-        
+                
         Rigidbody.angularDrag = BaseAngularDrag * AngularDragFactor;
 
         List<CannonController> allCannons = CannonControllersLevel1
@@ -192,8 +188,6 @@ public class ShipController : MonoBehaviour, IDamageable
                 }
             }
             
-            AudioSource.PlayClipAtPoint(ShootSound, transform.position);
-
             Rigidbody.AddForce(BaseRecoil * Mathf.Exp(ShootFactor) * direction);
 
             Shake();

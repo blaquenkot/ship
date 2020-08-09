@@ -8,13 +8,13 @@ public class PickupableObject : MonoBehaviour
     public bool CanBePickedUpWithSpecialAttack = true;
     
     private GameObject Target;
-    private AudioClip Sound;
+    //private AudioClip Sound;
     private float Velocity = 0f;
     private bool PickedUp = false;
 
     void Awake()
     {
-        Sound = Resources.Load<AudioClip>("powerup");
+        //Sound = Resources.Load<AudioClip>("powerup");
     }
 
     void FixedUpdate()
@@ -42,7 +42,7 @@ public class PickupableObject : MonoBehaviour
     {
         PickedUp = true;
         Target = target;
-        AudioSource.PlayClipAtPoint(Sound, transform.position);
+        //AudioSource.PlayClipAtPoint(Sound, transform.position);
         transform.DOScale(Vector3.one * 0.5f, 0.2f).OnComplete(() => {
             Destroy(gameObject);
         });
