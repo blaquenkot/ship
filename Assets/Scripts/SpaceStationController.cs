@@ -3,8 +3,9 @@ using DG.Tweening;
 
 public class SpaceStationController : MonoBehaviour
 {
+    private const float MaxAnimationDuration = 6.1f;
     private VisibleObject VisibleObject;
-    private float AnimationDuration = 1.1f;
+    private float AnimationDuration = MaxAnimationDuration;
 
     void Awake()
     {
@@ -19,7 +20,7 @@ public class SpaceStationController : MonoBehaviour
             if(AnimationDuration <= 0)
             {
                 Animate();
-                AnimationDuration = 1.1f;
+                AnimationDuration = MaxAnimationDuration;
             }
         }
     }
@@ -27,13 +28,13 @@ public class SpaceStationController : MonoBehaviour
     void Animate()
     {
         transform
-				.DOMoveY(transform.position.y + 0.25f, 0.5f)
+				.DOMoveY(transform.position.y + 0.75f, 3f)
 				.SetEase(Ease.OutQuad)
 				.OnComplete(() =>
 				{	
 					transform
-						.DOMoveY(transform.position.y - 0.25f, 0.5f)
-						.SetEase(Ease.InQuad);
+						.DOMoveY(transform.position.y - 0.75f, 3f)
+						.SetEase(Ease.OutQuad);
 				});
     }
 }
