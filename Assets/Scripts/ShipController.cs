@@ -113,7 +113,9 @@ public class ShipController : MonoBehaviour, IDamageable
             {
                 TailParticleSystem.Play();
             }
-        } else {
+        } 
+        else 
+        {
             Rigidbody.drag = 0;
 
             if(TailParticleSystem.isPlaying) 
@@ -210,6 +212,8 @@ public class ShipController : MonoBehaviour, IDamageable
                 UpdateSpecialAttackTimer(0f);
             }
         }
+
+        UpdateCameraZoom(Rigidbody.velocity.magnitude);
     }
 
     public bool TakeDamage(float damageTaken)
@@ -457,6 +461,16 @@ public class ShipController : MonoBehaviour, IDamageable
                 }
                 part.SetActive(isActive);
             }
+        }
+    }
+
+    private void UpdateCameraZoom(float velocity)
+    {
+        float newSize = Mathf.Clamp(12f + 5 * velocity/40f, 10f, 17f);
+        CinemachineVirtualCamera[] cameras = UnityEngine.Object.FindObjectsOfType<CinemachineVirtualCamera>();
+        for (int i = 0; i < cameras.Length; i++)
+        {
+            cameras[i].m_Lens.OrthographicSize = newSize;
         }
     }
 
