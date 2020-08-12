@@ -28,8 +28,8 @@ public class BackgroundLoop : MonoBehaviour
     {
         float objectWidth = obj.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
         float objectHeight = obj.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
-        int childsNeededX = (int)Mathf.Ceil(ScreenBounds.x * 4 / objectWidth);
-        int childsNeededY = (int)Mathf.Ceil(ScreenBounds.y * 4 / objectHeight);
+        int childsNeededX = (int)Mathf.Ceil(ScreenBounds.x * 6 / objectWidth);
+        int childsNeededY = (int)Mathf.Ceil(ScreenBounds.y * 6 / objectHeight);
 
         GameObject emptyClone = Instantiate(obj);
 
