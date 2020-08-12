@@ -175,6 +175,7 @@ public class WorldController : MonoBehaviour
     public void SpaceStationReached()
     {
         ShouldUpdate = false;
+        AddPoints(1000);
         GameUIController.MissionSucceed();
         ShowYouWon();
     }
