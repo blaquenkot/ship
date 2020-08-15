@@ -39,7 +39,7 @@ public class WorldController : MonoBehaviour
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
 
     private bool AllPilotsArrowsShown = false;
-    private bool ShouldUpdate = false;
+    private bool ShouldUpdate = true;
     private float CreateEnemyCooldown = 1.25f + 1.75f*IntroTime;
     private float CreatePowerUpCooldown = 0.75f + 1.75f*IntroTime;
     private float CreateAsteroidCooldown = 1f + 1.75f*IntroTime;
@@ -121,11 +121,11 @@ public class WorldController : MonoBehaviour
             }
         }
 
-        //SpaceStation.SetActive(false);
+        SpaceStation.SetActive(false);
         ArrowController spaceStationArrowController = SpaceStationArrow.GetComponent<ArrowController>();
         spaceStationArrowController.Target = SpaceStation;
         spaceStationArrowController.SetCentralImage(SpaceStationArrowSprite);
-        //SpaceStationArrow.SetActive(false);
+        SpaceStationArrow.SetActive(false);
     }
     public void Flash(int amount)
     {
