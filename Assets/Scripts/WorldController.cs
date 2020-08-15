@@ -111,11 +111,9 @@ public class WorldController : MonoBehaviour
                 GameUIController.BlinkText(4);
 
                 // The ship should look at the first pilot
-                Vector3 relativePos = pilot.transform.position - ShipController.transform.position;
-                Quaternion rotation = Quaternion.LookRotation(relativePos);
-                rotation.x = ShipController.transform.rotation.x;
-                rotation.y = ShipController.transform.rotation.y;
-                ShipController.transform.rotation = rotation;
+                Vector3 relativePos = (pilot.transform.position - ShipController.transform.position).normalized;
+                float z = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg;
+                ShipController.transform.rotation = Quaternion.Euler(ShipController.transform.rotation.x, ShipController.transform.rotation.y, z);
 
                 arrowController.Blink(2);
             }
