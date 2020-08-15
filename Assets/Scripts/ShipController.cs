@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cinemachine;
 using UnityEngine;
 using DG.Tweening;
 
@@ -37,6 +36,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     private Rigidbody2D Rigidbody;
     private SpriteRenderer SpriteRenderer;
+    private bool CanBeControlled = true;
     private bool Shoot = false;
     private bool ExecuteSpecialAttack = false;
     private float DesiredRotation = 0f;
@@ -83,7 +83,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if(SpriteRenderer.isVisible)
+        if(CanBeControlled && SpriteRenderer.isVisible)
         {
             DesiredRotation = Input.GetAxis("Horizontal");
             DesiredMovement = Mathf.Max(0f, Input.GetAxis("Vertical"));
@@ -342,10 +342,22 @@ public class ShipController : MonoBehaviour, IDamageable
             SpaceStationController SpaceStation = collider.GetComponent<SpaceStationController>();
             if(SpaceStation)
             {
-                WorldController.SpaceStationReached();
-                transform.DOScale(transform.localScale * 0.5f, 0.25f).OnComplete(() => {
-                    Destroy(gameObject);
-                });
+                CanBeControlled = false;
+                DesiredRotation = 0f;
+                DesiredMovement = 0f;
+                Shoot = false;
+                ExecuteSpecialAttack = false;
+                Rigidbody.velocity = Vector2.zero;
+                TailParticleSystem.Stop();
+                RightParticleSystem.Stop();
+                LeftParticleSystem.Stop();
+                Vector2 spaceStationPosition = WorldController.SpaceStationReached();
+                DOTween.Sequence()
+                        .Join(transform.DOMove(spaceStationPosition, 1f).SetEase(Ease.OutQuad))
+                        .Join(transform.DOScale(transform.localScale * 0.2f, 1f))
+                        .OnComplete(() => {
+                            Destroy(gameObject);
+                        });
             }
         }
     }
@@ -467,27 +479,16 @@ public class ShipController : MonoBehaviour, IDamageable
     private void UpdateCameraZoom(float speed)
     {
         float newSize = Mathf.Clamp(12f + 5 * speed/40f, 10f, 17f);
-        CinemachineVirtualCamera[] cameras = UnityEngine.Object.FindObjectsOfType<CinemachineVirtualCamera>();
+        CameraLookableObject[] cameras = UnityEngine.Object.FindObjectsOfType<CameraLookableObject>();
         for (int i = 0; i < cameras.Length; i++)
         {
-            cameras[i].m_Lens.OrthographicSize = newSize;
+            cameras[i].SetOrthographicSize(newSize);
         }
     }
 
     private void Shake(float duration = 0.25f)
     {
-        CinemachineVirtualCamera[] cameras = UnityEngine.Object.FindObjectsOfType<CinemachineVirtualCamera>();
-        CinemachineVirtualCamera higherPriorityCamera = cameras[0];
-        for (int i = 1; i < cameras.Length; i++)
-        {
-            CinemachineVirtualCamera camera = cameras[i];
-            if(camera.Priority > higherPriorityCamera.Priority)
-            {
-                higherPriorityCamera = camera;
-            }
-        }
-
-        higherPriorityCamera.GetComponent<ShakeCameraController>().Shake(duration);
+        CinemachineVirtualCameraUtils.GetHigherPriorityCamera().GetComponent<ShakeCameraController>().Shake(duration);
     }
 
     private float GetTotalHealth()

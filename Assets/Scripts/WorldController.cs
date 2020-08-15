@@ -7,7 +7,7 @@ using System.Linq;
 
 public class WorldController : MonoBehaviour
 {
-    private const int MaxPilots = 5;
+    private const int MaxPilots = 2;
     private const float IntroTime = 2.5f;
 
     public ShipController ShipController;
@@ -39,7 +39,7 @@ public class WorldController : MonoBehaviour
     private List<PowerUpType> PowerUpTypes = new List<PowerUpType> { PowerUpType.Acceleration, PowerUpType.Shield, PowerUpType.Shoot, PowerUpType.Torque };
 
     private bool AllPilotsArrowsShown = false;
-    private bool ShouldUpdate = true;
+    private bool ShouldUpdate = false;
     private float CreateEnemyCooldown = 1.25f + 1.75f*IntroTime;
     private float CreatePowerUpCooldown = 0.75f + 1.75f*IntroTime;
     private float CreateAsteroidCooldown = 1f + 1.75f*IntroTime;
@@ -107,7 +107,7 @@ public class WorldController : MonoBehaviour
             }
             else
             {
-                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(IntroTime, 0.75f);
+                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(0.01f, IntroTime, 9f);
                 GameUIController.BlinkText(4);
 
                 // The ship should look at the first pilot
@@ -121,11 +121,11 @@ public class WorldController : MonoBehaviour
             }
         }
 
-        SpaceStation.SetActive(false);
+        //SpaceStation.SetActive(false);
         ArrowController spaceStationArrowController = SpaceStationArrow.GetComponent<ArrowController>();
         spaceStationArrowController.Target = SpaceStation;
         spaceStationArrowController.SetCentralImage(SpaceStationArrowSprite);
-        SpaceStationArrow.SetActive(false);
+        //SpaceStationArrow.SetActive(false);
     }
     public void Flash(int amount)
     {
@@ -172,12 +172,18 @@ public class WorldController : MonoBehaviour
         PilotsChanged();
     }
 
-    public void SpaceStationReached()
+    public Vector2 SpaceStationReached()
     {
         ShouldUpdate = false;
         AddPoints(1000);
         GameUIController.MissionSucceed();
-        ShowYouWon();
+
+        SpaceStation.GetComponent<SpaceStationController>().ShouldAnimate = false;
+        SpaceStation.GetComponentInChildren<CameraLookableObject>().ForceCamera(1.5f, 0f, 5f);
+
+        StartCoroutine(ShowYouWon());
+
+        return SpaceStation.transform.position;
     }
 
     void AllPilotsPickedUp()
@@ -188,8 +194,9 @@ public class WorldController : MonoBehaviour
         SpaceStationArrow.GetComponent<ArrowController>().Blink(2);
     }
 
-    void ShowYouWon()
+    IEnumerator ShowYouWon()
     {
+        yield return new WaitForSeconds(2f);
         YouWonObject.SetActive(true);
     }
 

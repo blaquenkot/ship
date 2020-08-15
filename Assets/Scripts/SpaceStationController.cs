@@ -4,6 +4,9 @@ using DG.Tweening;
 public class SpaceStationController : MonoBehaviour
 {
     private const float MaxAnimationDuration = 6.1f;
+
+    public bool ShouldAnimate = true;
+
     private VisibleObject VisibleObject;
     private float AnimationDuration = MaxAnimationDuration;
 
@@ -14,7 +17,7 @@ public class SpaceStationController : MonoBehaviour
 
     void Update()
     {
-        if(VisibleObject.IsVisible)
+        if(ShouldAnimate && VisibleObject.IsVisible)
         {
             AnimationDuration -= Time.deltaTime;
             if(AnimationDuration <= 0)

@@ -6,15 +6,29 @@ public class CameraLookableObject : MonoBehaviour
     public CinemachineVirtualCamera CinemachineVirtualCamera;
     
     private float DefaultCameraOrthographicSize = 0f;    
+    private float DesiredCameraOrthographicSize = 0f;
+    private float AdjustZoomMaxTime = 0.5f;
+    private float AdjustZoomTimer = 0f;
     private float ForceCameraMaxTime = 0f;
     private float ForceCameraTimer = 0f;
+    private bool ForcedCamera = false;
 
     void Update()
     {
-        if(ForceCameraMaxTime != 0f)
+        if(AdjustZoomTimer != 0f)
+        {
+            AdjustZoomTimer += Time.deltaTime;
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, DesiredCameraOrthographicSize, AdjustZoomTimer);
+            if(AdjustZoomTimer >= AdjustZoomMaxTime)
+            {
+                CinemachineVirtualCamera.m_Lens.OrthographicSize = DesiredCameraOrthographicSize;
+                AdjustZoomTimer = 0f;
+            }
+        }
+        else if(ForceCameraMaxTime != 0f)
         {
             ForceCameraTimer += Time.deltaTime;
-            CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, DefaultCameraOrthographicSize, Time.deltaTime);
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, DefaultCameraOrthographicSize, ForceCameraTimer);
             if(ForceCameraTimer >= ForceCameraMaxTime)
             {
                 CinemachineVirtualCamera.m_Lens.OrthographicSize = DefaultCameraOrthographicSize;
@@ -31,7 +45,10 @@ public class CameraLookableObject : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        DeactivateCamera();
+        if(!ForcedCamera)
+        {
+            DeactivateCamera();
+        }
     }
 
     void ActivateCamera()
@@ -44,11 +61,22 @@ public class CameraLookableObject : MonoBehaviour
         CinemachineVirtualCamera.Priority = 0;
     }
 
-    public void ForceCamera(float time, float zoomFactor)
+    public void SetOrthographicSize(float size)
     {
-        ActivateCamera();
-        ForceCameraMaxTime = time;
+        if(!ForcedCamera)
+        {
+            AdjustZoomTimer = 0.001f;
+            DesiredCameraOrthographicSize = size;
+        }
+    }
+
+    public void ForceCamera(float adjustTime, float duration, float orthographicSize)
+    {
+        ForcedCamera = true;
+        ForceCameraMaxTime = duration;
+        AdjustZoomMaxTime = adjustTime;
         DefaultCameraOrthographicSize = CinemachineVirtualCamera.m_Lens.OrthographicSize;
-        CinemachineVirtualCamera.m_Lens.OrthographicSize *= zoomFactor;
+        DesiredCameraOrthographicSize = orthographicSize;
+        ActivateCamera();
     }
 }
