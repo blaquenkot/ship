@@ -24,6 +24,11 @@ public class VisibleObject : MonoBehaviour
     void Start()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        if(!SpriteRenderer)
+        {
+            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        
         Camera = Camera.main;
     }
 }

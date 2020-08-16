@@ -32,6 +32,7 @@ public class CameraLookableObject : MonoBehaviour
             if(ForceCameraTimer >= ForceCameraMaxTime)
             {
                 CinemachineVirtualCamera.m_Lens.OrthographicSize = DefaultCameraOrthographicSize;
+                ForcedCamera = false;
                 DeactivateCamera();
                 ForceCameraMaxTime = 0f;
             }

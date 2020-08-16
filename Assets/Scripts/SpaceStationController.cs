@@ -30,14 +30,10 @@ public class SpaceStationController : MonoBehaviour
 
     void Animate()
     {
-        transform
-				.DOMoveY(transform.position.y + 0.75f, 3f)
-				.SetEase(Ease.OutQuad)
-				.OnComplete(() =>
-				{	
-					transform
-						.DOMoveY(transform.position.y - 0.75f, 3f)
-						.SetEase(Ease.OutQuad);
-				});
+        DOTween.Sequence()
+                .Append(transform.DOMoveY(transform.position.y + 0.75f, 3f).SetEase(Ease.OutQuad))
+                .Append(transform.DOMoveY(transform.position.y, 3f).SetEase(Ease.InQuad))
+                .Append(transform.DOMoveY(transform.position.y - 0.75f, 3f).SetEase(Ease.OutQuad))
+                .Append(transform.DOMoveY(transform.position.y, 3f).SetEase(Ease.InQuad));
     }
 }
