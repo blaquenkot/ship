@@ -7,7 +7,7 @@ using System.Linq;
 
 public class WorldController : MonoBehaviour
 {
-    private const int MaxPilots = 2;
+    private const int MaxPilots = 5;
     private const float IntroTime = 2.5f;
 
     public ShipController ShipController;
