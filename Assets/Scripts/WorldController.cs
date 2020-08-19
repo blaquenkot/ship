@@ -107,7 +107,7 @@ public class WorldController : MonoBehaviour
             }
             else
             {
-                pilot.GetComponentInChildren<CameraLookableObject>().ForceCamera(0.01f, IntroTime, 9f);
+                pilot.GetComponentInChildren<CameraController>().ForceCamera(0.01f, IntroTime, 9f);
                 GameUIController.BlinkText(4);
 
                 // The ship should look at the first pilot
@@ -177,7 +177,7 @@ public class WorldController : MonoBehaviour
         GameUIController.MissionSucceed();
 
         SpaceStation.GetComponent<SpaceStationController>().ShouldAnimate = false;
-        SpaceStation.GetComponentInChildren<CameraLookableObject>().ForceCamera(1.5f, 0f, 5f);
+        SpaceStation.GetComponentInChildren<CameraController>().ForceCamera(1.5f, 0f, 5f);
 
         StartCoroutine(ShowYouWon());
 

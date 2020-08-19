@@ -479,7 +479,7 @@ public class ShipController : MonoBehaviour, IDamageable
     private void UpdateCameraZoom(float speed)
     {
         float newSize = Mathf.Clamp(12f + 5 * speed/40f, 10f, 17f);
-        CameraLookableObject[] cameras = UnityEngine.Object.FindObjectsOfType<CameraLookableObject>();
+        CameraController[] cameras = UnityEngine.Object.FindObjectsOfType<CameraController>();
         for (int i = 0; i < cameras.Length; i++)
         {
             cameras[i].SetOrthographicSize(newSize);

@@ -5681,6 +5681,7 @@ MonoBehaviour:
   LeftParticleSystem: {fileID: 7105699839697588633}
   RightParticleSystem: {fileID: 8490170266540642779}
   WorldController: {fileID: 0}
+  GameUIController: {fileID: 0}
 --- !u!1 &7400208562274838406
 GameObject:
   m_ObjectHideFlags: 0
