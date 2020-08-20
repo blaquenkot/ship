@@ -26,9 +26,9 @@ public class WorldController : MonoBehaviour
     public GameObject RotationPowerUp;    
     public GameObject ShieldPowerUp;    
     public GameObject BlastersPowerUp;
-    public GameObject YouWonObject;
     public Sprite[] PilotImages;
     public GameOverController GameOverController;
+    public YouWonController YouWonController;
     public PauseMenuController PauseMenuController;
     public GameUIController GameUIController;
     public NetworkingController NetworkingController;
@@ -61,7 +61,7 @@ public class WorldController : MonoBehaviour
             PersistentDataController = Instantiate(PersistentDataControllerPrefab).GetComponent<PersistentDataController>();
         }
         GameOverController.GetComponentInChildren<NewHighscoreController>().PersistentDataController = PersistentDataController;
-        YouWonObject.GetComponentInChildren<NewHighscoreController>().PersistentDataController = PersistentDataController;
+        YouWonController.gameObject.GetComponentInChildren<NewHighscoreController>().PersistentDataController = PersistentDataController;
 
         Volume.sharedProfile.TryGet<ColorAdjustments>(out ColorAdjustments);
 
@@ -194,8 +194,9 @@ public class WorldController : MonoBehaviour
 
     IEnumerator ShowYouWon()
     {
+        YouWonController.UpdateInfo(Points, TotalTime);
         yield return new WaitForSeconds(2f);
-        YouWonObject.SetActive(true);
+        YouWonController.gameObject.SetActive(true);
     }
 
     public void ShipDestroyed()
@@ -221,7 +222,7 @@ public class WorldController : MonoBehaviour
 
         TotalTime += Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.Escape) && !GameOverController.gameObject.activeSelf && !YouWonObject.activeSelf)
+        if(Input.GetKeyDown(KeyCode.Escape) && !GameOverController.gameObject.activeSelf && !YouWonController.gameObject.activeSelf)
         {
             if(Time.timeScale == 0f)
             {
