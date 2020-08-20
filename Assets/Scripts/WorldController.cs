@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -108,7 +109,10 @@ public class WorldController : MonoBehaviour
             else
             {
                 pilot.GetComponentInChildren<CameraController>().ForceCamera(0.01f, IntroTime, 9f);
-                GameUIController.BlinkText(4);
+                GameUIController.BlinkText(4, () => {
+                    Camera.main.GetComponent<CinemachineBrain>().m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+                    Camera.main.GetComponent<CinemachineBrain>().m_BlendUpdateMethod = CinemachineBrain.BrainUpdateMethod.FixedUpdate;
+                });
 
                 // The ship should look at the first pilot
                 Vector3 relativePos = (pilot.transform.position - ShipController.transform.position).normalized;

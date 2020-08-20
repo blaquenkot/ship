@@ -12,7 +12,8 @@ public class GameUIController : MonoBehaviour
     private MissionController MissionController;
     private int BlinkTextTimes = 0;
     private float BlinkTextCooldown = 0f;
-    
+    private System.Action CompletionAction = null;
+
     void Awake()
     {
         MissionController = GetComponentInChildren<MissionController>();
@@ -40,12 +41,17 @@ public class GameUIController : MonoBehaviour
                 
                 BlinkTextCooldown = MaxBlinkCooldown;
             }
+        } else if(BlinkTextTimes == 0 && CompletionAction != null)
+        {
+            CompletionAction();
+            CompletionAction = null;
         }
     }
 
-    public void BlinkText(int times)
+    public void BlinkText(int times, System.Action completionAction = null)
     {
         BlinkTextTimes = times;
+        CompletionAction = completionAction;
     }
 
     public void MissionSucceed()

@@ -103,8 +103,6 @@ public class ArrowController : MonoBehaviour
         float angleDiff = Vector2.SignedAngle(direction, diffAngleVector);
         transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + angleDiff, Vector3.forward);
         
-        float maxDistance = (new Vector3(VisibleObject.HalfWidth + Padding, VisibleObject.HalfHeight + Padding, 0f)).magnitude;
-
         if(BlinkTimes == 0 && !PointableObject.ShowArrowWhileVisible) 
         {
             bool IsNotVisible = !VisibleObject.IsVisible;
@@ -143,6 +141,7 @@ public class ArrowController : MonoBehaviour
             }
         }
 
+        float maxDistance = (new Vector3(VisibleObject.HalfWidth + Padding, VisibleObject.HalfHeight + Padding, 0f)).magnitude;
         Vector3 diffVector = Target.transform.position - Ship.transform.position;
         Vector3 fixedPosition = Target.transform.position - diffVector.normalized * maxDistance;
         Vector2 targetInViewportPosition = Camera.WorldToViewportPoint(fixedPosition);
