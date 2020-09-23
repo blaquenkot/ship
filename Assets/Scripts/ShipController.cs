@@ -389,8 +389,6 @@ public class ShipController : MonoBehaviour, IDamageable
                 break;
             }
         }
-
-        GameUIController.UpdateHealth(GetTotalHealthRatio());
     }
 
     private void ModifyAccelerationFactor(float value) 

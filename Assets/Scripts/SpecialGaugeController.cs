@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class SpecialGaugeController : MonoBehaviour
 {
@@ -18,12 +19,19 @@ public class SpecialGaugeController : MonoBehaviour
     public Sprite ImageOn;
 
     public Image GaugeImage;
+    public Text ButtonText;
 
     private Sprite CurrentImage1;
     private Sprite CurrentImage2;
     private float FlickTimer = 0.5f;
+    private float Value = 0f;
+    private Vector3 BaseScale = Vector3.one;
 
-    
+    void Start()
+    {
+        BaseScale = transform.localScale;
+    }
+
     void Update()
     { 
         FlickTimer -= Time.deltaTime;
@@ -40,6 +48,21 @@ public class SpecialGaugeController : MonoBehaviour
                 FlickTimer = 0.2f;
             }
  
+            if (Value == 1f) 
+            {
+                ButtonText.enabled = true;
+
+                if (transform.localScale == BaseScale) 
+                {
+                    transform.DOScale(BaseScale * 1.1f, 0.5f).OnComplete(() => {
+                        transform.DOScale(BaseScale, 0.25f);
+                    });
+                }
+            } 
+            else 
+            {
+                ButtonText.enabled = false;
+            }
         }
     }
     void UpdateCurrentImages(Sprite image1, Sprite image2)
@@ -50,6 +73,8 @@ public class SpecialGaugeController : MonoBehaviour
 
     public void SetValue(float value)
     {
+        Value = value;
+
         if(value == 0f)
         {
             UpdateCurrentImages(Image0, Image0);

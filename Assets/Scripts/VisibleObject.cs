@@ -10,8 +10,8 @@ public class VisibleObject : MonoBehaviour
                 return false; 
             }
 
-            Vector3 fixedPosition = new Vector3(transform.position.x + HalfWidth, transform.position.y, transform.position.z);
-            return Camera.WorldToViewportPoint(fixedPosition).x > 0.25f;
+            Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y + HalfHeight, transform.position.z);
+            return Camera.WorldToViewportPoint(fixedPosition).y > 0.25f;
         } 
     }
     

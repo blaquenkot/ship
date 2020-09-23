@@ -3,7 +3,7 @@ using DG.Tweening;
 
 public class ArrowController : MonoBehaviour
 {
-    private const float Padding = 1f;
+    private const float Padding = 1.5f;
     private const float MaxPulseCooldown = 0.5f;
     private const float MaxBlinkCooldown = 0.25f;
     private const int DefaultSortingOrder = 10;
@@ -145,7 +145,7 @@ public class ArrowController : MonoBehaviour
         Vector3 diffVector = Target.transform.position - Ship.transform.position;
         Vector3 fixedPosition = Target.transform.position - diffVector.normalized * maxDistance;
         Vector2 targetInViewportPosition = Camera.WorldToViewportPoint(fixedPosition);
-        Vector3 clampedPosition = Camera.ViewportToWorldPoint(new Vector2(Mathf.Clamp(targetInViewportPosition.x, 0.33f, 0.92f), Mathf.Clamp(targetInViewportPosition.y, 0.12f, 0.88f)));
+        Vector3 clampedPosition = Camera.ViewportToWorldPoint(new Vector2(Mathf.Clamp(targetInViewportPosition.x, 0.05f, 0.95f), Mathf.Clamp(targetInViewportPosition.y, 0.35f, 0.9f)));
         clampedPosition.z = 0;
         transform.position = clampedPosition;
 

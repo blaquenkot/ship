@@ -6,7 +6,6 @@ public class GameUIController : MonoBehaviour
 {
     private const float MaxBlinkCooldown = 0.25f;
 
-    public Text HPText;
     public Text InfoText;
 
     private MissionController MissionController;
@@ -72,10 +71,5 @@ public class GameUIController : MonoBehaviour
     public void UpdatePoints(int points)
     {
         MissionController.UpdatePoints(points);
-    }
-
-    public void UpdateHealth(float health)
-    {
-        HPText.text = Mathf.Round(health * 100f).ToString() + "%";
     }
 }

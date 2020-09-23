@@ -391,7 +391,7 @@ public class WorldController : MonoBehaviour
     {
         if(inScreen) 
         {
-            return new Vector2(Random.Range(0.3f, 1.0f), Random.value);
+            return new Vector2(Random.value, Random.Range(0.25f, 1.0f));
         }
         else 
         {
