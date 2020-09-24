@@ -279,7 +279,7 @@ public class ShipController : MonoBehaviour, IDamageable
 
                 if(damageable.IsEnemy()) 
                 {
-                    WorldController.EnemyKilled(false);
+                    WorldController.EnemyKilled(collision.transform.position, false);
                 }
             }
         }
@@ -293,7 +293,7 @@ public class ShipController : MonoBehaviour, IDamageable
         SpecialGaugeController.SetValue(Mathf.Clamp01(SpecialAttackTimer/MaxSpecialAttackTimer));
     }
 
-    public void EnemyKilled(bool wasSpecialAttack)
+    public PowerUpType? EnemyKilled(bool wasSpecialAttack)
     {
         if(!wasSpecialAttack)
         {
@@ -306,8 +306,10 @@ public class ShipController : MonoBehaviour, IDamageable
                 { PowerUpType.Torque, TorqueFactor },
             }.OrderBy(kvp => kvp.Value).First().Key;
 
-            ModifyFactor(0.5f, weakerType);
+            return weakerType;
         }
+
+        return null;
     }
 
     public bool IsEnemy()

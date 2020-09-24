@@ -36,7 +36,7 @@ public class SpecialAttackController : MonoBehaviour
 
                 if(damageable.IsEnemy()) 
                 {
-                    WorldController.EnemyKilled(true);
+                    WorldController.EnemyKilled(collision.transform.position ,true);
                 }
             }
         }

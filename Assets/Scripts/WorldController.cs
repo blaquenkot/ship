@@ -141,9 +141,15 @@ public class WorldController : MonoBehaviour
         GameUIController.UpdatePoints(Points);
     }
 
-    public void EnemyKilled(bool wasSpecialAttack)
+    public void EnemyKilled(Vector2 position, bool wasSpecialAttack)
     {
-        ShipController.EnemyKilled(wasSpecialAttack);
+        PowerUpType? powerUp = ShipController.EnemyKilled(wasSpecialAttack);
+        if (powerUp.HasValue) 
+        {
+            GameObject powerUpPrefab = PrefabForType(powerUp.Value);
+            PickupableObject pickupableObject = Instantiate(powerUpPrefab, position, transform.rotation, transform.parent).GetComponent<PickupableObject>();
+            pickupableObject.SetTarget(ShipController.gameObject);
+        }
     }
 
     public void PilotDied(PilotController pilot)
@@ -278,30 +284,7 @@ public class WorldController : MonoBehaviour
             if(position.HasValue) 
             {
                 PowerUpType type = PowerUpTypes[Random.Range(0, PowerUpTypes.Count)];
-                GameObject powerUpPrefab = null;
-                switch(type)
-                {
-                    case PowerUpType.Acceleration:
-                    {
-                        powerUpPrefab = AccelerationPowerUp;
-                        break;
-                    }
-                    case PowerUpType.Torque:
-                    {
-                        powerUpPrefab = RotationPowerUp;
-                        break;
-                    }
-                    case PowerUpType.Shoot:
-                    {
-                        powerUpPrefab = BlastersPowerUp;
-                        break;
-                    }
-                    case PowerUpType.Shield:
-                    {
-                        powerUpPrefab = ShieldPowerUp;
-                        break;
-                    }
-                }
+                GameObject powerUpPrefab = PrefabForType(type);
                 Instantiate(powerUpPrefab, position.Value, transform.rotation, transform.parent);
             }
             CreatePowerUpCooldown = 0.2f + Random.value;
@@ -451,6 +434,32 @@ public class WorldController : MonoBehaviour
             }
 
             AllPilotsArrowsShown = true;
+        }
+    }
+
+    private GameObject PrefabForType(PowerUpType type) {
+        switch(type)
+        {
+            case PowerUpType.Acceleration:
+            {
+                return AccelerationPowerUp;
+            }
+            case PowerUpType.Torque:
+            {
+                return RotationPowerUp;
+            }
+            case PowerUpType.Shoot:
+            {
+                return BlastersPowerUp;
+            }
+            case PowerUpType.Shield:
+            {
+                return ShieldPowerUp;
+            }
+            default:
+            {
+                return AccelerationPowerUp;
+            }
         }
     }
 }
